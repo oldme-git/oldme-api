@@ -15,5 +15,6 @@ func (c *cHello) Hello(ctx context.Context, req *v1.HelloReq) (res *v1.HelloRes,
 	res = &v1.HelloRes{
 		Name: "我的名字",
 	}
+	//err = gerror.NewCode(gcode.New(10000, "", nil), "错误")
 	return
 }

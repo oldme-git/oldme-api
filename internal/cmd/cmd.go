@@ -1,12 +1,12 @@
 package cmd
 
 import (
-	"context"
+	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 
+	"context"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-
 	"oldme-api/internal/controller"
 )
 
@@ -19,6 +19,7 @@ var (
 			s := g.Server()
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				group.Bind(controller.Demo)
 				group.Bind(
 					controller.Hello,
 				)

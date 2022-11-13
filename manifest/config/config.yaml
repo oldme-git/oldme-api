@@ -1,11 +1,19 @@
 server:
-  address:     ":8000"
+  address: ":8000"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
 
 logger:
-  level : "all"
+  path: "./log"   # 日志文件路径。默认为空，表示关闭，仅输出到终端
+  file: "{Y-m-d}.log"
+  level: "all"
   stdout: true
 
-
-
+database:
+  logger:
+    path: "./log/sql"
+    level: "all"
+    stdout: true
+  default:
+    link:   "mysql:root:admin1234@tcp(192.168.10.47:3306)/oldme"
+    debug:  true
