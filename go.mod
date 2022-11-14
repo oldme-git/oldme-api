@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.2.1 // indirect
 	github.com/clbanning/mxj/v2 v2.5.7 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
-	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.2.2 // indirect
+	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.2.2
 	github.com/gogf/gf/v2 v2.2.2
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect

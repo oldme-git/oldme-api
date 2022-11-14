@@ -5,5 +5,6 @@
 package logic
 
 import (
+	_ "oldme-api/internal/logic/admin"
 	_ "oldme-api/internal/logic/middleware"
 )

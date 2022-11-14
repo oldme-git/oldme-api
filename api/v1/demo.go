@@ -31,3 +31,11 @@ type DemoReadReq struct {
 type DemoReadRes struct {
 	*entity.Admin
 }
+
+type DemoDelReq struct {
+	g.Meta `path:"/demo/del" method:"get" sm:"示例删除数据" tags:"示例"`
+	Id     int
+}
+
+type DemoDelRes struct {
+}

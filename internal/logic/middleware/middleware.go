@@ -7,7 +7,8 @@ import (
 	"oldme-api/internal/service"
 )
 
-type sMiddleware struct{}
+type sMiddleware struct {
+}
 
 func init() {
 	service.RegisterMiddleware(New())

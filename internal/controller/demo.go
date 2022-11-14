@@ -40,3 +40,11 @@ func (c *cDemo) Read(ctx context.Context, req *v1.DemoReadReq) (res *v1.DemoRead
 	res = &v1.DemoReadRes{Admin: admin}
 	return
 }
+
+func (c *cDemo) Del(ctx context.Context, req *v1.DemoDelReq) (res *v1.DemoDelRes, err error) {
+	_, err = dao.Admin.Ctx(ctx).Where("id", req.Id).Delete()
+	if err != nil {
+		return nil, err
+	}
+	return
+}
