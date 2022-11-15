@@ -5,8 +5,10 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	v1 "oldme-api/api/v1"
 	"oldme-api/internal/dao"
+	"oldme-api/internal/model"
 	"oldme-api/internal/model/do"
 	"oldme-api/internal/model/entity"
+	"oldme-api/internal/service"
 )
 
 var Demo = cDemo{}
@@ -15,11 +17,10 @@ type cDemo struct {
 }
 
 func (c *cDemo) Create(ctx context.Context, req *v1.DemoCreateReq) (res *v1.DemoCreateRes, err error) {
-	_, err = dao.Admin.Ctx(ctx).Data(do.Admin{
-		Username:  "admin",
-		Password:  "123",
-		LastLogin: gtime.New("2022-10-10 12:50:43"),
-	}).Insert()
+	err = service.Admin().Create(ctx, model.AdminCreateInput{
+		Username: req.Username,
+		Password: req.Password,
+	})
 	return
 }
 

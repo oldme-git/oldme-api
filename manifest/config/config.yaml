@@ -15,5 +15,5 @@ database:
     level: "all"
     stdout: true
   default:
-    link:   "mysql:root:admin1234@tcp(192.168.10.47:3306)/oldme?loc=Local"
+    link:   "mysql:root:JCPHqknyy8ATR5ME@tcp(192.168.10.47:3306)/oldme?loc=Local"
     debug:  true

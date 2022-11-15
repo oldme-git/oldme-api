@@ -1,7 +1,11 @@
 package admin
 
 import (
-	"github.com/gogf/gf/v2/net/ghttp"
+	"context"
+	"github.com/gogf/gf/v2/os/gtime"
+	"oldme-api/internal/dao"
+	"oldme-api/internal/model"
+	"oldme-api/internal/model/do"
 	"oldme-api/internal/service"
 )
 
@@ -12,22 +16,23 @@ func init() {
 	service.RegisterAdmin(&sAdmin{})
 }
 
-func New() *sAdmin {
-	return &sAdmin{}
+func (s sAdmin) Create(ctx context.Context, in model.AdminCreateInput) (err error) {
+	_, err = dao.Admin.Ctx(ctx).Data(do.Admin{
+		Username:  in.Username,
+		Password:  in.Password,
+		LastLogin: gtime.Now(),
+	}).Insert()
+	return
 }
 
-func (s sAdmin) Create(r *ghttp.Request) {
-
-}
-
-func (s sAdmin) Update(r *ghttp.Request) {
-
-}
-
-func (s sAdmin) Read(r *ghttp.Request) {
+func (s sAdmin) Update(ctx context.Context) {
 
 }
 
-func (s sAdmin) Del(r *ghttp.Request) {
+func (s sAdmin) Read(ctx context.Context) {
+
+}
+
+func (s sAdmin) Del(ctx context.Context) {
 
 }
