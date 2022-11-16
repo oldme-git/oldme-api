@@ -20,3 +20,4 @@ manifest/output/
 temp/
 /main.exe
 log
+/*.exe~
