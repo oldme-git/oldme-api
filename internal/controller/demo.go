@@ -17,7 +17,7 @@ type cDemo struct {
 }
 
 func (c *cDemo) Create(ctx context.Context, req *v1.DemoCreateReq) (res *v1.DemoCreateRes, err error) {
-	err = service.Admin().Create(ctx, model.AdminCreateInput{
+	err = service.Admin().Create(ctx, model.AdminInput{
 		Username: req.Username,
 		Password: req.Password,
 	})

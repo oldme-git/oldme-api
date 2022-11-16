@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
-
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -20,6 +18,7 @@ var (
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Bind(controller.Demo)
+				group.Bind(controller.Admin)
 				group.Bind(
 					controller.Hello,
 				)

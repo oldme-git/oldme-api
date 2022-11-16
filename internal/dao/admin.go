@@ -5,7 +5,10 @@
 package dao
 
 import (
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 	"oldme-api/internal/dao/internal"
+	"oldme-api/internal/model/entity"
 )
 
 // internalAdminDao is internal type for wrapping internal DAO implements.
@@ -24,4 +27,12 @@ var (
 	}
 )
 
-// Fill with you ideas below.
+// GetAdmin 根据username获取管理员
+func (a adminDao) GetAdmin(username string) (admin entity.Admin) {
+	data, err := g.Model(Admin.Table()).Where("username", username).One()
+	if err != nil {
+		return entity.Admin{}
+	}
+	_ = gconv.Struct(data, &admin)
+	return
+}

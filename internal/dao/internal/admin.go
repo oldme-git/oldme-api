@@ -23,6 +23,10 @@ type AdminColumns struct {
 	Id        string //
 	Username  string // 用户名
 	Password  string // 密码
+	Nickname  string // 昵称
+	Avatar    string // 头像，base64
+	Register  string // 注册时间
+	Salt      string // 随机盐值
 	LastLogin string // 最后登录时间
 }
 
@@ -31,6 +35,10 @@ var adminColumns = AdminColumns{
 	Id:        "id",
 	Username:  "username",
 	Password:  "password",
+	Nickname:  "nickname",
+	Avatar:    "avatar",
+	Register:  "register",
+	Salt:      "salt",
 	LastLogin: "last_login",
 }
 
