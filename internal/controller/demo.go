@@ -8,6 +8,7 @@ import (
 	"oldme-api/internal/model"
 	"oldme-api/internal/model/do"
 	"oldme-api/internal/model/entity"
+	"oldme-api/internal/packed"
 	"oldme-api/internal/service"
 )
 
@@ -47,5 +48,14 @@ func (c *cDemo) Del(ctx context.Context, req *v1.DemoDelReq) (res *v1.DemoDelRes
 	if err != nil {
 		return nil, err
 	}
+	return
+}
+
+func (c *cDemo) Req(ctx context.Context, req *v1.DemoRepReq) (res *v1.DemoReqRes, err error) {
+	res = &v1.DemoReqRes{
+		Name: "wry",
+	}
+
+	err = packed.Oldme.SetErr(10, "自定义参数")
 	return
 }

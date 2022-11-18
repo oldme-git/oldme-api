@@ -3,11 +3,11 @@ package main
 import (
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
-	_ "oldme-api/internal/logic"
-
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
 	"oldme-api/internal/cmd"
+	_ "oldme-api/internal/logic"
+	_ "oldme-api/internal/packed"
 )
 
 func main() {

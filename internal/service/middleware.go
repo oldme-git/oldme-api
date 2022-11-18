@@ -13,6 +13,7 @@ type (
 	IMiddleware interface {
 		Before(r *ghttp.Request)
 		After(r *ghttp.Request)
+		Response(r *ghttp.Request)
 	}
 )
 

@@ -17,6 +17,7 @@ var (
 			s := g.Server()
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				//group.Middleware(service.Middleware().Response)
 				group.Bind(controller.Demo)
 				group.Bind(controller.Admin)
 				group.Bind(

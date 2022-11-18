@@ -1,7 +1,8 @@
 package test
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestTest(t *testing.T) {
-
 }

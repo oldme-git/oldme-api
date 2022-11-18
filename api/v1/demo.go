@@ -7,7 +7,7 @@ import (
 
 type DemoCreateReq struct {
 	g.Meta   `path:"/demo/create" method:"post" sm:"示例增加数据" tags:"示例"`
-	Username string
+	Username string `v:"required|length:2,20"`
 	Password string
 }
 
@@ -16,7 +16,7 @@ type DemoCreateRes struct {
 
 type DemoUpdateReq struct {
 	g.Meta   `path:"/demo/update" method:"post" sm:"示例更新数据" tags:"示例"`
-	Username string
+	Username string `v:"required|length:2,20"`
 	Password string
 }
 
@@ -38,4 +38,12 @@ type DemoDelReq struct {
 }
 
 type DemoDelRes struct {
+}
+
+type DemoRepReq struct {
+	g.Meta `path:"/demo/req" method:"get" sm:"示例相应中间件" tags:"示例"`
+}
+
+type DemoReqRes struct {
+	Name string
 }
