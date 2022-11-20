@@ -12,23 +12,24 @@ import (
 )
 
 type (
-	IAdmin interface {
-		Create(ctx context.Context, in model.AdminInput) (err error)
-		ValidPass(pass string, admin entity.Admin) bool
+	IAccount interface {
+		Login(ctx context.Context, in model.Login) (tokenString string, err error)
+		Logout(ctx context.Context) (err error)
+		Info(ctx context.Context) (admin entity.Admin, err error)
 	}
 )
 
 var (
-	localAdmin IAdmin
+	localAccount IAccount
 )
 
-func Admin() IAdmin {
-	if localAdmin == nil {
-		panic("implement not found for interface IAdmin, forgot register?")
+func Account() IAccount {
+	if localAccount == nil {
+		panic("implement not found for interface IAccount, forgot register?")
 	}
-	return localAdmin
+	return localAccount
 }
 
-func RegisterAdmin(i IAdmin) {
-	localAdmin = i
+func RegisterAccount(i IAccount) {
+	localAccount = i
 }

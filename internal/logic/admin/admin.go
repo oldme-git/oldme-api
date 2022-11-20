@@ -22,8 +22,8 @@ func init() {
 // Create 创建管理员
 func (s sAdmin) Create(ctx context.Context, in model.AdminInput) (err error) {
 	var (
-		salt     = GenSalt()
-		password = EncryptPass(in.Password, salt)
+		salt     = genSalt()
+		password = encryptPass(in.Password, salt)
 	)
 	_, err = dao.Admin.Ctx(ctx).Data(do.Admin{
 		Username:  in.Username,
@@ -37,28 +37,18 @@ func (s sAdmin) Create(ctx context.Context, in model.AdminInput) (err error) {
 	return
 }
 
-// Login 登录
-func (s sAdmin) Login(ctx context.Context, in model.Login) (result bool, err error) {
-	admin := dao.Admin.GetAdmin(in.Username)
-	if admin.Id != 0 {
-		// 校验密码
-		result = ValidPass(in.Password, admin)
-	}
-	return result, nil
+// ValidPass 校验密码
+func (s sAdmin) ValidPass(pass string, admin entity.Admin) bool {
+	return admin.Password == encryptPass(pass, admin.Salt)
 }
 
 // GenSalt 生成32位盐值盐值
-func GenSalt() string {
+func genSalt() string {
 	return grand.S(32, false)
 }
 
 // EncryptPass 加密密码
-func EncryptPass(pass string, salt string) (encrypt string) {
+func encryptPass(pass string, salt string) (encrypt string) {
 	encrypt, _ = gmd5.EncryptString(pass + salt)
 	return
-}
-
-// ValidPass 校验密码
-func ValidPass(pass string, admin entity.Admin) bool {
-	return admin.Password == EncryptPass(pass, admin.Salt)
 }
