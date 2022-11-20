@@ -19,9 +19,13 @@ var (
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				//group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Middleware(service.Middleware().Response)
-				group.Group("/v1", func(group *ghttp.RouterGroup) {
-					group.Bind(controller.Account)
+				group.Group("/", func(group *ghttp.RouterGroup) {
+					group.Middleware(service.Middleware().Auth)
+					group.Group("/v1", func(group *ghttp.RouterGroup) {
+						group.Bind(controller.Account)
+					})
 				})
+
 				group.Bind(controller.Demo)
 			})
 			s.Run()

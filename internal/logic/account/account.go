@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/golang-jwt/jwt/v4"
+	"oldme-api/internal/consts"
 	"oldme-api/internal/dao"
 	"oldme-api/internal/model"
 	"oldme-api/internal/model/entity"
@@ -19,7 +20,7 @@ func init() {
 	service.RegisterAccount(&sAccount{})
 }
 
-var jwtKey = []byte("oldme-jwt")
+var jwtKey = []byte(consts.JwtKey)
 
 type AdminClaims struct {
 	Id       uint
@@ -36,7 +37,7 @@ func (s sAccount) Login(ctx context.Context, in model.Login) (tokenString string
 			Id:       admin.Id,
 			Username: admin.Username,
 			RegisteredClaims: jwt.RegisteredClaims{
-				ExpiresAt: jwt.NewNumericDate(time.Now().Add(6 * time.Hour)),
+				ExpiresAt: jwt.NewNumericDate(time.Now().Add(20 * time.Second)),
 			},
 		}
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, adminClaims)
@@ -55,20 +56,14 @@ func (s sAccount) Logout(ctx context.Context) (err error) {
 }
 
 // Info 获取当前已经登录的管理员信息
-func (s sAccount) Info(ctx context.Context) (admin entity.Admin, err error) {
-	token := g.RequestFromCtx(ctx).Request.Header.Get("Authorization")
-	tokenClaims, err := jwt.ParseWithClaims(token, &AdminClaims{}, func(token *jwt.Token) (interface{}, error) {
+func (s sAccount) Info(ctx context.Context) (admin entity.Admin) {
+	tokenString := g.RequestFromCtx(ctx).Request.Header.Get("Authorization")
+	tokenClaims, _ := jwt.ParseWithClaims(tokenString, &AdminClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
-	if err != nil {
-		err = packed.Oldme.SetErr(10101)
-	} else {
-		if claims, ok := tokenClaims.Claims.(*AdminClaims); ok && tokenClaims.Valid {
-			admin = dao.Admin.GetAdmin(claims.Username)
-			err = nil
-		} else {
-			err = packed.Oldme.SetErr(10102)
-		}
+
+	if claims, ok := tokenClaims.Claims.(*AdminClaims); ok && tokenClaims.Valid {
+		admin = dao.Admin.GetAdmin(claims.Username)
 	}
 	return
 }

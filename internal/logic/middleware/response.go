@@ -1,3 +1,5 @@
+// 统一响应处理
+
 package middleware
 
 import (
@@ -25,7 +27,7 @@ func (s sMiddleware) Response(r *ghttp.Request) {
 	if r.Response.Status >= http.StatusInternalServerError {
 		// 清除掉缓存区，防止服务器信息泄露到客户端
 		r.Response.ClearBuffer()
-		r.Response.Writeln("服务器听歌沉迷了，请稍后再来找他！")
+		r.Response.Writeln("服务器打盹了，请稍后再来找他！")
 	}
 
 	var (

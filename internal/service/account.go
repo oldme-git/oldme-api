@@ -15,7 +15,7 @@ type (
 	IAccount interface {
 		Login(ctx context.Context, in model.Login) (tokenString string, err error)
 		Logout(ctx context.Context) (err error)
-		Info(ctx context.Context) (admin entity.Admin, err error)
+		Info(ctx context.Context) (admin entity.Admin)
 	}
 )
 
