@@ -37,7 +37,7 @@ func (s sAccount) Login(ctx context.Context, in model.Login) (tokenString string
 			Id:       admin.Id,
 			Username: admin.Username,
 			RegisteredClaims: jwt.RegisteredClaims{
-				ExpiresAt: jwt.NewNumericDate(time.Now().Add(20 * time.Second)),
+				ExpiresAt: jwt.NewNumericDate(time.Now().Add(6 * time.Hour)),
 			},
 		}
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, adminClaims)
