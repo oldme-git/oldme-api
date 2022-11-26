@@ -24,11 +24,11 @@ type LogoutRes struct {
 	Result bool
 }
 
-type AccountReq struct {
+type AccountInfoReq struct {
 	g.Meta `path:"info" method:"get" sm:"获取登录信息" tags:"账户"`
 }
 
-type AccountRes struct {
+type AccountInfoRes struct {
 	Username  string      `json:"username" dc:"用户名"`
 	Nickname  string      `json:"nickname" dc:"昵称"`
 	Avatar    string      `json:"avatar" dc:"头像"`

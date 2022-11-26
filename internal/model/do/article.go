@@ -13,11 +13,11 @@ import (
 type Article struct {
 	g.Meta      `orm:"table:article, do:true"`
 	Id          interface{} //
-	GroupId     interface{} // 分组id
+	GrpId       interface{} // 分组id
 	Title       interface{} // 标题
 	Author      interface{} // 作者
 	Thumb       interface{} // 图片地址
-	Key         interface{} // 关键词，依英文逗号隔开
+	Tags        interface{} // 标签，依英文逗号隔开
 	Description interface{} // 简介
 	Content     interface{} // 内容
 	Order       interface{} // 排序，越大越靠前

@@ -21,11 +21,11 @@ type ArticleDao struct {
 // ArticleColumns defines and stores column names for table article.
 type ArticleColumns struct {
 	Id          string //
-	GroupId     string // 分组id
+	GrpId       string // 分组id
 	Title       string // 标题
 	Author      string // 作者
 	Thumb       string // 图片地址
-	Key         string // 关键词，依英文逗号隔开
+	Tags        string // 标签，依英文逗号隔开
 	Description string // 简介
 	Content     string // 内容
 	Order       string // 排序，越大越靠前
@@ -42,11 +42,11 @@ type ArticleColumns struct {
 // articleColumns holds the columns for table article.
 var articleColumns = ArticleColumns{
 	Id:          "id",
-	GroupId:     "group_id",
+	GrpId:       "grp_id",
 	Title:       "title",
 	Author:      "author",
 	Thumb:       "thumb",
-	Key:         "key",
+	Tags:        "tags",
 	Description: "description",
 	Content:     "content",
 	Order:       "order",

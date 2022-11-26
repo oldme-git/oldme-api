@@ -5,7 +5,6 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-	"oldme-api/internal/controller"
 	"oldme-api/internal/controller/admin"
 	"oldme-api/internal/service"
 )
@@ -28,11 +27,10 @@ var (
 						group.Middleware(service.Middleware().Auth)
 						group.Group("/v1", func(group *ghttp.RouterGroup) {
 							group.Bind(admin.Account)
+							group.Bind(admin.ArticleGrp)
 						})
 					})
 				})
-
-				group.Bind(controller.Demo)
 			})
 			s.Run()
 			return nil

@@ -11,11 +11,11 @@ import (
 // Article is the golang structure for table article.
 type Article struct {
 	Id          uint        `json:"id"          description:""`
-	GroupId     int         `json:"groupId"     description:"分组id"`
+	GrpId       int         `json:"grpId"       description:"分组id"`
 	Title       string      `json:"title"       description:"标题"`
 	Author      string      `json:"author"      description:"作者"`
 	Thumb       string      `json:"thumb"       description:"图片地址"`
-	Key         string      `json:"key"         description:"关键词，依英文逗号隔开"`
+	Tags        string      `json:"tags"        description:"标签，依英文逗号隔开"`
 	Description string      `json:"description" description:"简介"`
 	Content     string      `json:"content"     description:"内容"`
 	Order       int         `json:"order"       description:"排序，越大越靠前"`

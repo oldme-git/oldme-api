@@ -8,19 +8,19 @@ import (
 	"oldme-api/internal/dao/internal"
 )
 
-// internalArticleGroupDao is internal type for wrapping internal DAO implements.
-type internalArticleGroupDao = *internal.ArticleGroupDao
+// internalArticleGrpDao is internal type for wrapping internal DAO implements.
+type internalArticleGrpDao = *internal.ArticleGrpDao
 
-// articleGroupDao is the data access object for table article_group.
+// articleGrpDao is the data access object for table article_grp.
 // You can define custom methods on it to extend its functionality as you wish.
-type articleGroupDao struct {
-	internalArticleGroupDao
+type articleGrpDao struct {
+	internalArticleGrpDao
 }
 
 var (
-	// ArticleGroup is globally public accessible object for table article_group operations.
-	ArticleGroup = articleGroupDao{
-		internal.NewArticleGroupDao(),
+	// ArticleGrp is globally public accessible object for table article_grp operations.
+	ArticleGrp = articleGrpDao{
+		internal.NewArticleGrpDao(),
 	}
 )
 

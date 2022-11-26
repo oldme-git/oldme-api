@@ -7,5 +7,6 @@ package logic
 import (
 	_ "oldme-api/internal/logic/account"
 	_ "oldme-api/internal/logic/admin"
+	_ "oldme-api/internal/logic/article-grp"
 	_ "oldme-api/internal/logic/middleware"
 )
