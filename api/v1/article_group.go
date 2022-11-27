@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+	"oldme-api/internal/model"
 	"oldme-api/internal/model/entity"
 )
 
@@ -36,11 +37,20 @@ type ArticleGrpDelReq struct {
 type ArticleGrpDelRes struct {
 }
 
-type ArticleGrpReadReq struct {
-	g.Meta `path:"article/group/read/{id}" method:"get" sm:"读取" tags:"文章分类"`
+type ArticleGrpListReq struct {
+	g.Meta `path:"article/group/list" method:"get" sm:"查询列表"`
+}
+
+type ArticleGroListRes struct {
+	List  model.ArticleGrpList `json:"list"`
+	Total uint                 `json:"total"`
+}
+
+type ArticleGrpShowReq struct {
+	g.Meta `path:"article/group/show/{id}" method:"get" sm:"查询详情" tags:"文章分类"`
 	Id     uint32 `v:"integer|between:1,4294967295"`
 }
 
-type ArticleGrpReadRes struct {
+type ArticleGrpShowRes struct {
 	entity.ArticleGrp
 }

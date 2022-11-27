@@ -16,7 +16,8 @@ type (
 		Cre(ctx context.Context, in model.ArticleGrpInput) (err error)
 		Upd(ctx context.Context, id uint32, in model.ArticleGrpInput) (err error)
 		Del(ctx context.Context, id uint32) (err error)
-		Read(ctx context.Context, id uint32) (data entity.ArticleGrp, err error)
+		List(ctx context.Context) (data model.ArticleGrpList, err error)
+		Show(ctx context.Context, id uint32) (data entity.ArticleGrp, err error)
 	}
 )
 

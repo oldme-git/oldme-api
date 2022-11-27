@@ -38,11 +38,22 @@ func (c *cArticleGrp) Del(ctx context.Context, req *v1.ArticleGrpDelReq) (res *v
 	return
 }
 
-func (c *cArticleGrp) Read(ctx context.Context, req *v1.ArticleGrpReadReq) (res *v1.ArticleGrpReadRes, err error) {
-	var data entity.ArticleGrp
-	data, err = service.ArticleGrp().Read(ctx, req.Id)
+func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res *v1.ArticleGroListRes, err error) {
+	data, err := service.ArticleGrp().List(ctx)
 	if err == nil {
-		res = &v1.ArticleGrpReadRes{
+		res = &v1.ArticleGroListRes{
+			List:  data,
+			Total: uint(len(data)),
+		}
+	}
+	return
+}
+
+func (c *cArticleGrp) Show(ctx context.Context, req *v1.ArticleGrpShowReq) (res *v1.ArticleGrpShowRes, err error) {
+	var data entity.ArticleGrp
+	data, err = service.ArticleGrp().Show(ctx, req.Id)
+	if err == nil {
+		res = &v1.ArticleGrpShowRes{
 			ArticleGrp: data,
 		}
 	}

@@ -16,9 +16,10 @@ func (o oCode) GetMsg(code int) string {
 	var maps map[int]string
 	maps = map[int]string{
 		0:     "好耶",
-		10100: "你的账号或者密码不对哩",
-		10101: "不正确的或者过期的token，请重新获取",
-		10102: "┗|｀O′|┛ 嗷~~，获取你信息失败了",
+		10100: "sorry,数据走丢了",
+		20100: "你的账号或者密码不对哩",
+		20101: "不正确的或者过期的token，请重新获取",
+		20102: "┗|｀O′|┛ 嗷~~，获取你信息失败了",
 	}
 	return maps[code]
 }

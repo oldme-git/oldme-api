@@ -6,6 +6,7 @@ import (
 	"oldme-api/internal/model"
 	"oldme-api/internal/model/do"
 	"oldme-api/internal/model/entity"
+	"oldme-api/internal/packed"
 	"oldme-api/internal/service"
 )
 
@@ -44,8 +45,18 @@ func (s sArticleGrp) Del(ctx context.Context, id uint32) (err error) {
 	return
 }
 
-// Read 读取文章分类
-func (s sArticleGrp) Read(ctx context.Context, id uint32) (data entity.ArticleGrp, err error) {
+// List 读取文章分类列表
+func (s sArticleGrp) List(ctx context.Context) (data model.ArticleGrpList, err error) {
+	result, err := dao.ArticleGrp.Ctx(ctx).All()
+	_ = result.Structs(&data)
+	return
+}
+
+// Show 读取文章分类详情
+func (s sArticleGrp) Show(ctx context.Context, id uint32) (data entity.ArticleGrp, err error) {
 	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&data)
+	if err != nil {
+		err = packed.Oldme.SetErr(10100)
+	}
 	return
 }
