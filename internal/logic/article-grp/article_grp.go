@@ -29,7 +29,7 @@ func (s sArticleGrp) Cre(ctx context.Context, in model.ArticleGrpInput) (err err
 }
 
 // Upd 更新文章分类
-func (s sArticleGrp) Upd(ctx context.Context, id uint32, in model.ArticleGrpInput) (err error) {
+func (s sArticleGrp) Upd(ctx context.Context, id uint, in model.ArticleGrpInput) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Data(do.ArticleGrp{
 		Name:        in.Name,
 		Tags:        in.Tags,
@@ -40,7 +40,7 @@ func (s sArticleGrp) Upd(ctx context.Context, id uint32, in model.ArticleGrpInpu
 }
 
 // Del 删除文章分类
-func (s sArticleGrp) Del(ctx context.Context, id uint32) (err error) {
+func (s sArticleGrp) Del(ctx context.Context, id uint) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Delete()
 	return
 }
@@ -53,10 +53,16 @@ func (s sArticleGrp) List(ctx context.Context) (data model.ArticleGrpList, err e
 }
 
 // Show 读取文章分类详情
-func (s sArticleGrp) Show(ctx context.Context, id uint32) (data entity.ArticleGrp, err error) {
+func (s sArticleGrp) Show(ctx context.Context, id uint) (data entity.ArticleGrp, err error) {
 	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&data)
 	if err != nil {
 		err = packed.Oldme.SetErr(10100)
 	}
 	return
+}
+
+// IsExist 根据id判断一个文章分类是否存在
+func (s sArticleGrp) IsExist(ctx context.Context, id uint) bool {
+	num, _ := dao.ArticleGrp.Ctx(ctx).Where("id", id).Count()
+	return num == 1
 }

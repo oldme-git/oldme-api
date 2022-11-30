@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 192.168.10.47
+ Source Server         : 虚拟机192.168.10.47
  Source Server Type    : MySQL
- Source Server Version : 50716
+ Source Server Version : 50728
  Source Host           : 192.168.10.47:3306
  Source Schema         : oldme
 
  Target Server Type    : MySQL
- Target Server Version : 50716
+ Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 27/11/2022 02:05:06
+ Date: 30/11/2022 17:19:21
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,7 @@ CREATE TABLE `admin`  (
   `last_login` datetime(0) NOT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username唯一`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for article
@@ -40,7 +40,7 @@ CREATE TABLE `admin`  (
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `grp_id` int(11) NOT NULL COMMENT '分组id',
+  `grp_id` int(11) UNSIGNED NOT NULL COMMENT '分组id',
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
   `author` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '作者',
   `thumb` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片地址',
@@ -51,7 +51,7 @@ CREATE TABLE `article`  (
   `ontop` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否置顶',
   `onshow` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否显示',
   `hist` mediumint(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '点击数',
-  `post` mediumint(8) NOT NULL COMMENT '评论数',
+  `post` mediumint(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '评论数',
   `created_at` datetime(0) NOT NULL COMMENT '创建时间',
   `updated_at` datetime(0) NOT NULL COMMENT '更新时间',
   `deleted_at` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
@@ -70,6 +70,6 @@ CREATE TABLE `article_grp`  (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '简介',
   `onshow` tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否显示',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

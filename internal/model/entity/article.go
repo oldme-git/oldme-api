@@ -11,7 +11,7 @@ import (
 // Article is the golang structure for table article.
 type Article struct {
 	Id          uint        `json:"id"          description:""`
-	GrpId       int         `json:"grpId"       description:"分组id"`
+	GrpId       uint        `json:"grpId"       description:"分组id"`
 	Title       string      `json:"title"       description:"标题"`
 	Author      string      `json:"author"      description:"作者"`
 	Thumb       string      `json:"thumb"       description:"图片地址"`
@@ -22,7 +22,7 @@ type Article struct {
 	Ontop       uint        `json:"ontop"       description:"是否置顶"`
 	Onshow      uint        `json:"onshow"      description:"是否显示"`
 	Hist        uint        `json:"hist"        description:"点击数"`
-	Post        int         `json:"post"        description:"评论数"`
+	Post        uint        `json:"post"        description:"评论数"`
 	CreatedAt   *gtime.Time `json:"createdAt"   description:"创建时间"`
 	UpdatedAt   *gtime.Time `json:"updatedAt"   description:"更新时间"`
 	DeletedAt   *gtime.Time `json:"deletedAt"   description:"删除时间"`

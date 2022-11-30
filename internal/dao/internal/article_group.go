@@ -20,20 +20,16 @@ type ArticleGroupDao struct {
 
 // ArticleGroupColumns defines and stores column names for table article_group.
 type ArticleGroupColumns struct {
-	Id          string //
-	Name        string // 名称
-	Tags        string // 标签，依英文逗号隔开
-	Description string // 简介
-	Onshow      string // 是否显示
+	Id     string //
+	Name   string // 名称
+	Onshow string // 是否显示
 }
 
 // articleGroupColumns holds the columns for table article_group.
 var articleGroupColumns = ArticleGroupColumns{
-	Id:          "id",
-	Name:        "name",
-	Tags:        "tags",
-	Description: "description",
-	Onshow:      "onshow",
+	Id:     "id",
+	Name:   "name",
+	Onshow: "onshow",
 }
 
 // NewArticleGroupDao creates and returns a new DAO object for table data access.

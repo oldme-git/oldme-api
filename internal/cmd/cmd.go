@@ -26,8 +26,11 @@ var (
 					group.Group("/", func(group *ghttp.RouterGroup) {
 						group.Middleware(service.Middleware().Auth)
 						group.Group("/v1", func(group *ghttp.RouterGroup) {
-							group.Bind(admin.Account)
-							group.Bind(admin.ArticleGrp)
+							group.Bind(
+								admin.Account,
+								admin.ArticleGrp,
+								admin.Article,
+							)
 						})
 					})
 				})
