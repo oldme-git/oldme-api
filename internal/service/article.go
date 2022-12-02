@@ -10,7 +10,7 @@ import (
 )
 
 type IArticle interface {
-	Cre(ctx context.Context, in model.ArticleInput) (err error)
+	Cre(ctx context.Context, in *model.ArticleInput) (err error)
 }
 
 var localArticle IArticle

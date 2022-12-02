@@ -18,7 +18,7 @@ func init() {
 }
 
 // Cre 创建文章
-func (s sArticle) Cre(ctx context.Context, in model.ArticleInput) (err error) {
+func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (err error) {
 	// 判断该分类是否存在
 	if b := service.ArticleGrp().IsExist(ctx, in.GrpId); !b {
 		return packed.Oldme.SetErr(10101)

@@ -9,6 +9,10 @@ logger:
   level: "all"
   stdout: true
 
+upload:
+  prefix: "http://127.0.0.1:8001/static" # url文件访问前缀，通常交给web服务器来解析静态资源
+  path: "D:/project/oldme-api/static" # 使用绝对路径
+
 database:
   logger:
     path: "./log/sql"

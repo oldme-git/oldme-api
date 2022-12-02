@@ -28,6 +28,7 @@ var (
 						group.Group("/v1", func(group *ghttp.RouterGroup) {
 							group.Bind(
 								admin.Account,
+								admin.File,
 								admin.ArticleGrp,
 								admin.Article,
 							)

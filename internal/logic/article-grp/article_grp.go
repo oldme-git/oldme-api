@@ -18,7 +18,7 @@ func init() {
 }
 
 // Cre 创建文章分类
-func (s sArticleGrp) Cre(ctx context.Context, in model.ArticleGrpInput) (err error) {
+func (s *sArticleGrp) Cre(ctx context.Context, in *model.ArticleGrpInput) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Data(do.ArticleGrp{
 		Name:        in.Name,
 		Tags:        in.Tags,
@@ -29,7 +29,7 @@ func (s sArticleGrp) Cre(ctx context.Context, in model.ArticleGrpInput) (err err
 }
 
 // Upd 更新文章分类
-func (s sArticleGrp) Upd(ctx context.Context, id uint, in model.ArticleGrpInput) (err error) {
+func (s *sArticleGrp) Upd(ctx context.Context, id uint, in *model.ArticleGrpInput) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Data(do.ArticleGrp{
 		Name:        in.Name,
 		Tags:        in.Tags,
@@ -40,21 +40,21 @@ func (s sArticleGrp) Upd(ctx context.Context, id uint, in model.ArticleGrpInput)
 }
 
 // Del 删除文章分类
-func (s sArticleGrp) Del(ctx context.Context, id uint) (err error) {
+func (s *sArticleGrp) Del(ctx context.Context, id uint) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Delete()
 	return
 }
 
 // List 读取文章分类列表
-func (s sArticleGrp) List(ctx context.Context) (data model.ArticleGrpList, err error) {
+func (s *sArticleGrp) List(ctx context.Context) (data *model.ArticleGrpList, err error) {
 	result, err := dao.ArticleGrp.Ctx(ctx).All()
 	_ = result.Structs(&data)
 	return
 }
 
 // Show 读取文章分类详情
-func (s sArticleGrp) Show(ctx context.Context, id uint) (data entity.ArticleGrp, err error) {
-	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&data)
+func (s *sArticleGrp) Show(ctx context.Context, id uint) (data *entity.ArticleGrp, err error) {
+	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(data)
 	if err != nil {
 		err = packed.Oldme.SetErr(10100)
 	}
@@ -62,7 +62,7 @@ func (s sArticleGrp) Show(ctx context.Context, id uint) (data entity.ArticleGrp,
 }
 
 // IsExist 根据id判断一个文章分类是否存在
-func (s sArticleGrp) IsExist(ctx context.Context, id uint) bool {
+func (s *sArticleGrp) IsExist(ctx context.Context, id uint) bool {
 	num, _ := dao.ArticleGrp.Ctx(ctx).Where("id", id).Count()
 	return num == 1
 }

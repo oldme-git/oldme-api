@@ -20,7 +20,7 @@ func init() {
 }
 
 // Create 创建管理员
-func (s sAdmin) Create(ctx context.Context, in model.AdminInput) (err error) {
+func (s *sAdmin) Create(ctx context.Context, in *model.AdminInput) (err error) {
 	var (
 		salt     = genSalt()
 		password = encryptPass(in.Password, salt)
@@ -38,7 +38,7 @@ func (s sAdmin) Create(ctx context.Context, in model.AdminInput) (err error) {
 }
 
 // ValidPass 校验密码
-func (s sAdmin) ValidPass(pass string, admin entity.Admin) bool {
+func (s *sAdmin) ValidPass(pass string, admin *entity.Admin) bool {
 	return admin.Password == encryptPass(pass, admin.Salt)
 }
 

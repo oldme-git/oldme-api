@@ -12,7 +12,7 @@ import (
 
 // 生成admin用户
 func TestGenAdmin(t *testing.T) {
-	err := service.Admin().Create(gctx.New(), model.AdminInput{
+	err := service.Admin().Create(gctx.New(), &model.AdminInput{
 		Username: "admin",
 		Password: "tyty1022",
 		Nickname: "half",

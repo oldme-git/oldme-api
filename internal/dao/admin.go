@@ -28,10 +28,10 @@ var (
 )
 
 // GetAdmin 根据username获取管理员
-func (a adminDao) GetAdmin(username string) (admin entity.Admin) {
+func (a adminDao) GetAdmin(username string) (admin *entity.Admin) {
 	data, err := g.Model(Admin.Table()).Where("username", username).One()
 	if err != nil {
-		return entity.Admin{}
+		return nil
 	}
 	_ = gconv.Struct(data, &admin)
 	return

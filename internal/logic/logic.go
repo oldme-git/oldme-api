@@ -9,5 +9,6 @@ import (
 	_ "oldme-api/internal/logic/admin"
 	_ "oldme-api/internal/logic/article"
 	_ "oldme-api/internal/logic/article-grp"
+	_ "oldme-api/internal/logic/file"
 	_ "oldme-api/internal/logic/middleware"
 )

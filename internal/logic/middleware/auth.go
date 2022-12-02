@@ -7,7 +7,7 @@ import (
 	"oldme-api/internal/consts"
 )
 
-func (s sMiddleware) Auth(r *ghttp.Request) {
+func (s *sMiddleware) Auth(r *ghttp.Request) {
 	var (
 		jwtKey      = []byte(consts.JwtKey)
 		tokenString = r.Header.Get("Authorization")

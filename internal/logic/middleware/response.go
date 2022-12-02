@@ -16,7 +16,7 @@ type Response struct {
 	Data    interface{} `json:"data"    dc:"返回的数据"`
 }
 
-func (s sMiddleware) Response(r *ghttp.Request) {
+func (s *sMiddleware) Response(r *ghttp.Request) {
 	r.Middleware.Next()
 
 	if r.Response.BufferLength() > 0 {

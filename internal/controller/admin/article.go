@@ -12,6 +12,6 @@ type cArticle struct {
 }
 
 func (c *cArticle) Cre(ctx context.Context, req *v1.ArticleCreReq) (res *v1.ArticleCreRes, err error) {
-	err = service.Article().Cre(ctx, req.ArticleInput)
+	err = service.Article().Cre(ctx, &req.ArticleInput)
 	return
 }
