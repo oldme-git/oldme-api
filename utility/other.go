@@ -1,4 +1,4 @@
-package utils
+package utility
 
 import (
 	"github.com/gogf/gf/v2/frame/g"

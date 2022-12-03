@@ -1,18 +1,19 @@
 package test
 
 import (
-	"github.com/gogf/gf/v2/os/gctx"
+	"fmt"
+	"io"
 	_ "oldme-api/internal/logic/file"
-	"oldme-api/internal/service"
+	"oldme-api/utility/ufile"
+	"os"
 	"testing"
 )
 
 func TestA(t *testing.T) {
-	ctx := gctx.New()
-	a, err := service.File().MoveTmp(ctx, "img", "cor7a3ls2w3gul65yy.png")
-	if err != nil {
-		panic(err)
-	}
-	t.Log(a)
+	f, _ := os.Open("C:\\Users\\Wry\\Pictures\\ec585c35b6f208cf7f9efb98756ee151.jpeg")
+	b, _ := io.ReadAll(f)
+	fmt.Printf("%p", b)
+	ta := ufile.Ext(b)
+	t.Log(ta)
 	//service.File().MoveTmp(ctx, "img", "cor5s0e9miocwmjbr4.png")
 }

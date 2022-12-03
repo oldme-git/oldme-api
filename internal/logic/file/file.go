@@ -16,8 +16,8 @@ func init() {
 	service.RegisterFile(&sFile{})
 }
 
-// UploadImg 上传图片
-func (s *sFile) UploadImg(ctx context.Context, file *ghttp.UploadFile) (info *model.FileInfo, err error) {
+// Upload 上传文件到临时库
+func (s *sFile) Upload(ctx context.Context, file *ghttp.UploadFile) (info *model.FileInfo, err error) {
 	path := service.File().GetPath(ctx, "tmp")
 	name, err := file.Save(path, true)
 	if err != nil {

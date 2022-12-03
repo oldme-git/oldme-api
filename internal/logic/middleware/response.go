@@ -41,7 +41,7 @@ func (s *sMiddleware) Response(r *ghttp.Request) {
 		msg = err.Error()
 	} else {
 		code = gcode.CodeOK
-		msg = packed.Oldme.GetMsg(code.Code())
+		msg = packed.Code.GetMsg(code.Code())
 	}
 
 	r.Response.WriteJson(Response{

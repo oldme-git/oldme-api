@@ -8,7 +8,7 @@ import (
 
 type ArticleGrpCreReq struct {
 	g.Meta `path:"article/group/create" method:"post" sm:"新增" tags:"文章分类"`
-	model.ArticleGrpInput
+	*model.ArticleGrpInput
 }
 
 type ArticleGrpCreRes struct {
@@ -17,7 +17,7 @@ type ArticleGrpCreRes struct {
 type ArticleGrpUpdReq struct {
 	g.Meta `path:"article/group/update/{id}" method:"post" sm:"修改" tags:"文章分类"`
 	Id     uint `v:"integer|between:1,999999999"`
-	model.ArticleGrpInput
+	*model.ArticleGrpInput
 }
 
 type ArticleGrpUpdRes struct {
@@ -36,8 +36,8 @@ type ArticleGrpListReq struct {
 }
 
 type ArticleGroListRes struct {
-	List  model.ArticleGrpList `json:"list"`
-	Total uint                 `json:"total"`
+	List  *model.ArticleGrpList `json:"list"`
+	Total uint                  `json:"total"`
 }
 
 type ArticleGrpShowReq struct {
@@ -46,5 +46,5 @@ type ArticleGrpShowReq struct {
 }
 
 type ArticleGrpShowRes struct {
-	entity.ArticleGrp
+	*entity.ArticleGrp
 }

@@ -1,5 +1,6 @@
 server:
   address: ":8000"
+  clientMaxBodySize: "2MB"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
 

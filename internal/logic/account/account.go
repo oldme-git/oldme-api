@@ -44,7 +44,7 @@ func (s *sAccount) Login(ctx context.Context, in *model.Login) (tokenString stri
 		tokenString, _ = token.SignedString(jwtKey)
 		err = nil
 	} else {
-		err = packed.Oldme.SetErr(20100)
+		err = packed.Code.SetErr(20100)
 	}
 	return
 }

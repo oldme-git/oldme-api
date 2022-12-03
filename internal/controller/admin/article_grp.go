@@ -3,8 +3,6 @@ package admin
 import (
 	"context"
 	v1 "oldme-api/api/v1"
-	"oldme-api/internal/model"
-	"oldme-api/internal/model/entity"
 	"oldme-api/internal/service"
 )
 
@@ -14,22 +12,12 @@ type cArticleGrp struct {
 }
 
 func (c *cArticleGrp) Cre(ctx context.Context, req *v1.ArticleGrpCreReq) (res *v1.ArticleGrpCreRes, err error) {
-	err = service.ArticleGrp().Cre(ctx, &model.ArticleGrpInput{
-		Name:        req.Name,
-		Tags:        req.Tags,
-		Description: req.Description,
-		Onshow:      req.Onshow,
-	})
+	err = service.ArticleGrp().Cre(ctx, req.ArticleGrpInput)
 	return
 }
 
 func (c *cArticleGrp) Upd(ctx context.Context, req *v1.ArticleGrpUpdReq) (res *v1.ArticleGrpUpdRes, err error) {
-	err = service.ArticleGrp().Upd(ctx, req.Id, &model.ArticleGrpInput{
-		Name:        req.Name,
-		Tags:        req.Tags,
-		Description: req.Description,
-		Onshow:      req.Onshow,
-	})
+	err = service.ArticleGrp().Upd(ctx, req.Id, req.ArticleGrpInput)
 	return
 }
 
@@ -42,7 +30,7 @@ func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res 
 	data, err := service.ArticleGrp().List(ctx)
 	if err == nil {
 		res = &v1.ArticleGroListRes{
-			List:  *data,
+			List:  data,
 			Total: uint(len(*data)),
 		}
 	}
@@ -50,11 +38,10 @@ func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res 
 }
 
 func (c *cArticleGrp) Show(ctx context.Context, req *v1.ArticleGrpShowReq) (res *v1.ArticleGrpShowRes, err error) {
-	var data *entity.ArticleGrp
-	data, err = service.ArticleGrp().Show(ctx, req.Id)
+	data, err := service.ArticleGrp().Show(ctx, req.Id)
 	if err == nil {
 		res = &v1.ArticleGrpShowRes{
-			ArticleGrp: *data,
+			ArticleGrp: data,
 		}
 	}
 	return

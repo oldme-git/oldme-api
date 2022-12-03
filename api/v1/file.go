@@ -6,11 +6,11 @@ import (
 	"oldme-api/internal/model"
 )
 
-type UploadImgReq struct {
-	g.Meta `path:"file/upload/img" mime:"multipart/form-data" method:"post" sm:"上传图片" tags:"文件"`
-	Img    *ghttp.UploadFile `json:"img" type:"file" dc:"选择图片上传"`
+type UploadReq struct {
+	g.Meta `path:"file/upload/img" mime:"multipart/form-data" method:"post" sm:"上传文件到临时库" tags:"文件"`
+	Name   *ghttp.UploadFile `json:"name" type:"file" dc:"选择文件上传上传，Max:5M"`
 }
 
-type UploadImgRes struct {
+type UploadRes struct {
 	model.FileInfo
 }

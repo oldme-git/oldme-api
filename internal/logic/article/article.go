@@ -21,8 +21,13 @@ func init() {
 func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (err error) {
 	// 判断该分类是否存在
 	if b := service.ArticleGrp().IsExist(ctx, in.GrpId); !b {
-		return packed.Oldme.SetErr(10101)
+		return packed.Code.SetErr(10101)
 	}
+	// 处理文章thumb
+	if err = packed.Ext.Img(in.Thumb); err != nil {
+		return
+	}
+
 	_, err = dao.Article.Ctx(ctx).Data(do.Article{
 		GrpId:       in.GrpId,
 		Title:       in.Title,
