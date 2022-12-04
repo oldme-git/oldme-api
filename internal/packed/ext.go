@@ -1,7 +1,7 @@
 package packed
 
 import (
-	"fmt"
+	"errors"
 	"path"
 	"strings"
 )
@@ -18,12 +18,11 @@ func (e pExt) Img(imgPath string) error {
 		pathExt  = path.Ext(imgPath)
 		sliceExt = strings.Split(ext, ",")
 	)
-	fmt.Println(pathExt)
 
 	for _, item := range sliceExt {
 		if strings.ToLower(pathExt) == strings.ToLower(item) {
 			return nil
 		}
 	}
-	return Code.SetErr(10501, "图片类型不正确，应为"+ext)
+	return errors.New("图片类型不正确，应为" + ext)
 }

@@ -23,11 +23,12 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (err error) 
 	if b := service.ArticleGrp().IsExist(ctx, in.GrpId); !b {
 		return packed.Code.SetErr(10101)
 	}
-	// 处理文章thumb
-	if err = packed.Ext.Img(in.Thumb); err != nil {
-		return
+	// 保存thumb到正式目录
+	info, err := service.File().SaveImg(ctx, in.Thumb)
+	if err != nil {
+		return err
 	}
-
+	in.Thumb = info.Url
 	_, err = dao.Article.Ctx(ctx).Data(do.Article{
 		GrpId:       in.GrpId,
 		Title:       in.Title,

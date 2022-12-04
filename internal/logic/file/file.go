@@ -2,11 +2,15 @@ package file
 
 import (
 	"context"
+	"errors"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcfg"
 	"github.com/gogf/gf/v2/os/gfile"
 	"oldme-api/internal/model"
+	"oldme-api/internal/packed"
 	"oldme-api/internal/service"
+	"path"
+	"strings"
 )
 
 type sFile struct {
@@ -18,25 +22,79 @@ func init() {
 
 // Upload 上传文件到临时库
 func (s *sFile) Upload(ctx context.Context, file *ghttp.UploadFile) (info *model.FileInfo, err error) {
-	path := service.File().GetPath(ctx, "tmp")
-	name, err := file.Save(path, true)
+	var (
+		name    string
+		lib     = "tmp"
+		dirPath = getDir(ctx, lib)
+		urlPath string
+	)
+	name, err = file.Save(dirPath, true)
 	if err != nil {
 		return
 	}
-	url := service.File().GetUrl(ctx, "tmp", name)
+	urlPath = getUrlFile(ctx, "tmp", name)
 	info = &model.FileInfo{
 		Name: name,
-		Url:  url,
+		Url:  urlPath,
 	}
 	return
 }
 
-// MoveTmp 移动tmp中的文件到正式目录中
-func (s *sFile) MoveTmp(ctx context.Context, dir string, file string) (info *model.FileInfo, err error) {
+// Save 保存文件到正式库，如果src不是tmp库中的文件，则不做操作，原路返回
+func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.FileInfo, err error) {
+	// 先从src获取文件名称
+	name, err := getTmpName(ctx, src)
+	if err != nil {
+		return &model.FileInfo{
+			Name: path.Base(src),
+			Url:  src,
+		}, nil
+	}
+	// 移动
+	info, err = moveTmp(ctx, lib, name)
+	if err != nil {
+		err = packed.Code.SetErr(10503, err.Error())
+		return
+	}
+	return
+}
+
+// SaveImg 保存图片文件到img库
+func (s *sFile) SaveImg(ctx context.Context, src string) (info *model.FileInfo, err error) {
+	if err = packed.Ext.Img(src); err != nil {
+		err = packed.Code.SetErr(10501, err.Error())
+		return
+	}
+	info, err = service.File().Save(ctx, src, "img")
+	return
+}
+
+// getTmpName 从url或者dir读取临时库的文件名称
+func getTmpName(ctx context.Context, src string) (name string, err error) {
 	var (
-		srcPath = service.File().GetPath(ctx, "tmp") + "/" + file
-		dstPath = service.File().GetPath(ctx, dir) + "/" + file
+		lib     = "tmp/"
+		dirPath = getDir(ctx, lib)
+		urlPath = getUrl(ctx, lib)
 	)
+
+	if strings.HasPrefix(src, dirPath) || strings.HasPrefix(src, urlPath) {
+		name = path.Base(src)
+	} else {
+		err = errors.New(src + "不存在")
+	}
+	return
+}
+
+// moveTmp tmp库的文件移入到正式库
+func moveTmp(ctx context.Context, lib string, name string) (info *model.FileInfo, err error) {
+	var (
+		srcPath = getDirFile(ctx, "tmp", name)
+		dstPath = getDirFile(ctx, lib, name)
+	)
+	if ok := gfile.IsFile(srcPath); !ok {
+		err = errors.New(name + "不存在")
+		return
+	}
 	err = gfile.Copy(srcPath, dstPath)
 	if err != nil {
 		return
@@ -44,14 +102,15 @@ func (s *sFile) MoveTmp(ctx context.Context, dir string, file string) (info *mod
 	// 删除原文件
 	_ = gfile.Remove(srcPath)
 	info = &model.FileInfo{
-		Name: file,
-		Url:  service.File().GetUrl(ctx, dir, file),
+		Name: name,
+		Url:  getUrlFile(ctx, lib, name),
+		Dir:  dstPath,
 	}
 	return
 }
 
-// GetConf 获取upload配置
-func (s *sFile) GetConf(ctx context.Context) (upload map[string]string, err error) {
+// getConf 获取upload配置
+func getConf(ctx context.Context) (upload map[string]string, err error) {
 	cfg, _ := gcfg.New()
 	uploadVar, err := cfg.Get(ctx, "upload")
 	if err != nil {
@@ -61,20 +120,32 @@ func (s *sFile) GetConf(ctx context.Context) (upload map[string]string, err erro
 	return
 }
 
-// GetPath 获取文件保存的具体目录，例如：“path/tmp”
-func (s *sFile) GetPath(ctx context.Context, srcDir string) string {
-	conf, err := service.File().GetConf(ctx)
+// getDir 获取disk dir路径
+func getDir(ctx context.Context, lib string) string {
+	conf, err := getConf(ctx)
 	if err != nil {
 		panic(err)
 	}
-	return conf["path"] + "/" + srcDir
+	return conf["dir"] + "/" + lib
 }
 
-// GetUrl 获取静态资源路径
-func (s *sFile) GetUrl(ctx context.Context, dir string, file string) string {
-	conf, err := service.File().GetConf(ctx)
+// getUrl 获取http url路径
+func getUrl(ctx context.Context, lib string) string {
+	conf, err := getConf(ctx)
 	if err != nil {
 		panic(err)
 	}
-	return conf["prefix"] + "/" + dir + "/" + file
+	return conf["url"] + "/" + lib
+}
+
+// getDirFile 获取文件的disk dir路径
+func getDirFile(ctx context.Context, lib string, name string) string {
+	dir := getDir(ctx, lib)
+	return dir + "/" + name
+}
+
+// getUrlFile 获取文件的http url路径
+func getUrlFile(ctx context.Context, lib string, name string) string {
+	url := getUrl(ctx, lib)
+	return url + "/" + name
 }

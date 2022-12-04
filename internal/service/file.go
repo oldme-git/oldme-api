@@ -15,10 +15,8 @@ import (
 type (
 	IFile interface {
 		Upload(ctx context.Context, file *ghttp.UploadFile) (info *model.FileInfo, err error)
-		MoveTmp(ctx context.Context, dir string, file string) (info *model.FileInfo, err error)
-		GetConf(ctx context.Context) (upload map[string]string, err error)
-		GetPath(ctx context.Context, srcDir string) string
-		GetUrl(ctx context.Context, dir string, file string) string
+		Save(ctx context.Context, src string, lib string) (info *model.FileInfo, err error)
+		SaveImg(ctx context.Context, src string) (info *model.FileInfo, err error)
 	}
 )
 
