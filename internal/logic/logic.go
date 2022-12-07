@@ -11,4 +11,5 @@ import (
 	_ "oldme-api/internal/logic/article-grp"
 	_ "oldme-api/internal/logic/file"
 	_ "oldme-api/internal/logic/middleware"
+	_ "oldme-api/internal/logic/rich"
 )

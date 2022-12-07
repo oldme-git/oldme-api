@@ -6,6 +6,9 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcfg"
 	"github.com/gogf/gf/v2/os/gfile"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/text/gregex"
+	"github.com/gogf/gf/v2/text/gstr"
 	"oldme-api/internal/model"
 	"oldme-api/internal/packed"
 	"oldme-api/internal/service"
@@ -48,13 +51,17 @@ func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.F
 		return &model.FileInfo{
 			Name: path.Base(src),
 			Url:  src,
-		}, nil
+		}, err
 	}
+	// 在lib下面用时间分开
+	time := gtime.Now().Format("Ym")
 	// 移动
-	info, err = moveTmp(ctx, lib, name)
+	info, err = moveTmp(ctx, lib+"/"+time, name)
 	if err != nil {
-		err = packed.Code.SetErr(10503, err.Error())
-		return
+		return &model.FileInfo{
+			Name: path.Base(src),
+			Url:  src,
+		}, packed.Code.SetErr(10503, err.Error())
 	}
 	return
 }
@@ -69,10 +76,53 @@ func (s *sFile) SaveImg(ctx context.Context, src string) (info *model.FileInfo, 
 	return
 }
 
-// getTmpName 从url或者dir读取临时库的文件名称
-func getTmpName(ctx context.Context, src string) (name string, err error) {
+// Del 删除
+func (s *sFile) Del(ctx context.Context, src string) (err error) {
+	conf, _ := getConf(ctx)
+	// url换成dir形式
+	src = strings.Replace(src, conf["url"], conf["dir"], 1)
+	if !gfile.IsFile(src) {
+		err = packed.Code.SetErr(10503)
+		return
+	}
+	err = gfile.Remove(src)
+	if err != nil {
+		return
+	}
+	return
+}
+
+// getLib 从url或者dir获取库的名称
+func getLib(ctx context.Context, src string) (lib string, err error) {
+	conf, _ := getConf(ctx)
 	var (
-		lib     = "tmp/"
+		dir = conf["dir"]
+		url = conf["url"]
+		str string
+	)
+	if strings.HasPrefix(src, dir) {
+		dirLen := len(dir + "/")
+		str = gstr.SubStrRune(src, dirLen)
+	} else if strings.HasPrefix(src, url) {
+		urlLen := len(url + "/")
+		str = gstr.SubStrRune(src, urlLen)
+	} else {
+		err = errors.New("没有找到库")
+		return
+	}
+	libSlice, err := gregex.MatchString(`(?i)\w+`, str)
+	if err != nil {
+		err = errors.New("没有找到库")
+		return
+	}
+	lib = libSlice[0]
+	return
+}
+
+// getName 从url或者dir读取库中文件名称
+func getName(ctx context.Context, lib string, src string) (name string, err error) {
+	lib = lib + "/"
+	var (
 		dirPath = getDir(ctx, lib)
 		urlPath = getUrl(ctx, lib)
 	)
@@ -82,6 +132,12 @@ func getTmpName(ctx context.Context, src string) (name string, err error) {
 	} else {
 		err = errors.New(src + "不存在")
 	}
+	return
+}
+
+// getTmpName 从url或者dir读取临时库中文件名称
+func getTmpName(ctx context.Context, src string) (name string, err error) {
+	name, err = getName(ctx, "tmp/", src)
 	return
 }
 
