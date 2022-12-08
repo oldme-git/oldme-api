@@ -9,7 +9,8 @@ import (
 )
 
 type IRich interface {
-	Save(ctx context.Context, text *string) (err error)
+	Save(ctx context.Context, text *string)
+	Edit(ctx context.Context, oldText *string, newText *string)
 	Del(ctx context.Context, text *string) (err error)
 }
 

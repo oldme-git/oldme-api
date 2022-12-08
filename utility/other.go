@@ -1,20 +1,24 @@
 package utility
 
 import (
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/os/gctx"
+	"errors"
+	"reflect"
 )
 
-func Log(v interface{}) {
-	l := g.Log()
-	l.Info(gctx.New(), v)
-}
-
-func GetUrl(r *ghttp.Request) string {
-	var proto = "http://"
-	if r.TLS != nil {
-		proto = "https://"
+// InArray 判断某个值是否存在与切片或者数组中，此函数的命名十分优秀ヾ(≧▽≦*)o
+func InArray(v interface{}, i interface{}) (b bool, err error) {
+	kind := reflect.TypeOf(i).Kind()
+	if kind != reflect.Slice && kind != reflect.Array {
+		return false, errors.New("给定类型必须是切片或者数组")
 	}
-	return proto + r.Host
+	// 将i转换为map
+	var (
+		value = reflect.ValueOf(i)
+		m     = make(map[interface{}]bool, value.Len())
+	)
+	for j := 0; j < value.Len(); j++ {
+		m[value.Index(j).Interface()] = true
+	}
+
+	return m[v], nil
 }

@@ -7,10 +7,13 @@ package service
 import (
 	"context"
 	"oldme-api/internal/model"
+	"oldme-api/internal/model/entity"
 )
 
 type IArticle interface {
-	Cre(ctx context.Context, in *model.ArticleInput) (err error)
+	Cre(ctx context.Context, in *model.ArticleInput) (lastId uint, err error)
+	Upt(ctx context.Context, id uint, in *model.ArticleInput) (err error)
+	Show(ctx context.Context, id uint) (data *entity.Article, err error)
 }
 
 var localArticle IArticle

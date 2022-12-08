@@ -23,3 +23,7 @@ oleme的接口
 
 ## 0.0.6
 - 增加file的功能
+
+## 0.1.0
+- 封装正则。完善rich和file的操作
+- 增加article-update

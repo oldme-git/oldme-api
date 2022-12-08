@@ -72,8 +72,7 @@ func (s *sFile) SaveImg(ctx context.Context, src string) (info *model.FileInfo, 
 		err = packed.Code.SetErr(10501, err.Error())
 		return
 	}
-	info, err = service.File().Save(ctx, src, "img")
-	return
+	return service.File().Save(ctx, src, "img")
 }
 
 // Del 删除
@@ -137,7 +136,7 @@ func getName(ctx context.Context, lib string, src string) (name string, err erro
 
 // getTmpName 从url或者dir读取临时库中文件名称
 func getTmpName(ctx context.Context, src string) (name string, err error) {
-	name, err = getName(ctx, "tmp/", src)
+	name, err = getName(ctx, "tmp", src)
 	return
 }
 
