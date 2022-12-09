@@ -13,7 +13,8 @@ import (
 type IArticle interface {
 	Cre(ctx context.Context, in *model.ArticleInput) (lastId uint, err error)
 	Upt(ctx context.Context, id uint, in *model.ArticleInput) (err error)
-	Show(ctx context.Context, id uint) (data *entity.Article, err error)
+	List(ctx context.Context, grpId uint) (list *model.ArticleList, err error)
+	Show(ctx context.Context, id uint) (info *entity.Article, err error)
 }
 
 var localArticle IArticle

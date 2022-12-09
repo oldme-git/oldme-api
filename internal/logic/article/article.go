@@ -59,7 +59,7 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId uint
 
 // Upt 更新文章
 func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (err error) {
-	data, err := service.Article().Show(ctx, id)
+	info, err := service.Article().Show(ctx, id)
 	if err != nil {
 		return
 	}
@@ -69,9 +69,9 @@ func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (er
 		return
 	}
 	// 保存thumb到正式目录
-	if in.Thumb != data.Thumb {
+	if in.Thumb != info.Thumb {
 		// 不等于要删除掉原图片
-		_ = service.File().Del(ctx, data.Thumb)
+		_ = service.File().Del(ctx, info.Thumb)
 		// 重新保存新图片
 		info, _ := service.File().SaveImg(ctx, in.Thumb)
 		if err == nil {
@@ -80,7 +80,7 @@ func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (er
 	}
 	// 保存富文本
 	if len(in.Content) != 0 {
-		service.Rich().Edit(ctx, &data.Content, &in.Content)
+		service.Rich().Edit(ctx, &info.Content, &in.Content)
 	}
 	_, err = dao.Article.Ctx(ctx).Data(do.Article{
 		GrpId:       in.GrpId,
@@ -100,9 +100,14 @@ func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (er
 	return
 }
 
+// List 读取文章列表
+func (s *sArticle) List(ctx context.Context, grpId uint) (list *model.ArticleList, err error) {
+	return
+}
+
 // Show 读取文章详情
-func (s *sArticle) Show(ctx context.Context, id uint) (data *entity.Article, err error) {
-	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&data)
+func (s *sArticle) Show(ctx context.Context, id uint) (info *entity.Article, err error) {
+	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
 		err = packed.Code.SetErr(10100)
 	}

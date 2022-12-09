@@ -46,16 +46,16 @@ func (s *sArticleGrp) Del(ctx context.Context, id uint) (err error) {
 }
 
 // List 读取文章分类列表
-func (s *sArticleGrp) List(ctx context.Context) (data *model.ArticleGrpList, err error) {
-	data = &model.ArticleGrpList{}
+func (s *sArticleGrp) List(ctx context.Context) (list *model.ArticleGrpList, err error) {
+	list = &model.ArticleGrpList{}
 	result, err := dao.ArticleGrp.Ctx(ctx).All()
-	_ = result.Structs(data)
+	_ = result.Structs(list)
 	return
 }
 
 // Show 读取文章分类详情
-func (s *sArticleGrp) Show(ctx context.Context, id uint) (data *entity.ArticleGrp, err error) {
-	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&data)
+func (s *sArticleGrp) Show(ctx context.Context, id uint) (info *entity.ArticleGrp, err error) {
+	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
 		err = packed.Code.SetErr(10100)
 	}

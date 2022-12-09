@@ -27,21 +27,21 @@ func (c *cArticleGrp) Del(ctx context.Context, req *v1.ArticleGrpDelReq) (res *v
 }
 
 func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res *v1.ArticleGroListRes, err error) {
-	data, err := service.ArticleGrp().List(ctx)
+	list, err := service.ArticleGrp().List(ctx)
 	if err == nil {
 		res = &v1.ArticleGroListRes{
-			List:  data,
-			Total: uint(len(*data)),
+			List:  list,
+			Total: uint(len(*list)),
 		}
 	}
 	return
 }
 
 func (c *cArticleGrp) Show(ctx context.Context, req *v1.ArticleGrpShowReq) (res *v1.ArticleGrpShowRes, err error) {
-	data, err := service.ArticleGrp().Show(ctx, req.Id)
+	info, err := service.ArticleGrp().Show(ctx, req.Id)
 	if err == nil {
 		res = &v1.ArticleGrpShowRes{
-			ArticleGrp: data,
+			ArticleGrp: info,
 		}
 	}
 	return

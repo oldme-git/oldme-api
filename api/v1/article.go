@@ -31,7 +31,8 @@ type ArticleDelRes struct {
 }
 
 type ArticleListReq struct {
-	g.Meta `path:"article/list" method:"get" sm:"查询列表" tags:"文章"`
+	g.Meta `path:"article/list/*grpId" method:"get" sm:"查询列表" tags:"文章"`
+	GrpId  uint `v:"integer|between:1,999999999"`
 }
 
 type ArticleListRes struct {
@@ -39,6 +40,7 @@ type ArticleListRes struct {
 
 type ArticleShowReq struct {
 	g.Meta `path:"article/show/{id}" method:"get" sm:"查询详情" tags:"文章"`
+	Id     uint `v:"integer|between:1,999999999"`
 }
 
 type ArticleShowRes struct {
