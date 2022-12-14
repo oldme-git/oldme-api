@@ -2,7 +2,6 @@ package admin
 
 import (
 	"context"
-	"fmt"
 	v1 "oldme-api/api/v1"
 	"oldme-api/internal/service"
 )
@@ -26,6 +25,32 @@ func (c *cArticle) Upt(ctx context.Context, req *v1.ArticleUptReq) (res *v1.Arti
 }
 
 func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.ArticleListRes, err error) {
-	fmt.Println(req.GrpId)
+	list, err := service.Article().List(ctx, req.ArticleQuery)
+	if err == nil {
+		res = &v1.ArticleListRes{
+			List:  list,
+			Total: uint(len(*list)),
+		}
+	}
+	return
+}
+
+func (c *cArticle) Show(ctx context.Context, req *v1.ArticleShowReq) (res *v1.ArticleShowRes, err error) {
+	info, err := service.Article().Show(ctx, req.Id)
+	if err == nil {
+		res = &v1.ArticleShowRes{
+			Article: info,
+		}
+	}
+	return
+}
+
+func (c *cArticle) Del(ctx context.Context, req *v1.ArticleDelReq) (res *v1.ArticleDelRes, err error) {
+	err = service.Article().Del(ctx, req.Id, req.IsReal)
+	return
+}
+
+func (c *cArticle) ReCre(ctx context.Context, req *v1.ArticleReCreReq) (res *v1.ArticleReCreRes, err error) {
+	err = service.Article().ReCre(ctx, req.Id)
 	return
 }

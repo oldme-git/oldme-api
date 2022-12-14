@@ -49,8 +49,6 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId uint
 		Onshow:      in.Onshow,
 		Hist:        in.Hist,
 		Post:        in.Post,
-		CreatedAt:   gtime.Now(),
-		UpdatedAt:   gtime.Now(),
 		LastedAt:    gtime.Now(),
 	}).Insert()
 	id, _ := res.LastInsertId()
@@ -95,21 +93,78 @@ func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (er
 		Onshow:      in.Onshow,
 		Hist:        in.Hist,
 		Post:        in.Post,
-		UpdatedAt:   gtime.Now(),
 	}).Where("id", id).Update()
 	return
 }
 
 // List 读取文章列表
-func (s *sArticle) List(ctx context.Context, grpId uint) (list *model.ArticleList, err error) {
+func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *model.ArticleList, err error) {
+	// 对于查询初始值的处理
+	if query.Page == 0 {
+		query.Page = 1
+	}
+	if query.Size == 0 {
+		query.Size = 15
+	}
+	// 组成查询链
+	db := dao.Article.Ctx(ctx).Page(query.Page, query.Size)
+	// 是否查询指定的grpId
+	if query.GrpId != 0 {
+		db = db.Where("grp_id", query.GrpId)
+	}
+	// 搜索文本
+	if len(query.Search) != 0 {
+		db = db.WhereOr("title like ?", "%"+query.Search+"%").
+			WhereOr("tags like ?", "%"+query.Search+"%").
+			WhereOr("description like ?", "%"+query.Search+"%")
+	}
+	// 是否查询删除掉的文章
+	if query.IsDel {
+		db = db.Unscoped().Where("deleted_at is not null")
+	}
+	res, err := db.All()
+	if err != nil {
+		return
+	}
+	list = &model.ArticleList{}
+	_ = res.Structs(list)
 	return
 }
 
 // Show 读取文章详情
 func (s *sArticle) Show(ctx context.Context, id uint) (info *entity.Article, err error) {
-	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&info)
+	err = dao.Article.Ctx(ctx).Where("id", id).Unscoped().Scan(&info)
 	if err != nil {
 		err = packed.Code.SetErr(10100)
 	}
+	return
+}
+
+// Del 删除文章
+func (s *sArticle) Del(ctx context.Context, id uint, isReal bool) (err error) {
+	if isReal {
+		info, err := service.Article().Show(ctx, id)
+		if err != nil {
+			return err
+		}
+		if info != nil {
+			// 删除文件资源
+			if len(info.Thumb) > 0 {
+				_ = service.File().Del(ctx, info.Thumb)
+			}
+			if len(info.Content) > 0 {
+				_ = service.Rich().Del(ctx, &info.Content)
+			}
+			_, err = dao.Article.Ctx(ctx).Where("id", id).Unscoped().Delete()
+		}
+	} else {
+		_, err = dao.Article.Ctx(ctx).Where("id", id).Delete()
+	}
+	return
+}
+
+// ReCre 重新创建已经删除的文章
+func (s *sArticle) ReCre(ctx context.Context, id uint) (err error) {
+	_, err = dao.Article.Ctx(ctx).Where("id", id).Unscoped().Update("deleted_at=null")
 	return
 }

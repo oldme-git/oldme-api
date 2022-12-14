@@ -56,15 +56,11 @@ func (s *sRich) Del(ctx context.Context, text *string) (err error) {
 	// 正则所有的img：png、jpg、jpeg
 	match, err := uregex.MatchAllString(imgPattern, *text)
 	if err != nil {
-		panic(err)
+		return err
 	}
-	// 获取所有图片的链接
+	// 获取所有图片的链接并删除
 	for _, v := range match {
-		info, err := service.File().Save(ctx, v, "rich")
-		if err == nil {
-			// 替换富文本中的内存
-			*text = strings.Replace(*text, v, info.Url, -1)
-		}
+		_ = service.File().Del(ctx, v)
 	}
 	return
 }

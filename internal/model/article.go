@@ -17,7 +17,7 @@ type ArticleInput struct {
 	Post        uint   `json:"post" v:"integer|between:0,999999"`
 }
 
-type ArticleList struct {
+type ArticleList []struct {
 	Id          uint        `json:"id"          description:""`
 	GrpId       uint        `json:"grpId"       description:"分组id"`
 	Title       string      `json:"title"       description:"标题"`
@@ -31,4 +31,12 @@ type ArticleList struct {
 	Hist        uint        `json:"hist"        description:"点击数"`
 	Post        uint        `json:"post"        description:"评论数"`
 	CreatedAt   *gtime.Time `json:"createdAt"   description:"创建时间"`
+}
+
+type ArticleQuery struct {
+	GrpId  uint   `v:"integer|between:1,999999999" json:"grpId"`
+	Page   int    `v:"integer|between:1,999999999" json:"page" dc:"查询分页：页码，默认1"`
+	Size   int    `v:"integer|between:1,999999999" json:"size" dc:"查询分页：条数，默认15"`
+	Search string `v:"length: 1,30" json:"search" dc:"查询文本，会检索标题、标签、简介"`
+	IsDel  bool   ` json:"isDel" dc:"是否查询删除掉的文章"`
 }

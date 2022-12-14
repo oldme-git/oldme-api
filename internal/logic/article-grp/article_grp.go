@@ -42,14 +42,21 @@ func (s *sArticleGrp) Upd(ctx context.Context, id uint, in *model.ArticleGrpInpu
 // Del 删除文章分类
 func (s *sArticleGrp) Del(ctx context.Context, id uint) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Delete()
+	// 软删除掉该分类下的文章
+	list := &model.ArticleList{}
+	res, err := dao.Article.Ctx(ctx).Where("grp_id", id).All()
+	_ = res.Structs(list)
+	for _, v := range *list {
+		_ = service.Article().Del(ctx, v.Id, false)
+	}
 	return
 }
 
 // List 读取文章分类列表
 func (s *sArticleGrp) List(ctx context.Context) (list *model.ArticleGrpList, err error) {
 	list = &model.ArticleGrpList{}
-	result, err := dao.ArticleGrp.Ctx(ctx).All()
-	_ = result.Structs(list)
+	res, err := dao.ArticleGrp.Ctx(ctx).All()
+	_ = res.Structs(list)
 	return
 }
 

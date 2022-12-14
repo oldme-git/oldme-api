@@ -3,6 +3,7 @@ package v1
 import (
 	"github.com/gogf/gf/v2/frame/g"
 	"oldme-api/internal/model"
+	"oldme-api/internal/model/entity"
 )
 
 type ArticleCreReq struct {
@@ -24,7 +25,9 @@ type ArticleUptRes struct {
 }
 
 type ArticleDelReq struct {
-	g.Meta `path:"article/delete" method:"post" sm:"删除" tags:"文章"`
+	g.Meta `path:"article/delete/{id}" method:"post" sm:"删除" tags:"文章"`
+	Id     uint `v:"integer|between:1,999999999"`
+	IsReal bool `dc:"是否彻底删除"`
 }
 
 type ArticleDelRes struct {
@@ -32,10 +35,12 @@ type ArticleDelRes struct {
 
 type ArticleListReq struct {
 	g.Meta `path:"article/list/*grpId" method:"get" sm:"查询列表" tags:"文章"`
-	GrpId  uint `v:"integer|between:1,999999999"`
+	*model.ArticleQuery
 }
 
 type ArticleListRes struct {
+	List  *model.ArticleList `json:"list"`
+	Total uint               `json:"total"`
 }
 
 type ArticleShowReq struct {
@@ -44,4 +49,13 @@ type ArticleShowReq struct {
 }
 
 type ArticleShowRes struct {
+	*entity.Article
+}
+
+type ArticleReCreReq struct {
+	g.Meta `path:"article/recreate/{id}" method:"post" sm:"找回文章" tags:"文章"`
+	Id     uint `v:"integer|between:1,999999999" dc:"已经删除的文章id"`
+}
+
+type ArticleReCreRes struct {
 }
