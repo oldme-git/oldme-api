@@ -1,0 +1,10 @@
+version: "3"
+services:
+  oldme-api:
+    image: loads/alpine
+    container_name: oldme-api
+    volumes:
+      - "/home/wwwroot/oldme-api:/home/wwwroot/oldme-api"
+    command:
+      - /home/wwwroot/oldme-api/oldme-api
+    restart: "always"

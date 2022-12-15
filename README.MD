@@ -33,3 +33,8 @@ oleme的接口
 
 ## 0.2.1
 - 更新jwt-key到配置文件中
+
+## 0.2.2
+- 增加docker-compose
+- 增加nginx的配置
+- 增加定时器，让tmp的图片的删除

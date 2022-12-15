@@ -7,6 +7,7 @@ import (
 	"github.com/gogf/gf/v2/os/gcfg"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/os/gtimer"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"oldme-api/internal/model"
@@ -14,6 +15,7 @@ import (
 	"oldme-api/internal/service"
 	"path"
 	"strings"
+	"time"
 )
 
 type sFile struct {
@@ -40,6 +42,10 @@ func (s *sFile) Upload(ctx context.Context, file *ghttp.UploadFile) (info *model
 		Name: name,
 		Url:  urlPath,
 	}
+	// 启动定时器，让临时图片只能存在30分钟
+	gtimer.AddOnce(ctx, 30*time.Minute, func(ctx context.Context) {
+		_ = service.File().Del(ctx, urlPath)
+	})
 	return
 }
 
@@ -53,10 +59,8 @@ func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.F
 			Url:  src,
 		}, err
 	}
-	// 在lib下面用时间分开
-	time := gtime.Now().Format("Ym")
 	// 移动
-	info, err = moveTmp(ctx, lib+"/"+time, name)
+	info, err = moveTmp(ctx, lib+"/"+gtime.Now().Format("Ym"), name)
 	if err != nil {
 		return &model.FileInfo{
 			Name: path.Base(src),
