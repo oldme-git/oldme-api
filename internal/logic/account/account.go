@@ -20,7 +20,7 @@ func init() {
 	service.RegisterAccount(&sAccount{})
 }
 
-var jwtKey = []byte(consts.JwtKey)
+var jwtKey = consts.JwtKey
 
 type AdminClaims struct {
 	Id       uint

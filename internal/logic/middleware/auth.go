@@ -9,7 +9,7 @@ import (
 
 func (s *sMiddleware) Auth(r *ghttp.Request) {
 	var (
-		jwtKey      = []byte(consts.JwtKey)
+		jwtKey      = consts.JwtKey
 		tokenString = r.Header.Get("Authorization")
 	)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
