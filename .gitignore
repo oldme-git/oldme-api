@@ -22,3 +22,4 @@ temp/
 log
 /*.exe~
 static
+/oldme-api
