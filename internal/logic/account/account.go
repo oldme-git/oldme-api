@@ -56,7 +56,7 @@ func (s *sAccount) Logout(ctx context.Context) (err error) {
 }
 
 // Info 获取当前已经登录的管理员信息
-func (s *sAccount) Info(ctx context.Context) (admin *entity.Admin) {
+func (s *sAccount) Info(ctx context.Context) (admin *entity.Admin, err error) {
 	tokenString := g.RequestFromCtx(ctx).Request.Header.Get("Authorization")
 	tokenClaims, _ := jwt.ParseWithClaims(tokenString, &AdminClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
@@ -64,6 +64,8 @@ func (s *sAccount) Info(ctx context.Context) (admin *entity.Admin) {
 
 	if claims, ok := tokenClaims.Claims.(*AdminClaims); ok && tokenClaims.Valid {
 		admin = dao.Admin.GetAdmin(claims.Username)
+	} else {
+		err = packed.Code.SetErr(10100)
 	}
 	return
 }

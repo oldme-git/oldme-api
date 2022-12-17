@@ -17,6 +17,7 @@ func (s *sMiddleware) Auth(r *ghttp.Request) {
 	})
 	if err != nil || !token.Valid {
 		r.Response.WriteStatus(http.StatusForbidden)
+		r.Exit()
 	}
 
 	r.Middleware.Next()
