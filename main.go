@@ -11,7 +11,7 @@ import (
 	_ "oldme-api/internal/packed"
 )
 
-const version = "0.2.1"
+const version = "0.2.4"
 
 func main() {
 	var err error
