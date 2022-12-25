@@ -26,10 +26,10 @@ func main() {
 	}
 
 	// 检查数据库是否能连接
-	err = connData()
-	if err != nil {
-		panic(err)
-	}
+	//err = connData()
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	cmd.Main.Run(gctx.New())
 }
