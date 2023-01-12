@@ -13,7 +13,7 @@ import (
 type IArticle interface {
 	Cre(ctx context.Context, in *model.ArticleInput) (lastId uint, err error)
 	Upt(ctx context.Context, id uint, in *model.ArticleInput) (err error)
-	List(ctx context.Context, query *model.ArticleQuery) (list *model.ArticleList, err error)
+	List(ctx context.Context, query *model.ArticleQuery) (list *model.ArticleList, total uint, err error)
 	Show(ctx context.Context, id uint) (info *entity.Article, err error)
 	Del(ctx context.Context, id uint, isReal bool) (err error)
 	ReCre(ctx context.Context, id uint) (err error)

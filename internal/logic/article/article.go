@@ -98,7 +98,7 @@ func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (er
 }
 
 // List 读取文章列表
-func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *model.ArticleList, err error) {
+func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *model.ArticleList, total uint, err error) {
 	// 对于查询初始值的处理
 	if query.Page == 0 {
 		query.Page = 1
@@ -107,7 +107,7 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *m
 		query.Size = 15
 	}
 	// 组成查询链
-	db := dao.Article.Ctx(ctx).Page(query.Page, query.Size)
+	db := dao.Article.Ctx(ctx)
 	// 是否查询指定的grpId
 	if query.GrpId != 0 {
 		db = db.Where("grp_id", query.GrpId)
@@ -122,12 +122,14 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *m
 	if query.IsDel {
 		db = db.Unscoped().Where("deleted_at is not null")
 	}
-	res, err := db.All()
+	data, err := db.Page(query.Page, query.Size).All()
+	totalInt, _ := db.Ctx(ctx).Count()
+	total = uint(totalInt)
 	if err != nil {
 		return
 	}
 	list = &model.ArticleList{}
-	_ = res.Structs(list)
+	_ = data.Structs(list)
 	return
 }
 

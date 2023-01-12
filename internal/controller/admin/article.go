@@ -3,7 +3,6 @@ package admin
 import (
 	"context"
 	v1 "oldme-api/api/v1"
-	"oldme-api/internal/dao"
 	"oldme-api/internal/service"
 )
 
@@ -26,13 +25,12 @@ func (c *cArticle) Upt(ctx context.Context, req *v1.ArticleUptReq) (res *v1.Arti
 }
 
 func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.ArticleListRes, err error) {
-	list, err := service.Article().List(ctx, req.ArticleQuery)
+	list, total, err := service.Article().List(ctx, req.ArticleQuery)
 	if err == nil {
 		// 查询数据表里总共的数据条数
-		total, _ := dao.Article.Ctx(ctx).Count()
 		res = &v1.ArticleListRes{
 			List:  list,
-			Total: uint(total),
+			Total: total,
 		}
 	}
 	return
