@@ -2,7 +2,7 @@ package admin
 
 import (
 	"context"
-	v1 "oldme-api/api/v1"
+	"oldme-api/api/admin/v1"
 	"oldme-api/internal/model"
 	"oldme-api/internal/service"
 )

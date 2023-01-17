@@ -14,7 +14,7 @@ type IArticleGrp interface {
 	Cre(ctx context.Context, in *model.ArticleGrpInput) (err error)
 	Upd(ctx context.Context, id uint, in *model.ArticleGrpInput) (err error)
 	Del(ctx context.Context, id uint) (err error)
-	List(ctx context.Context) (list *model.ArticleGrpList, err error)
+	List(ctx context.Context) (list *[]entity.ArticleGrp, err error)
 	Show(ctx context.Context, id uint) (info *entity.ArticleGrp, err error)
 	IsExist(ctx context.Context, id uint) bool
 }
