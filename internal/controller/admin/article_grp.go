@@ -26,10 +26,10 @@ func (c *cArticleGrp) Del(ctx context.Context, req *v1.ArticleGrpDelReq) (res *v
 	return
 }
 
-func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res *v1.ArticleGroListRes, err error) {
+func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res *v1.ArticleGrpListRes, err error) {
 	list, err := service.ArticleGrp().List(ctx)
 	if err == nil {
-		res = &v1.ArticleGroListRes{
+		res = &v1.ArticleGrpListRes{
 			List:  list,
 			Total: uint(len(*list)),
 		}

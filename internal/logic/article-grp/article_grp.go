@@ -43,9 +43,9 @@ func (s *sArticleGrp) Upd(ctx context.Context, id uint, in *model.ArticleGrpInpu
 func (s *sArticleGrp) Del(ctx context.Context, id uint) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Delete()
 	// 软删除掉该分类下的文章
-	var list model.ArticleList
+	var list []model.ArticleList
 	res, err := dao.Article.Ctx(ctx).Where("grp_id", id).All()
-	_ = res.Structs(list)
+	_ = res.Structs(&list)
 	for _, v := range list {
 		_ = service.Article().Del(ctx, v.Id, false)
 	}

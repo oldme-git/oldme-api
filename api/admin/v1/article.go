@@ -39,8 +39,8 @@ type ArticleListReq struct {
 }
 
 type ArticleListRes struct {
-	List  *model.ArticleList `json:"list"`
-	Total uint               `json:"total"`
+	List  *[]model.ArticleList `json:"list"`
+	Total uint                 `json:"total"`
 }
 
 type ArticleShowReq struct {

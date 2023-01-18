@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 	"oldme-api/internal/controller/admin"
+	"oldme-api/internal/controller/app"
 	"oldme-api/internal/service"
 )
 
@@ -17,6 +18,7 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
 			s.Group("/", func(group *ghttp.RouterGroup) {
+				// admin路由
 				//group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Middleware(service.Middleware().Response)
 				group.Group("/admin", func(group *ghttp.RouterGroup) {
@@ -34,6 +36,14 @@ var (
 							)
 						})
 					})
+				})
+
+				// app路由
+				group.Group("/app", func(group *ghttp.RouterGroup) {
+					group.Bind(
+						app.Article,
+						app.ArticleGrp,
+					)
 				})
 			})
 			s.Run()

@@ -98,7 +98,7 @@ func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (er
 }
 
 // List 读取文章列表
-func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *model.ArticleList, total uint, err error) {
+func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[]model.ArticleList, total uint, err error) {
 	// 对于查询初始值的处理
 	if query.Page == 0 {
 		query.Page = 1
@@ -128,14 +128,14 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *m
 	if err != nil {
 		return
 	}
-	list = &model.ArticleList{}
+	list = &[]model.ArticleList{}
 	_ = data.Structs(list)
 	return
 }
 
 // Show 读取文章详情
 func (s *sArticle) Show(ctx context.Context, id uint) (info *entity.Article, err error) {
-	err = dao.Article.Ctx(ctx).Where("id", id).Unscoped().Scan(&info)
+	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
 		err = packed.Code.SetErr(10100)
 	}

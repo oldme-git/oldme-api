@@ -11,7 +11,7 @@ import (
 	_ "oldme-api/internal/packed"
 )
 
-const version = "0.2.6"
+const version = "0.2.7"
 
 func main() {
 	var err error
@@ -26,10 +26,10 @@ func main() {
 	}
 
 	// 检查数据库是否能连接
-	//err = connData()
-	//if err != nil {
-	//	panic(err)
-	//}
+	err = connData()
+	if err != nil {
+		panic(err)
+	}
 
 	cmd.Main.Run(gctx.New())
 }

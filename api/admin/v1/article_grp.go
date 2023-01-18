@@ -35,9 +35,9 @@ type ArticleGrpListReq struct {
 	g.Meta `path:"article/group/list" method:"get" sm:"查询列表" tags:"文章分类"`
 }
 
-type ArticleGroListRes struct {
-	List  *model.ArticleGrpList `json:"list"`
-	Total uint                  `json:"total"`
+type ArticleGrpListRes struct {
+	List  *[]entity.ArticleGrp `json:"list"`
+	Total uint                 `json:"total"`
 }
 
 type ArticleGrpShowReq struct {
