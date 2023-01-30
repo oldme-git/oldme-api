@@ -19,8 +19,8 @@ func (c *cArticle) Cre(ctx context.Context, req *v1.ArticleCreReq) (res *v1.Arti
 	return
 }
 
-func (c *cArticle) Upt(ctx context.Context, req *v1.ArticleUptReq) (res *v1.ArticleUptRes, err error) {
-	err = service.Article().Upt(ctx, req.Id, req.ArticleInput)
+func (c *cArticle) Upd(ctx context.Context, req *v1.ArticleUpdReq) (res *v1.ArticleUpdRes, err error) {
+	err = service.Article().Upd(ctx, req.Id, req.ArticleInput)
 	return
 }
 

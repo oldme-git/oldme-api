@@ -55,8 +55,8 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId uint
 	return uint(id), err
 }
 
-// Upt 更新文章
-func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (err error) {
+// Upd 更新文章
+func (s *sArticle) Upd(ctx context.Context, id uint, in *model.ArticleInput) (err error) {
 	info, err := service.Article().Show(ctx, id)
 	if err != nil {
 		return
