@@ -118,6 +118,7 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 			WhereOr("tags like ?", "%"+query.Search+"%").
 			WhereOr("description like ?", "%"+query.Search+"%")
 	}
+	db = db.Order("created_at desc, id desc")
 	// 是否查询删除掉的文章
 	if query.IsDel {
 		db = db.Unscoped().Where("deleted_at is not null")
