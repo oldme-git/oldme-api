@@ -114,7 +114,7 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 	}
 	// 搜索文本
 	if len(query.Search) != 0 {
-		db = db.WhereOr("title like ?", "%"+query.Search+"%").
+		db = db.Where("title like ?", "%"+query.Search+"%").
 			WhereOr("tags like ?", "%"+query.Search+"%").
 			WhereOr("description like ?", "%"+query.Search+"%")
 	}
