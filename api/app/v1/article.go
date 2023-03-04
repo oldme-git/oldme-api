@@ -6,7 +6,7 @@ import (
 )
 
 type ArticleListReq struct {
-	g.Meta `path:"article/list/*grpId" method:"get" sm:"查询列表" tags:"文章app"`
+	g.Meta `path:"article/list/*grpId" method:"get" sm:"查询列表" tags:"app"`
 	*model.ArticleQueryApp
 }
 
@@ -15,8 +15,17 @@ type ArticleListRes struct {
 	Total uint                    `json:"total"`
 }
 
+type ArticleRankReq struct {
+	g.Meta `path:"article/rank" method:"get" sm:"查询文章排行" tags:"app"`
+	Basis  int `v:"required|in:1,2" dc:"1-热门文章 2-最新文章"`
+}
+
+type ArticleRankRes struct {
+	List *[]model.ArticleListApp `json:"list"`
+}
+
 type ArticleShowReq struct {
-	g.Meta `path:"article/show/{id}" method:"get" sm:"查询详情" tags:"文章app"`
+	g.Meta `path:"article/show/{id}" method:"get" sm:"查询详情" tags:"app"`
 	Id     uint `v:"integer|between:1,999999999"`
 }
 

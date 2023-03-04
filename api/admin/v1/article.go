@@ -15,13 +15,13 @@ type ArticleCreRes struct {
 	LastId uint `json:"lastId"`
 }
 
-type ArticleUptReq struct {
+type ArticleUpdReq struct {
 	g.Meta `path:"article/update/{id}" method:"post" sm:"修改" tags:"文章"`
 	Id     uint `v:"integer|between:1,999999999"`
 	*model.ArticleInput
 }
 
-type ArticleUptRes struct {
+type ArticleUpdRes struct {
 }
 
 type ArticleDelReq struct {

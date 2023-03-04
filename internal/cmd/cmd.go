@@ -33,6 +33,8 @@ var (
 								admin.File,
 								admin.ArticleGrp,
 								admin.Article,
+								admin.Saying,
+								admin.Link,
 							)
 						})
 					})
@@ -43,6 +45,7 @@ var (
 					group.Bind(
 						app.Article,
 						app.ArticleGrp,
+						app.Other,
 					)
 				})
 			})

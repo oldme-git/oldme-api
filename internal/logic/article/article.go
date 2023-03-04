@@ -55,8 +55,8 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId uint
 	return uint(id), err
 }
 
-// Upt 更新文章
-func (s *sArticle) Upt(ctx context.Context, id uint, in *model.ArticleInput) (err error) {
+// Upd 更新文章
+func (s *sArticle) Upd(ctx context.Context, id uint, in *model.ArticleInput) (err error) {
 	info, err := service.Article().Show(ctx, id)
 	if err != nil {
 		return
@@ -118,10 +118,11 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 	}
 	// 搜索文本
 	if len(query.Search) != 0 {
-		db = db.WhereOr("title like ?", "%"+query.Search+"%").
+		db = db.Where("title like ?", "%"+query.Search+"%").
 			WhereOr("tags like ?", "%"+query.Search+"%").
 			WhereOr("description like ?", "%"+query.Search+"%")
 	}
+	db = db.Order("created_at desc, id desc")
 	// 是否查询删除掉的文章
 	if query.IsDel {
 		db = db.Unscoped().Where("deleted_at is not null")
