@@ -22,6 +22,7 @@ type ArticleQuery struct {
 	Page   int    `v:"integer|between:1,999999999" json:"page" dc:"查询分页：页码，默认1"`
 	Size   int    `v:"integer|between:1,999999999" json:"size" dc:"查询分页：条数，默认15"`
 	Search string `v:"length: 1,30" json:"search" dc:"查询文本，会检索标题、标签、简介"`
+	Onshow uint   `json:"onshow" v:"boolean"`
 	IsDel  bool   ` json:"isDel" dc:"是否查询删除掉的文章"`
 }
 

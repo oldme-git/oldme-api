@@ -112,6 +112,10 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 	if query.GrpId != 0 {
 		db = db.Where("grp_id", query.GrpId)
 	}
+	// 0 查询所有文章 1 查询只发布的文章
+	if query.Onshow == 1 {
+		db = db.Where("onshow", 1)
+	}
 	// 搜索文本
 	if len(query.Search) != 0 {
 		db = db.WhereOr("title like ?", "%"+query.Search+"%").
@@ -122,6 +126,7 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 	if query.IsDel {
 		db = db.Unscoped().Where("deleted_at is not null")
 	}
+
 	data, err := db.Page(query.Page, query.Size).All()
 	totalInt, _ := db.Ctx(ctx).Count()
 	total = uint(totalInt)
