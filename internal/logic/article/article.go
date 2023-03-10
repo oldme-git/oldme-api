@@ -112,6 +112,10 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 	if query.GrpId != 0 {
 		db = db.Where("grp_id", query.GrpId)
 	}
+	// 是否查询只发布的文章
+	if query.Onshow {
+		db = db.Where("onshow", true)
+	}
 	// 搜索文本
 	if len(query.Search) != 0 {
 		db = db.Where("title like ?", "%"+query.Search+"%").

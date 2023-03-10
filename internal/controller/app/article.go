@@ -19,6 +19,7 @@ func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.Ar
 		Page:   req.ArticleQueryApp.Page,
 		Size:   req.ArticleQueryApp.Size,
 		Search: req.ArticleQueryApp.Search,
+		Onshow: true,
 		IsDel:  false,
 	}
 	list, total, err := service.Article().List(ctx, query)
@@ -53,6 +54,7 @@ func (c *cArticle) ArticleRank(ctx context.Context, req *v1.ArticleRankReq) (res
 	} else {
 		db = db.Order("created_at desc")
 	}
+	db = db.Where("onshow", true)
 	data, err := db.Limit(0, 10).All()
 	if err != nil {
 		return
