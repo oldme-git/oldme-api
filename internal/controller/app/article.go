@@ -87,7 +87,7 @@ func (c *cArticle) ArticleRank(ctx context.Context, req *v1.ArticleRankReq) (res
 func (c *cArticle) Show(ctx context.Context, req *v1.ArticleShowReq) (res *v1.ArticleShowRes, err error) {
 	info, err := service.Article().Show(ctx, req.Id)
 	if err == nil {
-		if info == nil {
+		if info == nil || info.Onshow == 0 {
 			res = &v1.ArticleShowRes{
 				ArticleShowApp: nil,
 			}
