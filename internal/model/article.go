@@ -53,7 +53,7 @@ type ArticleListApp struct {
 	Hist        uint        `json:"hist"        description:"点击数"`
 	Post        uint        `json:"post"        description:"评论数"`
 	CreatedAt   *gtime.Time `json:"createdAt"   description:"创建时间"`
-	UpdatedAt   *gtime.Time `json:"UpdatedAt"   description:"更新时间"`
+	UpdatedAt   *gtime.Time `json:"updatedAt"   description:"更新时间"`
 }
 
 type ArticleQueryApp struct {
