@@ -36,6 +36,8 @@ func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.Ar
 			Hist:        v.Hist,
 			Post:        v.Post,
 			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+			LastedAt:    v.LastedAt,
 		})
 	}
 	if err == nil {
@@ -74,6 +76,8 @@ func (c *cArticle) ArticleRank(ctx context.Context, req *v1.ArticleRankReq) (res
 			Hist:        v.Hist,
 			Post:        v.Post,
 			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+			LastedAt:    v.LastedAt,
 		})
 	}
 	if err == nil {
