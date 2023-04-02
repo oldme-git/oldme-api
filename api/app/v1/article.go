@@ -32,3 +32,7 @@ type ArticleShowReq struct {
 type ArticleShowRes struct {
 	*model.ArticleShowApp
 }
+
+type AboutShowReq struct {
+	g.Meta `path:"about" method:"get" sm:"查询关于我们" tags:"app"`
+}

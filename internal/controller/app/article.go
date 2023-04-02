@@ -117,3 +117,27 @@ func (c *cArticle) Show(ctx context.Context, req *v1.ArticleShowReq) (res *v1.Ar
 	}
 	return
 }
+
+func (c *cArticle) About(ctx context.Context, req *v1.AboutShowReq) (res *v1.ArticleShowRes, err error) {
+	info, err := service.Article().Show(ctx, 1)
+	if err == nil {
+		res = &v1.ArticleShowRes{
+			ArticleShowApp: &model.ArticleShowApp{
+				Id:          info.Id,
+				GrpId:       info.GrpId,
+				Title:       info.Title,
+				Author:      info.Author,
+				Thumb:       info.Thumb,
+				Tags:        info.Tags,
+				Description: info.Description,
+				Content:     info.Content,
+				Hist:        info.Hist,
+				Post:        info.Post,
+				CreatedAt:   info.CreatedAt,
+				UpdatedAt:   info.UpdatedAt,
+				LastedAt:    info.LastedAt,
+			},
+		}
+	}
+	return
+}
