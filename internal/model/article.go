@@ -9,7 +9,7 @@ type ArticleInput struct {
 	Thumb       string `json:"thumb" v:"length:2, 200"`
 	Tags        string `json:"tags" v:"length:2, 200"`
 	Description string `json:"description" v:"length:2, 200"`
-	Content     string `json:"content" v:"length:2, 10000"`
+	Content     string `json:"content" v:"length:2, 100000"`
 	Order       int    `json:"order" v:"integer|between:0,9999"`
 	Ontop       uint   `json:"ontop" v:"boolean"`
 	Onshow      uint   `json:"onshow" v:"boolean"`
