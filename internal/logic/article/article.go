@@ -5,6 +5,7 @@ import (
 	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gconv"
 	"oldme-api/internal/dao"
 	"oldme-api/internal/model"
 	"oldme-api/internal/model/do"
@@ -183,7 +184,7 @@ func (s *sArticle) Hist(ctx context.Context, id uint) (err error) {
 	var (
 		redis = g.Redis()
 		ip    = g.RequestFromCtx(ctx).GetClientIp()
-		key   = "hist" + ip
+		key   = "hist" + ip + gconv.String(id)
 	)
 	// 判断缓存中是否有ip
 	ok, _ := redis.Get(ctx, key)
