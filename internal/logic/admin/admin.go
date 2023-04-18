@@ -9,6 +9,7 @@ import (
 	"oldme-api/internal/model"
 	"oldme-api/internal/model/do"
 	"oldme-api/internal/model/entity"
+	"oldme-api/internal/packed"
 	"oldme-api/internal/service"
 )
 
@@ -34,6 +35,9 @@ func (s *sAdmin) Create(ctx context.Context, in *model.AdminInput) (err error) {
 		LastLogin: gtime.Now(),
 		Register:  gtime.Now(),
 	}).Insert()
+	if err != nil {
+		err = packed.Err.SysDb("insert", "admin")
+	}
 	return
 }
 

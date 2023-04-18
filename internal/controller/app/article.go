@@ -52,7 +52,7 @@ func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.Ar
 func (c *cArticle) ArticleRank(ctx context.Context, req *v1.ArticleRankReq) (res *v1.ArticleRankRes, err error) {
 	db := dao.Article.Ctx(ctx)
 	if req.Basis == 1 {
-		db = db.Order("ontop desc,order desc")
+		db = db.Order("ontop desc,order desc,post desc,hist desc")
 	} else {
 		db = db.Order("created_at desc")
 	}
@@ -139,5 +139,10 @@ func (c *cArticle) About(ctx context.Context, req *v1.AboutShowReq) (res *v1.Art
 			},
 		}
 	}
+	return
+}
+
+func (c *cArticle) Hist(ctx context.Context, req *v1.ArticleHistReq) (res *v1.ArticleHistRes, err error) {
+	service.Article().Hist(ctx, req.Id)
 	return
 }

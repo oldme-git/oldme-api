@@ -2,6 +2,8 @@ package article
 
 import (
 	"context"
+	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 	"oldme-api/internal/dao"
 	"oldme-api/internal/model"
@@ -22,7 +24,7 @@ func init() {
 func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId uint, err error) {
 	// 判断该分类是否存在
 	if ok := service.ArticleGrp().IsExist(ctx, in.GrpId); !ok {
-		err = packed.Code.SetErr(10101)
+		err = packed.Err.Skip(10101)
 		return
 	}
 	// 保存thumb到正式目录
@@ -63,7 +65,7 @@ func (s *sArticle) Upd(ctx context.Context, id uint, in *model.ArticleInput) (er
 	}
 	// 判断该分类是否存在
 	if ok := service.ArticleGrp().IsExist(ctx, in.GrpId); !ok {
-		err = packed.Code.SetErr(10101)
+		err = packed.Err.Skip(10101)
 		return
 	}
 	// 保存thumb到正式目录
@@ -142,7 +144,7 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 func (s *sArticle) Show(ctx context.Context, id uint) (info *entity.Article, err error) {
 	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = packed.Code.SetErr(10100)
+		err = packed.Err.Skip(10100)
 	}
 	return
 }
@@ -173,5 +175,23 @@ func (s *sArticle) Del(ctx context.Context, id uint, isReal bool) (err error) {
 // ReCre 重新创建已经删除的文章
 func (s *sArticle) ReCre(ctx context.Context, id uint) (err error) {
 	_, err = dao.Article.Ctx(ctx).Where("id", id).Unscoped().Update("deleted_at=null")
+	return
+}
+
+// Hist 为文章增加一个点击数
+func (s *sArticle) Hist(ctx context.Context, id uint) (err error) {
+	var (
+		redis = g.Redis()
+		ip    = g.RequestFromCtx(ctx).GetClientIp()
+		key   = "hist" + ip
+	)
+	// 判断缓存中是否有ip
+	ok, _ := redis.Get(ctx, key)
+	if !ok.Bool() {
+		// +1个hist，设置缓存，当前未接入全局缓存，所以时间控制是没有用的
+		_, _ = dao.Article.Ctx(ctx).Where("id", id).Increment("hist", 1)
+		_, _ = redis.Set(ctx, key, true)
+		_, _ = redis.Expire(ctx, key, 60)
+	}
 	return
 }

@@ -65,7 +65,7 @@ func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.F
 		return &model.FileInfo{
 			Name: path.Base(src),
 			Url:  src,
-		}, packed.Code.SetErr(10503, err.Error())
+		}, packed.Err.Skip(10503, err.Error())
 	}
 	return
 }
@@ -73,7 +73,7 @@ func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.F
 // SaveImg 保存图片文件到img库
 func (s *sFile) SaveImg(ctx context.Context, src string) (info *model.FileInfo, err error) {
 	if err = packed.Ext.Img(src); err != nil {
-		err = packed.Code.SetErr(10501, err.Error())
+		err = packed.Err.Skip(10501, err.Error())
 		return
 	}
 	return service.File().Save(ctx, src, "img")
@@ -85,7 +85,7 @@ func (s *sFile) Del(ctx context.Context, src string) (err error) {
 	// url换成dir形式
 	src = strings.Replace(src, conf["url"], conf["dir"], 1)
 	if !gfile.IsFile(src) {
-		err = packed.Code.SetErr(10503)
+		err = packed.Err.Skip(10503)
 		return
 	}
 	err = gfile.Remove(src)

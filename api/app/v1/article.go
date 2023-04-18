@@ -36,3 +36,11 @@ type ArticleShowRes struct {
 type AboutShowReq struct {
 	g.Meta `path:"about" method:"get" sm:"查询关于我们" tags:"app"`
 }
+
+type ArticleHistReq struct {
+	g.Meta `path:"article/hist" method:"post" sm:"增加一个点击数" tags:"app"`
+	Id     uint `v:"required|integer|between:1,999999999"`
+}
+
+type ArticleHistRes struct {
+}

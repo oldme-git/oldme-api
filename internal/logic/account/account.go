@@ -44,7 +44,7 @@ func (s *sAccount) Login(ctx context.Context, in *model.Login) (tokenString stri
 		tokenString, _ = token.SignedString(jwtKey)
 		err = nil
 	} else {
-		err = packed.Code.SetErr(20100)
+		err = packed.Err.Skip(20100)
 	}
 	return
 }
@@ -65,7 +65,7 @@ func (s *sAccount) Info(ctx context.Context) (admin *entity.Admin, err error) {
 	if claims, ok := tokenClaims.Claims.(*AdminClaims); ok && tokenClaims.Valid {
 		admin = dao.Admin.GetAdmin(claims.Username)
 	} else {
-		err = packed.Code.SetErr(10100)
+		err = packed.Err.Skip(10100)
 	}
 	return
 }

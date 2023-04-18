@@ -64,7 +64,7 @@ func (s *sArticleGrp) List(ctx context.Context) (list *[]entity.ArticleGrp, err 
 func (s *sArticleGrp) Show(ctx context.Context, id uint) (info *entity.ArticleGrp, err error) {
 	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = packed.Code.SetErr(10100)
+		err = packed.Err.Skip(10100)
 	}
 	return
 }
