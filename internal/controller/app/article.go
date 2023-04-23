@@ -143,6 +143,9 @@ func (c *cArticle) About(ctx context.Context, req *v1.AboutShowReq) (res *v1.Art
 }
 
 func (c *cArticle) Hist(ctx context.Context, req *v1.ArticleHistReq) (res *v1.ArticleHistRes, err error) {
-	service.Article().Hist(ctx, req.Id)
+	err = service.Article().Hist(ctx, req.Id)
+	if err != nil {
+		return nil, err
+	}
 	return
 }

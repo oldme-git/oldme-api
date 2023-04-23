@@ -121,9 +121,9 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 	}
 	// 搜索文本
 	if len(query.Search) != 0 {
-		db = db.Where("title like ?", "%"+query.Search+"%").
+		db = db.Where(db.Builder().Where("title like ?", "%"+query.Search+"%").
 			WhereOr("tags like ?", "%"+query.Search+"%").
-			WhereOr("description like ?", "%"+query.Search+"%")
+			WhereOr("description like ?", "%"+query.Search+"%"))
 	}
 	db = db.Order("created_at desc, id desc")
 	// 是否查询删除掉的文章
