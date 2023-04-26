@@ -1,3 +1,6 @@
+# oldme博客api
+https://oldme.net 博客api，使用 Go + GoFrame 开发，感谢 GoFrame：https://github.com/gogf/gf
+
 oleme的接口
 
 # 更新日志
@@ -72,3 +75,4 @@ oleme的接口
 ## 0.3.1
 - 重构err错误
 - 增加文章点击记录
+
