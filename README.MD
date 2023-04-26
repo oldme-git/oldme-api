@@ -1,8 +1,6 @@
 # oldme博客api
 https://oldme.net 博客api，使用 Go + GoFrame 开发，感谢 GoFrame：https://github.com/gogf/gf
 
-oleme的接口
-
 # 更新日志
 ## 0.0.1
 - 初始化goframe框架
