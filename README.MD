@@ -1,7 +1,8 @@
 # oldme博客api
-https://oldme.net 博客api，使用 Go + GoFrame 开发，感谢 GoFrame：https://github.com/gogf/gf
+https://oldme.net 博客api，使用 Go + GoFrame 开发，感谢 GoFrame：https://github.com/gogf/gf。本项目可以做为 GoFrame 的初学参考。
 
-oleme的接口
+## 全局错误与异常
+业务开发中，通常有错误和异常两种err。错误是由用户输入不当引起的，比如说账号密码错误，这种err通常只返回给用户即可，不需要打印堆栈信息。而异常是由系统内部自发引起的，比如说SQL语句不当，这种错误需要打印堆栈信息，且不能把err返回到用户那里。oldme-api合理的处理了两种不同的err，他们体现在intrnal->pecked->err.go下。
 
 # 更新日志
 ## 0.0.1
