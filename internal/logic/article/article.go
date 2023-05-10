@@ -131,13 +131,12 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 		db = db.Unscoped().Where("deleted_at is not null")
 	}
 	data, err := db.Page(query.Page, query.Size).All()
-	totalInt, _ := db.Ctx(ctx).Count()
-	total = uint(totalInt)
 	if err != nil {
 		return
 	}
 	list = &[]model.ArticleList{}
 	_ = data.Structs(list)
+	total = uint(len(*list))
 	return
 }
 
