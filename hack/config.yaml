@@ -9,9 +9,6 @@ gfcli:
         noModelComment:  true
 
   build:
-    name: "oldme"
+    name: "oldme-api"
     arch: "amd64"
-    system: "windows"
-    mod: "none"
-    packSrc: "resource,manifest"
-    extra: ""
+    system: "linux"

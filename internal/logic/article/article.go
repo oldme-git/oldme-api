@@ -195,3 +195,11 @@ func (s *sArticle) Hist(ctx context.Context, id uint) (err error) {
 	}
 	return
 }
+
+// UptLastedAt 更新最后阅读时间
+func (s *sArticle) UptLastedAt(ctx context.Context, id uint) (err error) {
+	_, err = dao.Article.Ctx(ctx).Where("id", id).Data(do.Article{
+		LastedAt: gtime.Now(),
+	}).Update()
+	return
+}
