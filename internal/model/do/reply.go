@@ -17,7 +17,7 @@ type Reply struct {
 	Pid       interface{} // 回复父id
 	Email     interface{} // 回复人邮箱
 	Name      interface{} // 回复人名称
-	Siteweb   interface{} // 回复人网站
+	Site      interface{} // 回复人网站
 	Content   interface{} // 回复内容
 	Status    interface{} // 状态：0审核通过 1审核失败 2待审核
 	Reason    interface{} // 审核失败原因

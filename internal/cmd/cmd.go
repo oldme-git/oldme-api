@@ -35,6 +35,7 @@ var (
 								admin.Article,
 								admin.Saying,
 								admin.Link,
+								admin.Replay,
 							)
 						})
 					})

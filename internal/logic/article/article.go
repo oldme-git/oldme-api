@@ -60,15 +60,17 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId uint
 
 // Upd 更新文章
 func (s *sArticle) Upd(ctx context.Context, id uint, in *model.ArticleInput) (err error) {
-	info, err := service.Article().Show(ctx, id)
-	if err != nil {
-		return
-	}
 	// 判断该分类是否存在
 	if ok := service.ArticleGrp().IsExist(ctx, in.GrpId); !ok {
 		err = packed.Err.Skip(10101)
 		return
 	}
+
+	info, err := service.Article().Show(ctx, id)
+	if err != nil {
+		return
+	}
+
 	// 保存thumb到正式目录
 	if in.Thumb != info.Thumb {
 		// 不等于要删除掉原图片
@@ -125,18 +127,25 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list *[
 			WhereOr("tags like ?", "%"+query.Search+"%").
 			WhereOr("description like ?", "%"+query.Search+"%"))
 	}
-	db = db.Order("created_at desc, id desc")
 	// 是否查询删除掉的文章
 	if query.IsDel {
 		db = db.Unscoped().Where("deleted_at is not null")
 	}
-	data, err := db.Page(query.Page, query.Size).All()
+	db = db.Order("created_at desc, id desc").Page(query.Page, query.Size)
+
+	data, err := db.All()
 	if err != nil {
 		return
 	}
 	list = &[]model.ArticleList{}
 	_ = data.Structs(list)
-	total = uint(len(*list))
+
+	// 查询总数据条数
+	totalInt, err := db.Count()
+	if err != nil {
+		return
+	}
+	total = uint(totalInt)
 	return
 }
 
@@ -196,10 +205,16 @@ func (s *sArticle) Hist(ctx context.Context, id uint) (err error) {
 	return
 }
 
-// UptLastedAt 更新最后阅读时间
-func (s *sArticle) UptLastedAt(ctx context.Context, id uint) (err error) {
+// UpdLastedAt 更新最后阅读时间
+func (s *sArticle) UpdLastedAt(ctx context.Context, id uint) (err error) {
 	_, err = dao.Article.Ctx(ctx).Where("id", id).Data(do.Article{
 		LastedAt: gtime.Now(),
 	}).Update()
 	return
+}
+
+// IsExist 根据id判断一个文章是否存在
+func (s *sArticle) IsExist(ctx context.Context, id model.Id) bool {
+	num, _ := dao.Article.Ctx(ctx).Where("id", id).Count()
+	return num == 1
 }

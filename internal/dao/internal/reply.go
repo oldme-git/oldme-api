@@ -25,7 +25,7 @@ type ReplyColumns struct {
 	Pid       string // 回复父id
 	Email     string // 回复人邮箱
 	Name      string // 回复人名称
-	Siteweb   string // 回复人网站
+	Site      string // 回复人网站
 	Content   string // 回复内容
 	Status    string // 状态：0审核通过 1审核失败 2待审核
 	Reason    string // 审核失败原因
@@ -41,7 +41,7 @@ var replyColumns = ReplyColumns{
 	Pid:       "pid",
 	Email:     "email",
 	Name:      "name",
-	Siteweb:   "siteweb",
+	Site:      "site",
 	Content:   "content",
 	Status:    "status",
 	Reason:    "reason",

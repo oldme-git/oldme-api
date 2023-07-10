@@ -15,7 +15,7 @@ type Reply struct {
 	Pid       int         `json:"pid"       description:"回复父id"`
 	Email     string      `json:"email"     description:"回复人邮箱"`
 	Name      string      `json:"name"      description:"回复人名称"`
-	Siteweb   string      `json:"siteweb"   description:"回复人网站"`
+	Site      string      `json:"site"      description:"回复人网站"`
 	Content   string      `json:"content"   description:"回复内容"`
 	Status    int         `json:"status"    description:"状态：0审核通过 1审核失败 2待审核"`
 	Reason    string      `json:"reason"    description:"审核失败原因"`

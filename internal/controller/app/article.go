@@ -113,7 +113,7 @@ func (c *cArticle) Show(ctx context.Context, req *v1.ArticleShowReq) (res *v1.Ar
 					LastedAt:    info.LastedAt,
 				},
 			}
-			_ = service.Article().UptLastedAt(ctx, info.Id)
+			_ = service.Article().UpdLastedAt(ctx, info.Id)
 		}
 	}
 	return
