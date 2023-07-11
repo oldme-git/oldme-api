@@ -27,7 +27,7 @@ type ReplyColumns struct {
 	Name      string // 回复人名称
 	Site      string // 回复人网站
 	Content   string // 回复内容
-	Status    string // 状态：0审核通过 1审核失败 2待审核
+	Status    string // 状态： 1待审核 2审核通过 3审核失败
 	Reason    string // 审核失败原因
 	CreatedAt string // 创建时间
 	UpdatedAt string // 更新时间

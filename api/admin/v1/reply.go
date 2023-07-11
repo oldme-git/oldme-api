@@ -47,5 +47,15 @@ type ReplyShowReq struct {
 }
 
 type ReplyShowRes struct {
-	*entity.Reply
+	*model.ReplyShow
+}
+
+type ReplyCheckReq struct {
+	g.Meta `path:"reply/check/{id}" method:"post" sm:"审核" tags:"文章回复"`
+	*model.IdInput
+	Result bool   `json:"result" v:"required" dc:"审核结果：true成功，false失败"`
+	Reason string `json:"reason" v:"length:1, 200" dc:"失败原因"`
+}
+
+type ReplyCheckRes struct {
 }

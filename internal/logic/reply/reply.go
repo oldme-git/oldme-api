@@ -25,9 +25,14 @@ func (s *sReply) Cre(ctx context.Context, in *model.ReplyInput) (err error) {
 	}
 	// 判断该文章是否存在
 	if ok := service.Article().IsExist(ctx, in.Aid); !ok {
-		err = packed.Err.Skip(10201)
+		return packed.Err.Skip(10201)
+	}
+
+	// 判断回复的父级内容是否属于该文章
+	if err = replyCheck(ctx, in.Aid, in.Pid); err != nil {
 		return
 	}
+
 	_, err = dao.Reply.Ctx(ctx).Data(do.Reply{
 		Aid:     in.Aid,
 		Pid:     in.Pid,
@@ -43,15 +48,9 @@ func (s *sReply) Cre(ctx context.Context, in *model.ReplyInput) (err error) {
 
 // Upd 更新文章回复
 func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyInput) (err error) {
-	// 判断该文章是否存在
-	if ok := service.Article().IsExist(ctx, in.Aid); !ok {
-		err = packed.Err.Skip(10101)
-		return
-	}
-
 	_, err = dao.Reply.Ctx(ctx).Data(do.Reply{
-		Aid:     in.Aid,
-		Pid:     in.Pid,
+		//Aid:     in.Aid,
+		//Pid:     in.Pid,
 		Email:   in.Email,
 		Name:    in.Name,
 		Site:    in.Site,
@@ -59,6 +58,9 @@ func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyInput) (er
 		Status:  in.Status,
 		Reason:  in.Reason,
 	}).Where("id", id).Update()
+	if err != nil {
+		return packed.Err.SysDb("update", "reply")
+	}
 	return
 }
 
@@ -88,6 +90,9 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 			WhereOr("email like ?", "%"+query.Search+"%").
 			WhereOr("content like ?", "%"+query.Search+"%"))
 	}
+	if query.Status != 0 {
+		db = db.Where("status", query.Status)
+	}
 	db = db.Order("created_at desc, id desc").Page(query.Page, query.Size)
 
 	data, err := db.All()
@@ -106,10 +111,65 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 }
 
 // Show 读取文章回复详情
-func (s *sReply) Show(ctx context.Context, id model.Id) (info *entity.Reply, err error) {
+func (s *sReply) Show(ctx context.Context, id model.Id) (info *model.ReplyShow, err error) {
 	err = dao.Reply.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
 		err = packed.Err.Skip(10100)
 	}
+
+	// 读取所属文章名称
+	articleTitle, _ := dao.Article.Ctx(ctx).Where("id", info.Aid).Fields("title").Value()
+	info.ArticleTitle = articleTitle.String()
+
+	// 读取父级回复内容
+	if info.Pid != 0 {
+		parentReply := &entity.Reply{}
+		_ = dao.Reply.Ctx(ctx).Where("id", info.Pid).Scan(parentReply)
+		info.ParentReply = *parentReply
+	}
 	return
+}
+
+// Check 审核
+func (s *sReply) Check(ctx context.Context, id model.Id, result bool, reasonSlice ...string) error {
+	var (
+		status model.ReplyStatus
+		reason string
+	)
+	if result {
+		status = model.SuccessStatus
+	} else {
+		status = model.FailStatus
+	}
+
+	if len(reasonSlice) > 0 {
+		reason = reasonSlice[0]
+	}
+
+	_, err := dao.Reply.Ctx(ctx).Data(do.Reply{
+		Status: status,
+		Reason: reason,
+	}).Where("id", id).Update()
+	if err != nil {
+		return packed.Err.SysDb("update", "reply")
+	}
+	return err
+}
+
+// replyCheck 判断回复内容是否在正确的文章下
+// aid 回复的文章id
+// pid 回复的父级回复id
+func replyCheck(ctx context.Context, aid model.Id, pid model.Id) error {
+	// 判断回复的父级内容是否属于该文章
+	if pid != 0 {
+		parent := &entity.Reply{}
+		err := dao.Reply.Ctx(ctx).Where("id", pid).Where("status", model.SuccessStatus).Scan(parent)
+		if err != nil {
+			return packed.Err.SysDb("select", "reply")
+		}
+		if parent.Aid != int(aid) {
+			return packed.Err.Skip(10302)
+		}
+	}
+	return nil
 }

@@ -19,7 +19,7 @@ type Reply struct {
 	Name      interface{} // 回复人名称
 	Site      interface{} // 回复人网站
 	Content   interface{} // 回复内容
-	Status    interface{} // 状态：0审核通过 1审核失败 2待审核
+	Status    interface{} // 状态： 1待审核 2审核通过 3审核失败
 	Reason    interface{} // 审核失败原因
 	CreatedAt *gtime.Time // 创建时间
 	UpdatedAt *gtime.Time // 更新时间

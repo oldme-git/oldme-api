@@ -25,7 +25,7 @@ func (c *cReplay) Show(ctx context.Context, req *v1.ReplyShowReq) (res *v1.Reply
 	info, err := service.Reply().Show(ctx, req.Id)
 	if err == nil {
 		res = &v1.ReplyShowRes{
-			Reply: info,
+			ReplyShow: info,
 		}
 	}
 	return
@@ -45,5 +45,10 @@ func (c *cReplay) List(ctx context.Context, req *v1.ReplyListReq) (res *v1.Reply
 			Total: total,
 		}
 	}
+	return
+}
+
+func (c *cReplay) Check(ctx context.Context, req *v1.ReplyCheckReq) (res *v1.ReplyCheckRes, err error) {
+	err = service.Reply().Check(ctx, req.Id, req.Result, req.Reason)
 	return
 }

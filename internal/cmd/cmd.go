@@ -18,8 +18,10 @@ var (
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
 			s.Group("/", func(group *ghttp.RouterGroup) {
+				// 允许跨域
+				group.Middleware(ghttp.MiddlewareCORS)
 				// admin路由
-				//group.Middleware(ghttp.MiddlewareHandlerResponse)
+				// group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Middleware(service.Middleware().Response)
 				group.Group("/admin", func(group *ghttp.RouterGroup) {
 					group.Group("/", func(group *ghttp.RouterGroup) {
