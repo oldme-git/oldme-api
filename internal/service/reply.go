@@ -13,12 +13,17 @@ import (
 
 type (
 	IReply interface {
-		Cre(ctx context.Context, in *model.ReplyInput) (err error)
+		Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, err error)
 		Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err error)
 		Del(ctx context.Context, id model.Id) (err error)
 		List(ctx context.Context, query *model.ReplyQuery) (list *[]entity.Reply, total uint, err error)
 		Show(ctx context.Context, id model.Id) (info *model.ReplyShow, err error)
+		Details(ctx context.Context, id model.Id) (info *entity.Reply, err error)
 		Check(ctx context.Context, id model.Id, result bool, reasonSlice ...string) error
+		GetRid(ctx context.Context, pid model.Id) (model.Id, error)
+		GetAid(ctx context.Context, pid model.Id) (model.Id, error)
+		ListForAid(ctx context.Context, aid model.Id) ([]model.ReplyFloorApp, error)
+		GetReplyFloor(list []entity.Reply, rid model.Id) (reply []model.ReplyFloorApp)
 	}
 )
 

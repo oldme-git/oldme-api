@@ -48,6 +48,7 @@ var (
 					group.Bind(
 						app.Article,
 						app.ArticleGrp,
+						app.Reply,
 						app.Other,
 					)
 				})

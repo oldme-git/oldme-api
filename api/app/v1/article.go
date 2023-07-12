@@ -44,3 +44,12 @@ type ArticleHistReq struct {
 
 type ArticleHistRes struct {
 }
+
+type ArticleReplyReq struct {
+	g.Meta `path:"article/reply/{id}" method:"get" sm:"查看该文章的回复" tags:"app"`
+	model.IdInput
+}
+
+type ArticleReplyRes struct {
+	List []model.ReplyFloorApp
+}

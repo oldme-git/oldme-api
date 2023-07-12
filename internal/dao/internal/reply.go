@@ -22,7 +22,9 @@ type ReplyDao struct {
 type ReplyColumns struct {
 	Id        string //
 	Aid       string // 文章id
-	Pid       string // 回复父id
+	Rid       string // 根回复id，一个根可视为一个楼层
+	Pid       string // 回复的id
+	PName     string // 回复的名称
 	Email     string // 回复人邮箱
 	Name      string // 回复人名称
 	Site      string // 回复人网站
@@ -38,7 +40,9 @@ type ReplyColumns struct {
 var replyColumns = ReplyColumns{
 	Id:        "id",
 	Aid:       "aid",
+	Rid:       "rid",
 	Pid:       "pid",
+	PName:     "p_name",
 	Email:     "email",
 	Name:      "name",
 	Site:      "site",

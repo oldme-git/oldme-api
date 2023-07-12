@@ -14,7 +14,9 @@ type Reply struct {
 	g.Meta    `orm:"table:reply, do:true"`
 	Id        interface{} //
 	Aid       interface{} // 文章id
-	Pid       interface{} // 回复父id
+	Rid       interface{} // 根回复id，一个根可视为一个楼层
+	Pid       interface{} // 回复的id
+	PName     interface{} // 回复的名称
 	Email     interface{} // 回复人邮箱
 	Name      interface{} // 回复人名称
 	Site      interface{} // 回复人网站

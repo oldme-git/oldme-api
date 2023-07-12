@@ -4,6 +4,7 @@ import (
 	"context"
 	v1 "oldme-api/api/admin/v1"
 	"oldme-api/internal/model"
+	"oldme-api/internal/model/entity"
 	"oldme-api/internal/service"
 )
 
@@ -16,7 +17,15 @@ func (c *cReplay) Cre(ctx context.Context, req *v1.ReplyCreReq) (res *v1.ReplyCr
 	if req.Status == 0 {
 		req.Status = model.SuccessStatus
 	}
-	err = service.Reply().Cre(ctx, req.ReplyInput)
+	_, err = service.Reply().Cre(ctx, &entity.Reply{
+		Aid:     int(req.Aid),
+		Pid:     int(req.Pid),
+		Email:   req.Email,
+		Site:    req.Site,
+		Name:    req.Name,
+		Content: req.Content,
+		Status:  int(req.Status),
+	})
 	return
 }
 
