@@ -3,6 +3,7 @@ package admin
 import (
 	"context"
 	v1 "oldme-api/api/admin/v1"
+	"oldme-api/internal/model"
 	"oldme-api/internal/service"
 )
 
@@ -12,12 +13,15 @@ type cReplay struct {
 }
 
 func (c *cReplay) Cre(ctx context.Context, req *v1.ReplyCreReq) (res *v1.ReplyCreRes, err error) {
+	if req.Status == 0 {
+		req.Status = model.SuccessStatus
+	}
 	err = service.Reply().Cre(ctx, req.ReplyInput)
 	return
 }
 
 func (c *cReplay) Upd(ctx context.Context, req *v1.ReplyUpdReq) (res *v1.ReplyUpdRes, err error) {
-	err = service.Reply().Upd(ctx, req.Id, req.ReplyInput)
+	err = service.Reply().Upd(ctx, req.Id, req.ReplyBody)
 	return
 }
 

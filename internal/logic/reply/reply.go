@@ -47,16 +47,15 @@ func (s *sReply) Cre(ctx context.Context, in *model.ReplyInput) (err error) {
 }
 
 // Upd 更新文章回复
-func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyInput) (err error) {
+func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err error) {
+	if !strings.HasPrefix(in.Site, "http") {
+		return packed.Err.Skip(10301)
+	}
 	_, err = dao.Reply.Ctx(ctx).Data(do.Reply{
-		//Aid:     in.Aid,
-		//Pid:     in.Pid,
 		Email:   in.Email,
 		Name:    in.Name,
 		Site:    in.Site,
 		Content: in.Content,
-		Status:  in.Status,
-		Reason:  in.Reason,
 	}).Where("id", id).Update()
 	if err != nil {
 		return packed.Err.SysDb("update", "reply")
@@ -97,6 +96,7 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 
 	data, err := db.All()
 	if err != nil {
+		err = packed.Err.SysDb("select", "relay")
 		return
 	}
 	list = &[]entity.Reply{}
@@ -104,6 +104,7 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 	// 查询总数据条数
 	totalInt, err := db.Count()
 	if err != nil {
+		err = packed.Err.SysDb("select", "relay")
 		return
 	}
 	total = uint(totalInt)
@@ -165,7 +166,7 @@ func replyCheck(ctx context.Context, aid model.Id, pid model.Id) error {
 		parent := &entity.Reply{}
 		err := dao.Reply.Ctx(ctx).Where("id", pid).Where("status", model.SuccessStatus).Scan(parent)
 		if err != nil {
-			return packed.Err.SysDb("select", "reply")
+			return packed.Err.Skip(10303)
 		}
 		if parent.Aid != int(aid) {
 			return packed.Err.Skip(10302)

@@ -14,7 +14,7 @@ import (
 type (
 	IReply interface {
 		Cre(ctx context.Context, in *model.ReplyInput) (err error)
-		Upd(ctx context.Context, id model.Id, in *model.ReplyInput) (err error)
+		Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err error)
 		Del(ctx context.Context, id model.Id) (err error)
 		List(ctx context.Context, query *model.ReplyQuery) (list *[]entity.Reply, total uint, err error)
 		Show(ctx context.Context, id model.Id) (info *model.ReplyShow, err error)

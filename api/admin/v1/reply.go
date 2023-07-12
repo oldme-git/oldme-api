@@ -17,7 +17,7 @@ type ReplyCreRes struct {
 type ReplyUpdReq struct {
 	g.Meta `path:"reply/update/{id}" method:"post" sm:"修改" tags:"文章回复"`
 	*model.IdInput
-	*model.ReplyInput
+	*model.ReplyBody
 }
 
 type ReplyUpdRes struct {
