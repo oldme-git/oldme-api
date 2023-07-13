@@ -80,3 +80,6 @@ https://oldme.net 博客api，使用 Go + GoFrame 开发，感谢 GoFrame：http
 ## 1.0.1
 - article show更新最后阅读时间
 - 增加gf build交叉编译配置
+
+## 1.1.0
+- 加入reply功能
