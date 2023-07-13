@@ -22,7 +22,7 @@ type (
 		Check(ctx context.Context, id model.Id, result bool, reasonSlice ...string) error
 		GetRid(ctx context.Context, pid model.Id) (model.Id, error)
 		GetAid(ctx context.Context, pid model.Id) (model.Id, error)
-		ListForAid(ctx context.Context, aid model.Id) ([]model.ReplyFloorApp, error)
+		ListForAid(ctx context.Context, aid model.Id) (uint, []model.ReplyFloorApp, error)
 		GetReplyFloor(list []entity.Reply, rid model.Id) (reply []model.ReplyFloorApp)
 	}
 )

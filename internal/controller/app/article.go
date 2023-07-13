@@ -152,10 +152,11 @@ func (c *cArticle) Hist(ctx context.Context, req *v1.ArticleHistReq) (res *v1.Ar
 }
 
 func (c *cArticle) ReplyList(ctx context.Context, req *v1.ArticleReplyReq) (res *v1.ArticleReplyRes, err error) {
-	list, err := service.Reply().ListForAid(ctx, req.Id)
+	total, list, err := service.Reply().ListForAid(ctx, req.Id)
 	if err == nil {
 		res = &v1.ArticleReplyRes{
-			List: list,
+			List:  list,
+			Total: total,
 		}
 	}
 	return

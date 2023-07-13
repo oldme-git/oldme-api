@@ -51,5 +51,6 @@ type ArticleReplyReq struct {
 }
 
 type ArticleReplyRes struct {
-	List []model.ReplyFloorApp
+	List  []model.ReplyFloorApp `json:"list"`
+	Total uint                  `json:"total"`
 }

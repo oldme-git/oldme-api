@@ -223,10 +223,10 @@ func (s *sReply) GetAid(ctx context.Context, pid model.Id) (model.Id, error) {
 }
 
 // ListForAid 根据Aid读取回复列表
-func (s *sReply) ListForAid(ctx context.Context, aid model.Id) ([]model.ReplyFloorApp, error) {
-	data, err := dao.Reply.Ctx(ctx).Where("aid", aid).All()
+func (s *sReply) ListForAid(ctx context.Context, aid model.Id) (uint, []model.ReplyFloorApp, error) {
+	data, err := dao.Reply.Ctx(ctx).Where("aid", aid).Where("status", model.SuccessStatus).All()
 	if err != nil {
-		return nil, packed.Err.SysDb("select", "reply")
+		return 0, nil, packed.Err.SysDb("select", "reply")
 	}
 	var (
 		list      []entity.Reply
@@ -246,7 +246,7 @@ func (s *sReply) ListForAid(ctx context.Context, aid model.Id) ([]model.ReplyFlo
 	}
 	wg.Wait()
 
-	return listFloor, nil
+	return uint(len(list)), listFloor, nil
 }
 
 // GetReplyFloor 根据rid读取本层楼的所有回复信息，id
@@ -257,6 +257,7 @@ func (s *sReply) GetReplyFloor(list []entity.Reply, rid model.Id) (reply []model
 				Id:        model.Id(v.Id),
 				Pid:       model.Id(v.Pid),
 				Email:     v.Email,
+				PName:     v.PName,
 				Name:      v.Name,
 				Site:      v.Site,
 				Content:   v.Content,
