@@ -235,7 +235,6 @@ func (s *sReply) ListForAid(ctx context.Context, aid model.Id) ([]model.ReplyFlo
 	)
 	_ = data.Structs(&list)
 
-	// TODO 有优化空间
 	listFloor = s.GetReplyFloor(list, 0)
 	wg.Add(len(listFloor))
 
