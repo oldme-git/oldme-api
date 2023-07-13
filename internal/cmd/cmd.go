@@ -19,7 +19,7 @@ var (
 			s := g.Server()
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				// 允许跨域
-				group.Middleware(ghttp.MiddlewareCORS)
+				// group.Middleware(ghttp.MiddlewareCORS)
 				// admin路由
 				// group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Middleware(service.Middleware().Response)
