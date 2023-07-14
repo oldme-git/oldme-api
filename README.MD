@@ -1,91 +1,36 @@
-# oldme博客api
-https://oldme.net 博客api，使用 Go + GoFrame 开发，感谢 GoFrame：https://github.com/gogf/gf。本项目可以做为 GoFrame 的初学参考。
+# oldme 个人博客接口
+- https://oldme.net 个人博客网站，本项目可以做为 GoFrame 的初学参考
+- 使用 Go + GoFrame 开发，感谢 GoFrame：https://github.com/gogf/gf
+- 后台登录组件使用golang-jwt/jwt：https://github.com/golang-jwt/jwt
+- 前端基于 Vue3 + Nuxt3 开发
 
+# 版本信息
+- Go v1.20.4
+- GoFrame v2.3.3
+
+# 功能模块
+- 文章分类管理
+- 文章发布
+- 句子收集
+- 友情链接
+- 文章回复功能
+- 图片文件上传
+- 富文本图片文件处理
+- 后台登录认证
+
+# 特色功能设计
 ## 全局错误与异常
 业务开发中，通常有错误和异常两种err。错误是由用户输入不当引起的，比如说账号密码错误，这种err通常只返回给用户即可，不需要打印堆栈信息。而异常是由系统内部自发引起的，比如说SQL语句不当，这种错误需要打印堆栈信息，且不能把err返回到用户那里。oldme-api合理的处理了两种不同的err，他们体现在intrnal->pecked->err.go下。
 
 ## model设计
-model中Input结尾的结构体是接口的入参，Safe结尾的是剔除了部分信息的模型数据
+网站的前后台接口响应通常是不一样的，前台接口的响应数据总是要过滤掉一些敏感信息，比如文章的软删除字段，就不能返回给前台接口。
+在 gf 的标准路由中，以一个结构体来定义一个接口的响应数据结构，按照简单的设计，后台和前台应各自定义一个结构体，用来处理不同的响应，但像文章标题、作者、创建时间这种信息是两者公用的，我们的两个结构体就不可避免的大量定义重复的字段。
+为了解决这个问题，我们可以基于 gf 生成的标准数据结构，也就是 model.entity 下的文件。在此基础上，使用空结构体和 omitempty 标签来剔除掉不想返回的信息，这样就可以优雅的解决这一问题，请参考：https://github.com/oldme-git/oldme-api/blob/master/internal/model/article.go
 
-# 更新日志
-## 0.0.1
-- 初始化goframe框架
-
-## 0.0.2
-- 完成登录
-- 增加鉴权中间件
-
-## 0.0.3
-- 增加article和article_group两张数据表
-- 加入article_group的后台业务逻辑
-- 删除原有demo文件
-
-## 0.0.4
-- 增加article-create
-- 增加文件上传图片和移动文件
-
-## 0.0.5
-- 优化传值方式和包、文件位置
-- 增加file的一些函数
-
-## 0.0.6
-- 增加file的功能
-
-## 0.1.0
-- 封装正则。完善rich和file的操作
-- 增加article-update
-
-## 0.2.0
-- 完成基础的功能，包含文章、文章分类的增删改查
-
-## 0.2.1
-- 更新jwt-key到配置文件中
-
-## 0.2.2
-- 增加docker-compose
-- 增加nginx的配置
-- 增加定时器，让tmp的图片的删除
-
-## 0.2.3
-- 修复未鉴权继续执行业务逻辑的bug
-- 优化获取用户登录的信息的逻辑
-
-## 0.2.4
-- 修改上传临时文件的文件名称
-- 修复文章列表查询的total不正确
-
-## 0.2.5
-- 修复一个bug，该bug导致查询文章列表total不正确
-
-## 0.2.6
-- 调整部分文件的位置及名称
-- 调整文章分类的结构体
-
-## 0.2.7
-- 增加app模块
-- app模板新增查询文章列表、文章详情、文章分类列表
-
-## 0.2.8
-- 增加友链功能
-- 增加句子功能
-- 增加查询文章排行列表接口
-
-## 0.2.9
-- 修复app查询文章的一些BUG
-
-## 0.2.10
-- app查询文章列表增加更新时间字段
-
-## 0.3.1
-- 重构err错误
-- 增加文章点击记录
-
-## 1.0.1
-- article show更新最后阅读时间
-- 增加gf build交叉编译配置
-
-## 1.1.0
-- 加入reply功能
-
-## 1.2.0
-- 更新文章、文章分类、句子、友链的数据结构，使之更加合理
+# 部署
+- git clone https://github.com/oldme-git/oldme-api
+- 安装 mysql 数据库，运行 manifest/sql/oldme.sql 文件
+- 安装 redis
+- 修改 manifest/config下config.yaml配置文件
+- 安装 go.mod 依赖
+- 运行 go run main.go

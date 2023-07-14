@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 虚拟机192.168.10.47
- Source Server Type    : MySQL
- Source Server Version : 50728
- Source Host           : 192.168.10.47:3306
- Source Schema         : oldme
-
- Target Server Type    : MySQL
- Target Server Version : 50728
- File Encoding         : 65001
-
- Date: 13/07/2023 16:28:17
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
