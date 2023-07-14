@@ -16,7 +16,7 @@ type (
 		Cre(ctx context.Context, in *model.ArticleGrpInput) (err error)
 		Upd(ctx context.Context, id model.Id, in *model.ArticleGrpInput) (err error)
 		Del(ctx context.Context, id model.Id) (err error)
-		List(ctx context.Context) (list *[]entity.ArticleGrp, err error)
+		List(ctx context.Context) (list []entity.ArticleGrp, err error)
 		Show(ctx context.Context, id model.Id) (info *entity.ArticleGrp, err error)
 		IsExist(ctx context.Context, id model.Id) bool
 	}

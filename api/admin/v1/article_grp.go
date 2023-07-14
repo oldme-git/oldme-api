@@ -36,8 +36,8 @@ type ArticleGrpListReq struct {
 }
 
 type ArticleGrpListRes struct {
-	List  *[]entity.ArticleGrp `json:"list"`
-	Total uint                 `json:"total"`
+	List  []entity.ArticleGrp `json:"list"`
+	Total uint                `json:"total"`
 }
 
 type ArticleGrpShowReq struct {

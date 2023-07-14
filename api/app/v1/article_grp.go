@@ -10,5 +10,5 @@ type ArticleGrpListReq struct {
 }
 
 type ArticleGrpListRes struct {
-	List *[]model.ArticleGrpListApp `json:"list"`
+	List []model.ArticleGrpListSafe `json:"list"`
 }

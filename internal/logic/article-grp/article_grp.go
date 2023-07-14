@@ -25,6 +25,9 @@ func (s *sArticleGrp) Cre(ctx context.Context, in *model.ArticleGrpInput) (err e
 		Description: in.Description,
 		Onshow:      in.Onshow,
 	}).Insert()
+	if err != nil {
+		return packed.Err.SysDb("insert", "article_grp")
+	}
 	return
 }
 
@@ -36,6 +39,9 @@ func (s *sArticleGrp) Upd(ctx context.Context, id model.Id, in *model.ArticleGrp
 		Description: in.Description,
 		Onshow:      in.Onshow,
 	}).Where("id", id).Update()
+	if err != nil {
+		return packed.Err.SysDb("update", "article_grp")
+	}
 	return
 }
 
@@ -53,10 +59,9 @@ func (s *sArticleGrp) Del(ctx context.Context, id model.Id) (err error) {
 }
 
 // List 读取文章分类列表
-func (s *sArticleGrp) List(ctx context.Context) (list *[]entity.ArticleGrp, err error) {
-	list = &[]entity.ArticleGrp{}
+func (s *sArticleGrp) List(ctx context.Context) (list []entity.ArticleGrp, err error) {
 	res, err := dao.ArticleGrp.Ctx(ctx).All()
-	_ = res.Structs(list)
+	_ = res.Structs(&list)
 	return
 }
 

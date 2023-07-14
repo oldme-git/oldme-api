@@ -21,11 +21,11 @@ func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.Ar
 		IsDel:            false,
 	}
 	list, total, err := service.Article().List(ctx, query)
-	var listOut []model.ArticleListSafe
-	for _, v := range list {
-		listOut = append(listOut, model.ArticleListSafe{Article: v})
-	}
 	if err == nil {
+		var listOut []model.ArticleListSafe
+		for _, v := range list {
+			listOut = append(listOut, model.ArticleListSafe{Article: v})
+		}
 		res = &v1.ArticleListRes{
 			List:  listOut,
 			Total: total,

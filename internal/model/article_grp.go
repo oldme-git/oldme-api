@@ -1,5 +1,7 @@
 package model
 
+import "oldme-api/internal/model/entity"
+
 type ArticleGrpInput struct {
 	Name        string `v:"required|length:2, 30"`
 	Tags        string `v:"length:1, 200"`
@@ -7,9 +9,7 @@ type ArticleGrpInput struct {
 	Onshow      bool   `v:"required"`
 }
 
-type ArticleGrpListApp struct {
-	Id          uint   `json:"id"          description:""`
-	Name        string `json:"name"        description:"名称"`
-	Tags        string `json:"tags"        description:"标签，依英文逗号隔开"`
-	Description string `json:"description" description:"简介"`
+type ArticleGrpListSafe struct {
+	entity.ArticleGrp
+	Onshow Out `json:"onshow,omitempty"`
 }
