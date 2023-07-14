@@ -232,21 +232,28 @@ func (s *sReply) ListForAid(ctx context.Context, aid model.Id) (uint, []model.Re
 		list      []entity.Reply
 		listFloor []model.ReplyFloorApp
 		wg        = &sync.WaitGroup{}
+		lock      = &sync.RWMutex{}
+		total     = 0
 	)
 	_ = data.Structs(&list)
 
 	listFloor = s.GetReplyFloor(list, 0)
-	wg.Add(len(listFloor))
+	listLen := len(listFloor)
+	total += listLen
+	wg.Add(listLen)
 
 	for k, v := range listFloor {
 		go func(k int, v model.ReplyFloorApp) {
 			listFloor[k].List = s.GetReplyFloor(list, v.Id)
+			lock.Lock()
+			total += len(listFloor[k].List)
+			lock.Unlock()
 			wg.Done()
 		}(k, v)
 	}
 	wg.Wait()
 
-	return uint(len(list)), listFloor, nil
+	return uint(total), listFloor, nil
 }
 
 // GetReplyFloor 根据rid读取本层楼的所有回复信息，id
