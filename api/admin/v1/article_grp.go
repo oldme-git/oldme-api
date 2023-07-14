@@ -16,7 +16,7 @@ type ArticleGrpCreRes struct {
 
 type ArticleGrpUpdReq struct {
 	g.Meta `path:"article/group/update/{id}" method:"post" sm:"修改" tags:"文章分类"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 	*model.ArticleGrpInput
 }
 
@@ -25,7 +25,7 @@ type ArticleGrpUpdRes struct {
 
 type ArticleGrpDelReq struct {
 	g.Meta `path:"article/group/delete/{id}" method:"post" sm:"删除" tags:"文章分类"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 }
 
 type ArticleGrpDelRes struct {
@@ -42,7 +42,7 @@ type ArticleGrpListRes struct {
 
 type ArticleGrpShowReq struct {
 	g.Meta `path:"article/group/show/{id}" method:"get" sm:"查询详情" tags:"文章分类"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 }
 
 type ArticleGrpShowRes struct {

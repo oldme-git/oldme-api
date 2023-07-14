@@ -1,16 +1,18 @@
 package model
 
-import "github.com/gogf/gf/v2/os/gtime"
+import (
+	"oldme-api/internal/model/entity"
+)
 
 type ArticleInput struct {
-	GrpId       uint   `json:"grpId" v:"required|integer|between:1,4294967295"`
+	GrpId       Id     `json:"grpId" v:"required|integer|between:1,4294967295"`
 	Title       string `json:"title" v:"required|length:2, 100"`
 	Author      string `json:"author" v:"length:2, 30"`
 	Thumb       string `json:"thumb" v:"length:2, 200"`
 	Tags        string `json:"tags" v:"length:2, 200"`
 	Description string `json:"description" v:"length:2, 200"`
 	Content     string `json:"content" v:"length:2, 100000"`
-	Order       int    `json:"order" v:"integer|between:0,9999"`
+	Order       int    `json:"order" v:"integer|between:-9999,9999"`
 	Ontop       uint   `json:"ontop" v:"boolean"`
 	Onshow      uint   `json:"onshow" v:"boolean"`
 	Hist        uint   `json:"hist" v:"integer|between:0,999999"`
@@ -18,66 +20,33 @@ type ArticleInput struct {
 }
 
 type ArticleQuery struct {
-	GrpId  uint   `v:"integer|between:1,999999999" json:"grpId"`
-	Page   int    `v:"integer|between:1,999999999" json:"page" dc:"查询分页：页码，默认1"`
-	Size   int    `v:"integer|between:1,999999999" json:"size" dc:"查询分页：条数，默认15"`
+	ArticleQuerySafe
+	Onshow bool `json:"onshow" dc:"是否查询只发布的文章"`
+	IsDel  bool `json:"isDel" dc:"是否查询删除掉的文章"`
+}
+
+type ArticleQuerySafe struct {
+	Paging
+	GrpId  Id     `v:"integer|between:1,4294967295" json:"grpId"`
 	Search string `v:"length: 1,30" json:"search" dc:"查询文本，会检索标题、标签、简介"`
-	Onshow bool   `json:"onshow" dc:"是否查询只发布的文章"`
-	IsDel  bool   `json:"isDel" dc:"是否查询删除掉的文章"`
 }
 
 type ArticleList struct {
-	Id          uint        `json:"id"          description:""`
-	GrpId       uint        `json:"grpId"       description:"分组id"`
-	Title       string      `json:"title"       description:"标题"`
-	Author      string      `json:"author"      description:"作者"`
-	Thumb       string      `json:"thumb"       description:"图片地址"`
-	Tags        string      `json:"tags"        description:"标签，依英文逗号隔开"`
-	Description string      `json:"description" description:"简介"`
-	Order       int         `json:"order"       description:"排序，越大越靠前"`
-	Ontop       uint        `json:"ontop"       description:"是否置顶"`
-	Onshow      uint        `json:"onshow"      description:"是否显示"`
-	Hist        uint        `json:"hist"        description:"点击数"`
-	Post        uint        `json:"post"        description:"评论数"`
-	CreatedAt   *gtime.Time `json:"createdAt"   description:"创建时间"`
-	UpdatedAt   *gtime.Time `json:"updatedAt"   description:"更新时间"`
-	LastedAt    *gtime.Time `json:"lastedAt"    description:"最后浏览时间"`
+	entity.Article
+	Content   *struct{} `json:"content,omitempty"`
+	DeletedAt *struct{} `json:"deletedAt,omitempty"`
 }
 
-type ArticleListApp struct {
-	Id          uint        `json:"id"          description:""`
-	GrpId       uint        `json:"grpId"       description:"分组id"`
-	Title       string      `json:"title"       description:"标题"`
-	Author      string      `json:"author"      description:"作者"`
-	Thumb       string      `json:"thumb"       description:"图片地址"`
-	Tags        string      `json:"tags"        description:"标签，依英文逗号隔开"`
-	Description string      `json:"description" description:"简介"`
-	Hist        uint        `json:"hist"        description:"点击数"`
-	Post        uint        `json:"post"        description:"评论数"`
-	CreatedAt   *gtime.Time `json:"createdAt"   description:"创建时间"`
-	UpdatedAt   *gtime.Time `json:"updatedAt"   description:"更新时间"`
-	LastedAt    *gtime.Time `json:"lastedAt"    description:"最后浏览时间"`
+type ArticleListSafe struct {
+	entity.Article
+	ArticleSafe
+	DeletedAt *struct{} `json:"deletedAt,omitempty"`
 }
 
-type ArticleQueryApp struct {
-	GrpId  uint   `v:"integer|between:1,999999999" json:"grpId"`
-	Page   int    `v:"integer|between:1,999999999" json:"page" dc:"查询分页：页码，默认1"`
-	Size   int    `v:"integer|between:1,999999999" json:"size" dc:"查询分页：条数，默认15"`
-	Search string `v:"length: 1,30" json:"search" dc:"查询文本，会检索标题、标签、简介"`
-}
-
-type ArticleShowApp struct {
-	Id          uint        `json:"id"          description:""`
-	GrpId       uint        `json:"grpId"       description:"分组id"`
-	Title       string      `json:"title"       description:"标题"`
-	Author      string      `json:"author"      description:"作者"`
-	Thumb       string      `json:"thumb"       description:"图片地址"`
-	Tags        string      `json:"tags"        description:"标签，依英文逗号隔开"`
-	Description string      `json:"description" description:"简介"`
-	Content     string      `json:"content"     description:"内容"`
-	Hist        uint        `json:"hist"        description:"点击数"`
-	Post        uint        `json:"post"        description:"评论数"`
-	CreatedAt   *gtime.Time `json:"createdAt"   description:"创建时间"`
-	UpdatedAt   *gtime.Time `json:"updatedAt"   description:"更新时间"`
-	LastedAt    *gtime.Time `json:"lastedAt"    description:"最后浏览时间"`
+type ArticleSafe struct {
+	*entity.Article
+	Order     Out `json:"order,omitempty"`
+	Ontop     Out `json:"ontop,omitempty"`
+	Onshow    Out `json:"onshow,omitempty"`
+	DeletedAt Out `json:"deletedAt,omitempty"`
 }

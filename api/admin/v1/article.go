@@ -12,12 +12,12 @@ type ArticleCreReq struct {
 }
 
 type ArticleCreRes struct {
-	LastId uint `json:"lastId"`
+	LastId model.Id `json:"lastId"`
 }
 
 type ArticleUpdReq struct {
 	g.Meta `path:"article/update/{id}" method:"post" sm:"修改" tags:"文章"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 	*model.ArticleInput
 }
 
@@ -26,7 +26,7 @@ type ArticleUpdRes struct {
 
 type ArticleDelReq struct {
 	g.Meta `path:"article/delete/{id}" method:"post" sm:"删除" tags:"文章"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 	IsReal bool `dc:"是否彻底删除"`
 }
 
@@ -39,13 +39,13 @@ type ArticleListReq struct {
 }
 
 type ArticleListRes struct {
-	List  *[]model.ArticleList `json:"list"`
-	Total uint                 `json:"total"`
+	List  []model.ArticleList `json:"list"`
+	Total uint                `json:"total"`
 }
 
 type ArticleShowReq struct {
 	g.Meta `path:"article/show/{id}" method:"get" sm:"查询详情" tags:"文章"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 }
 
 type ArticleShowRes struct {
@@ -54,7 +54,7 @@ type ArticleShowRes struct {
 
 type ArticleReCreReq struct {
 	g.Meta `path:"article/recreate/{id}" method:"post" sm:"找回文章" tags:"文章"`
-	Id     uint `v:"integer|between:1,999999999" dc:"已经删除的文章id"`
+	*model.IdInput
 }
 
 type ArticleReCreRes struct {

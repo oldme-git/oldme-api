@@ -7,7 +7,6 @@ import (
 
 type ArticleGrpListReq struct {
 	g.Meta `path:"article/group/list" method:"get" sm:"查询列表" tags:"app"`
-	*model.ArticleQueryApp
 }
 
 type ArticleGrpListRes struct {

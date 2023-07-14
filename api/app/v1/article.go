@@ -7,11 +7,11 @@ import (
 
 type ArticleListReq struct {
 	g.Meta `path:"article/list/*grpId" method:"get" sm:"查询列表" tags:"app"`
-	*model.ArticleQueryApp
+	*model.ArticleQuerySafe
 }
 
 type ArticleListRes struct {
-	List  *[]model.ArticleListApp `json:"list"`
+	List  []model.ArticleListSafe `json:"list"`
 	Total uint                    `json:"total"`
 }
 
@@ -21,16 +21,16 @@ type ArticleRankReq struct {
 }
 
 type ArticleRankRes struct {
-	List *[]model.ArticleListApp `json:"list"`
+	List []model.ArticleListSafe `json:"list"`
 }
 
 type ArticleShowReq struct {
 	g.Meta `path:"article/show/{id}" method:"get" sm:"查询详情" tags:"app"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 }
 
 type ArticleShowRes struct {
-	*model.ArticleShowApp
+	*model.ArticleSafe
 }
 
 type AboutShowReq struct {
@@ -39,7 +39,7 @@ type AboutShowReq struct {
 
 type ArticleHistReq struct {
 	g.Meta `path:"article/hist" method:"post" sm:"增加一个点击数" tags:"app"`
-	Id     uint `v:"required|integer|between:1,999999999"`
+	*model.IdInput
 }
 
 type ArticleHistRes struct {
