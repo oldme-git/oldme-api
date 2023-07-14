@@ -32,7 +32,7 @@ func (c *cSaying) List(ctx context.Context, req *v1.SayingListReq) (res *v1.Sayi
 	if err == nil {
 		res = &v1.SayingListRes{
 			List:  list,
-			Total: uint(len(*list)),
+			Total: uint(len(list)),
 		}
 	}
 	return

@@ -17,7 +17,7 @@ func (c *cOther) List(ctx context.Context, req *v1.LinkReq) (res *v1.LinkRes, er
 	if err == nil {
 		res = &v1.LinkRes{
 			List:  list,
-			Total: uint(len(*list)),
+			Total: uint(len(list)),
 		}
 	}
 	return

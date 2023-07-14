@@ -5,6 +5,7 @@ import (
 	"oldme-api/api/app/v1"
 	"oldme-api/internal/dao"
 	"oldme-api/internal/model"
+	"oldme-api/internal/model/entity"
 	"oldme-api/internal/service"
 )
 
@@ -15,34 +16,18 @@ type cArticle struct {
 
 func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.ArticleListRes, err error) {
 	query := &model.ArticleQuery{
-		GrpId:  req.ArticleQueryApp.GrpId,
-		Page:   req.ArticleQueryApp.Page,
-		Size:   req.ArticleQueryApp.Size,
-		Search: req.ArticleQueryApp.Search,
-		Onshow: true,
-		IsDel:  false,
+		ArticleQuerySafe: *req.ArticleQuerySafe,
+		Onshow:           true,
+		IsDel:            false,
 	}
 	list, total, err := service.Article().List(ctx, query)
-	var listApp []model.ArticleListApp
-	for _, v := range *list {
-		listApp = append(listApp, model.ArticleListApp{
-			Id:          v.Id,
-			GrpId:       v.GrpId,
-			Title:       v.Title,
-			Author:      v.Author,
-			Thumb:       v.Thumb,
-			Tags:        v.Tags,
-			Description: v.Description,
-			Hist:        v.Hist,
-			Post:        v.Post,
-			CreatedAt:   v.CreatedAt,
-			UpdatedAt:   v.UpdatedAt,
-			LastedAt:    v.LastedAt,
-		})
-	}
 	if err == nil {
+		var listOut []model.ArticleListSafe
+		for _, v := range list {
+			listOut = append(listOut, model.ArticleListSafe{Article: v})
+		}
 		res = &v1.ArticleListRes{
-			List:  &listApp,
+			List:  listOut,
 			Total: total,
 		}
 	}
@@ -61,28 +46,17 @@ func (c *cArticle) ArticleRank(ctx context.Context, req *v1.ArticleRankReq) (res
 	if err != nil {
 		return
 	}
-	list := &[]model.ArticleList{}
-	_ = data.Structs(list)
-	var listApp []model.ArticleListApp
-	for _, v := range *list {
-		listApp = append(listApp, model.ArticleListApp{
-			Id:          v.Id,
-			GrpId:       v.GrpId,
-			Title:       v.Title,
-			Author:      v.Author,
-			Thumb:       v.Thumb,
-			Tags:        v.Tags,
-			Description: v.Description,
-			Hist:        v.Hist,
-			Post:        v.Post,
-			CreatedAt:   v.CreatedAt,
-			UpdatedAt:   v.UpdatedAt,
-			LastedAt:    v.LastedAt,
-		})
+	var (
+		list    []entity.Article
+		listOut []model.ArticleListSafe
+	)
+	_ = data.Structs(&list)
+	for _, v := range list {
+		listOut = append(listOut, model.ArticleListSafe{Article: v})
 	}
 	if err == nil {
 		res = &v1.ArticleRankRes{
-			List: &listApp,
+			List: listOut,
 		}
 	}
 	return
@@ -93,27 +67,15 @@ func (c *cArticle) Show(ctx context.Context, req *v1.ArticleShowReq) (res *v1.Ar
 	if err == nil {
 		if info == nil || info.Onshow == 0 {
 			res = &v1.ArticleShowRes{
-				ArticleShowApp: nil,
+				ArticleSafe: nil,
 			}
 		} else {
 			res = &v1.ArticleShowRes{
-				ArticleShowApp: &model.ArticleShowApp{
-					Id:          info.Id,
-					GrpId:       info.GrpId,
-					Title:       info.Title,
-					Author:      info.Author,
-					Thumb:       info.Thumb,
-					Tags:        info.Tags,
-					Description: info.Description,
-					Content:     info.Content,
-					Hist:        info.Hist,
-					Post:        info.Post,
-					CreatedAt:   info.CreatedAt,
-					UpdatedAt:   info.UpdatedAt,
-					LastedAt:    info.LastedAt,
+				ArticleSafe: &model.ArticleSafe{
+					Article: info,
 				},
 			}
-			_ = service.Article().UpdLastedAt(ctx, info.Id)
+			_ = service.Article().UpdLastedAt(ctx, model.Id(info.Id))
 		}
 	}
 	return
@@ -121,22 +83,11 @@ func (c *cArticle) Show(ctx context.Context, req *v1.ArticleShowReq) (res *v1.Ar
 
 func (c *cArticle) About(ctx context.Context, req *v1.AboutShowReq) (res *v1.ArticleShowRes, err error) {
 	info, err := service.Article().Show(ctx, 1)
+
 	if err == nil {
 		res = &v1.ArticleShowRes{
-			ArticleShowApp: &model.ArticleShowApp{
-				Id:          info.Id,
-				GrpId:       info.GrpId,
-				Title:       info.Title,
-				Author:      info.Author,
-				Thumb:       info.Thumb,
-				Tags:        info.Tags,
-				Description: info.Description,
-				Content:     info.Content,
-				Hist:        info.Hist,
-				Post:        info.Post,
-				CreatedAt:   info.CreatedAt,
-				UpdatedAt:   info.UpdatedAt,
-				LastedAt:    info.LastedAt,
+			ArticleSafe: &model.ArticleSafe{
+				Article: info,
 			},
 		}
 	}

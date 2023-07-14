@@ -18,6 +18,6 @@ type LinkReq struct {
 }
 
 type LinkRes struct {
-	List  *[]entity.Link `json:"list"`
-	Total uint           `json:"total"`
+	List  []entity.Link `json:"list"`
+	Total uint          `json:"total"`
 }

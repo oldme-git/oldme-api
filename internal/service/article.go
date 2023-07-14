@@ -13,14 +13,14 @@ import (
 
 type (
 	IArticle interface {
-		Cre(ctx context.Context, in *model.ArticleInput) (lastId uint, err error)
-		Upd(ctx context.Context, id uint, in *model.ArticleInput) (err error)
-		List(ctx context.Context, query *model.ArticleQuery) (list *[]model.ArticleList, total uint, err error)
-		Show(ctx context.Context, id uint) (info *entity.Article, err error)
-		Del(ctx context.Context, id uint, isReal bool) (err error)
-		ReCre(ctx context.Context, id uint) (err error)
-		Hist(ctx context.Context, id uint) (err error)
-		UpdLastedAt(ctx context.Context, id uint) (err error)
+		Cre(ctx context.Context, in *model.ArticleInput) (lastId model.Id, err error)
+		Upd(ctx context.Context, id model.Id, in *model.ArticleInput) (err error)
+		List(ctx context.Context, query *model.ArticleQuery) (list []entity.Article, total uint, err error)
+		Show(ctx context.Context, id model.Id) (info *entity.Article, err error)
+		Del(ctx context.Context, id model.Id, isReal bool) (err error)
+		ReCre(ctx context.Context, id model.Id) (err error)
+		Hist(ctx context.Context, id model.Id) (err error)
+		UpdLastedAt(ctx context.Context, id model.Id) (err error)
 		IsExist(ctx context.Context, id model.Id) bool
 	}
 )

@@ -32,7 +32,7 @@ func (c *cLink) List(ctx context.Context, req *v1.LinkListReq) (res *v1.LinkList
 	if err == nil {
 		res = &v1.LinkListRes{
 			List:  list,
-			Total: uint(len(*list)),
+			Total: uint(len(list)),
 		}
 	}
 	return
