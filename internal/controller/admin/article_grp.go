@@ -31,7 +31,7 @@ func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res 
 	if err == nil {
 		res = &v1.ArticleGrpListRes{
 			List:  list,
-			Total: uint(len(*list)),
+			Total: uint(len(list)),
 		}
 	}
 	return

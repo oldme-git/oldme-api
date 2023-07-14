@@ -3,6 +3,7 @@ package admin
 import (
 	"context"
 	"oldme-api/api/admin/v1"
+	"oldme-api/internal/model"
 	"oldme-api/internal/service"
 )
 
@@ -27,9 +28,13 @@ func (c *cArticle) Upd(ctx context.Context, req *v1.ArticleUpdReq) (res *v1.Arti
 func (c *cArticle) List(ctx context.Context, req *v1.ArticleListReq) (res *v1.ArticleListRes, err error) {
 	list, total, err := service.Article().List(ctx, req.ArticleQuery)
 	if err == nil {
+		var listOut []model.ArticleList
+		for _, v := range list {
+			listOut = append(listOut, model.ArticleList{Article: v})
+		}
 		// 查询数据表里总共的数据条数
 		res = &v1.ArticleListRes{
-			List:  list,
+			List:  listOut,
 			Total: total,
 		}
 	}

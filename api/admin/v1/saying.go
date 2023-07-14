@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+	"oldme-api/internal/model"
 	"oldme-api/internal/model/entity"
 )
 
@@ -11,12 +12,12 @@ type SayingCreReq struct {
 }
 
 type SayingCreRes struct {
-	LastId uint `json:"lastId"`
+	LastId model.Id `json:"lastId"`
 }
 
 type SayingUpdReq struct {
 	g.Meta `path:"saying/update/{id}" method:"post" sm:"修改" tags:"句子"`
-	Id     uint   `v:"integer|between:1,999999999"`
+	*model.IdInput
 	Saying string `json:"saying" v:"required|length:1, 200"`
 }
 
@@ -25,7 +26,7 @@ type SayingUpdRes struct {
 
 type SayingDelReq struct {
 	g.Meta `path:"saying/delete/{id}" method:"post" sm:"删除" tags:"句子"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 }
 
 type SayingDelRes struct {
@@ -36,6 +37,6 @@ type SayingListReq struct {
 }
 
 type SayingListRes struct {
-	List  *[]entity.Saying `json:"list"`
-	Total uint             `json:"total"`
+	List  []entity.Saying `json:"list"`
+	Total uint            `json:"total"`
 }
