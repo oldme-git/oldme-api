@@ -13,4 +13,6 @@ type Saying struct {
 	g.Meta `orm:"table:saying, do:true"`
 	Id     interface{} //
 	Saying interface{} //
+	Author interface{} //
+	Source interface{} //
 }

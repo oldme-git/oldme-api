@@ -16,7 +16,7 @@ type LinkCreRes struct {
 
 type LinkUpdReq struct {
 	g.Meta `path:"link/update/{id}" method:"post" sm:"修改" tags:"友链"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 	*model.LinkInput
 }
 
@@ -25,7 +25,7 @@ type LinkUpdRes struct {
 
 type LinkDelReq struct {
 	g.Meta `path:"link/delete/{id}" method:"post" sm:"删除" tags:"友链"`
-	Id     uint `v:"integer|between:1,999999999"`
+	*model.IdInput
 }
 
 type LinkDelRes struct {
@@ -36,6 +36,6 @@ type LinkListReq struct {
 }
 
 type LinkListRes struct {
-	List  *[]entity.Link `json:"list"`
-	Total uint           `json:"total"`
+	List  []entity.Link `json:"list"`
+	Total uint          `json:"total"`
 }

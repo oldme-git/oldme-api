@@ -22,12 +22,16 @@ type SayingDao struct {
 type SayingColumns struct {
 	Id     string //
 	Saying string //
+	Author string //
+	Source string //
 }
 
 // sayingColumns holds the columns for table saying.
 var sayingColumns = SayingColumns{
 	Id:     "id",
 	Saying: "saying",
+	Author: "author",
+	Source: "source",
 }
 
 // NewSayingDao creates and returns a new DAO object for table data access.

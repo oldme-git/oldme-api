@@ -8,4 +8,6 @@ package entity
 type Saying struct {
 	Id     uint   `json:"id"     description:""`
 	Saying string `json:"saying" description:""`
+	Author string `json:"author" description:""`
+	Source string `json:"source" description:""`
 }
