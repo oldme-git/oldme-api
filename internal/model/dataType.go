@@ -4,7 +4,7 @@ package model
 type Id uint32
 
 // Out 标记剔除字段
-type Out *struct{}
+type Out bool
 
 // ReplyStatus 回复审核状态
 type ReplyStatus uint8

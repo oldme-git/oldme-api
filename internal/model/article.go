@@ -33,14 +33,14 @@ type ArticleQuerySafe struct {
 
 type ArticleList struct {
 	entity.Article
-	Content   *struct{} `json:"content,omitempty"`
-	DeletedAt *struct{} `json:"deletedAt,omitempty"`
+	Content   Out `json:"content,omitempty"`
+	DeletedAt Out `json:"deletedAt,omitempty"`
 }
 
 type ArticleListSafe struct {
 	entity.Article
 	ArticleSafe
-	DeletedAt *struct{} `json:"deletedAt,omitempty"`
+	DeletedAt Out `json:"deletedAt,omitempty"`
 }
 
 type ArticleSafe struct {
