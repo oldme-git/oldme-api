@@ -1,7 +1,5 @@
 package packed
 
-// TODO 该包有优化空间
-
 import (
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -44,8 +42,11 @@ func (c *pErr) Skip(code int, msg ...string) (err error) {
 		msg = append([]string{c.GetMsg(code)}, msg...)
 		msgStr = strings.Join(msg, ", ")
 	}
-	// 给一个较大的数，用以跳过所有的堆栈信息
-	return gerror.NewCodeSkip(gcode.New(code, "", nil), 9999, msgStr)
+	return gerror.NewOption(gerror.Option{
+		Stack: false,
+		Text:  msgStr,
+		Code:  gcode.New(code, "", nil),
+	})
 }
 
 // Sys 抛出一个系统级别的错误，使用code码：99999，会打印错误堆栈信息
