@@ -7,9 +7,12 @@ type ArticleGrpInput struct {
 	Tags        string `v:"length:1, 200"`
 	Description string `v:"length:2, 200"`
 	Onshow      bool   `v:"required"`
+	Order       int    `json:"order" v:"integer|between:-9999,9999"`
 }
 
 type ArticleGrpListSafe struct {
 	entity.ArticleGrp
-	Onshow Out `json:"onshow,omitempty"`
+	ArticleCount uint `json:"article_count"`
+	Onshow       Out  `json:"onshow,omitempty"`
+	Order        Out  `json:"order,omitempty"`
 }

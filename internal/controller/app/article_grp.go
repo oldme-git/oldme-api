@@ -16,8 +16,12 @@ func (c *cArticleGrp) List(ctx context.Context, req *v1.ArticleGrpListReq) (res 
 	list, err := service.ArticleGrp().List(ctx)
 	var listSafe []model.ArticleGrpListSafe
 	if err == nil {
+		countList, _ := service.ArticleGrp().ListArticleCount(ctx)
 		for _, v := range list {
-			listSafe = append(listSafe, model.ArticleGrpListSafe{ArticleGrp: v})
+			listSafe = append(listSafe, model.ArticleGrpListSafe{
+				ArticleGrp:   v,
+				ArticleCount: countList[v.Id],
+			})
 		}
 		res = &v1.ArticleGrpListRes{
 			List: listSafe,

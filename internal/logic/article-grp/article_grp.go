@@ -24,6 +24,7 @@ func (s *sArticleGrp) Cre(ctx context.Context, in *model.ArticleGrpInput) (err e
 		Tags:        in.Tags,
 		Description: in.Description,
 		Onshow:      in.Onshow,
+		Order:       in.Order,
 	}).Insert()
 	if err != nil {
 		return packed.Err.SysDb("insert", "article_grp")
@@ -38,6 +39,7 @@ func (s *sArticleGrp) Upd(ctx context.Context, id model.Id, in *model.ArticleGrp
 		Tags:        in.Tags,
 		Description: in.Description,
 		Onshow:      in.Onshow,
+		Order:       in.Order,
 	}).Where("id", id).Update()
 	if err != nil {
 		return packed.Err.SysDb("update", "article_grp")
@@ -60,9 +62,26 @@ func (s *sArticleGrp) Del(ctx context.Context, id model.Id) (err error) {
 
 // List 读取文章分类列表
 func (s *sArticleGrp) List(ctx context.Context) (list []entity.ArticleGrp, err error) {
-	res, err := dao.ArticleGrp.Ctx(ctx).All()
+	res, err := dao.ArticleGrp.Ctx(ctx).Order("order desc").All()
 	_ = res.Structs(&list)
 	return
+}
+
+// ListArticleCount 获取已经发布文章的文章分类列表统计
+func (s *sArticleGrp) ListArticleCount(ctx context.Context) (map[uint]uint, error) {
+	listCount, err := dao.Article.Ctx(ctx).
+		Fields("count(*) count,grp_id").
+		Where("onshow", 1).
+		Group("grp_id").All()
+	if err != nil {
+		return nil, packed.Err.SysDb("select", "article")
+	}
+	idCountMap := make(map[uint]uint, len(listCount))
+	for _, v := range listCount {
+		idCountMap[v["grp_id"].Uint()] = v["count"].Uint()
+	}
+
+	return idCountMap, nil
 }
 
 // Show 读取文章分类详情
