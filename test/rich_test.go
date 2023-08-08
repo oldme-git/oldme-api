@@ -2,9 +2,9 @@ package test
 
 import (
 	"github.com/gogf/gf/v2/os/gctx"
-	_ "oldme-api/internal/logic/file"
-	_ "oldme-api/internal/logic/rich"
-	"oldme-api/internal/service"
+	_ "github.com/oldme-git/oldme-api/internal/logic/file"
+	_ "github.com/oldme-git/oldme-api/internal/logic/rich"
+	"github.com/oldme-git/oldme-api/internal/service"
 	"testing"
 )
 

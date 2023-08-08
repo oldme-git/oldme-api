@@ -1,8 +1,8 @@
 package test
 
 import (
-	_ "oldme-api/internal/logic/file"
-	_ "oldme-api/internal/logic/rich"
+	_ "github.com/oldme-git/oldme-api/internal/logic/file"
+	_ "github.com/oldme-git/oldme-api/internal/logic/rich"
 	"testing"
 )
 

@@ -6,8 +6,8 @@ package service
 
 import (
 	"context"
-	"oldme-api/internal/model"
-	"oldme-api/internal/model/entity"
+	"github.com/oldme-git/oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
 )
 
 type IAdmin interface {

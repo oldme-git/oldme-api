@@ -2,8 +2,8 @@ package app
 
 import (
 	"context"
-	v1 "oldme-api/api/app/v1"
-	"oldme-api/internal/service"
+	v1 "github.com/oldme-git/oldme-api/api/app/v1"
+	"github.com/oldme-git/oldme-api/internal/service"
 )
 
 var Other = cOther{}

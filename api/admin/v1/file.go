@@ -3,7 +3,7 @@ package v1
 import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
-	"oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model"
 )
 
 type UploadReq struct {

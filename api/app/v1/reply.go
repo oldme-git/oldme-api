@@ -2,7 +2,7 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
-	"oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model"
 )
 
 type ReplyReq struct {

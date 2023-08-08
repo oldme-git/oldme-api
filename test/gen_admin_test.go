@@ -2,11 +2,11 @@ package test
 
 import (
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
-	_ "oldme-api/internal/logic"
+	_ "github.com/oldme-git/oldme-api/internal/logic"
 
 	"github.com/gogf/gf/v2/os/gctx"
-	"oldme-api/internal/model"
-	"oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/service"
 	"testing"
 )
 

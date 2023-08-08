@@ -7,8 +7,8 @@ package dao
 import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
-	"oldme-api/internal/dao/internal"
-	"oldme-api/internal/model/entity"
+	"github.com/oldme-git/oldme-api/internal/dao/internal"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
 )
 
 // internalAdminDao is internal type for wrapping internal DAO implements.

@@ -1,6 +1,6 @@
 package model
 
-import "oldme-api/internal/model/entity"
+import "github.com/oldme-git/oldme-api/internal/model/entity"
 
 type ArticleGrpInput struct {
 	Name        string `v:"required|length:2, 30"`

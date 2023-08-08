@@ -2,13 +2,13 @@ package article_grp
 
 import (
 	"context"
+	"github.com/oldme-git/oldme-api/internal/dao"
+	"github.com/oldme-git/oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model/do"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
+	"github.com/oldme-git/oldme-api/internal/packed"
+	"github.com/oldme-git/oldme-api/internal/service"
 	"math/rand"
-	"oldme-api/internal/dao"
-	"oldme-api/internal/model"
-	"oldme-api/internal/model/do"
-	"oldme-api/internal/model/entity"
-	"oldme-api/internal/packed"
-	"oldme-api/internal/service"
 )
 
 type sSaying struct {

@@ -6,7 +6,7 @@ package service
 
 import (
 	"context"
-	"oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model"
 
 	"github.com/gogf/gf/v2/net/ghttp"
 )

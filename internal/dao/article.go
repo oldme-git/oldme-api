@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"oldme-api/internal/dao/internal"
+	"github.com/oldme-git/oldme-api/internal/dao/internal"
 )
 
 // internalArticleDao is internal type for wrapping internal DAO implements.

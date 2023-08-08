@@ -2,9 +2,9 @@ package admin
 
 import (
 	"context"
-	"oldme-api/api/admin/v1"
-	"oldme-api/internal/model"
-	"oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/api/admin/v1"
+	"github.com/oldme-git/oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/service"
 )
 
 var Login = &cLogin{}

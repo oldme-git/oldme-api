@@ -2,9 +2,9 @@ package rich
 
 import (
 	"context"
-	"oldme-api/internal/service"
-	"oldme-api/utility"
-	"oldme-api/utility/uregex"
+	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/utility"
+	"github.com/oldme-git/oldme-api/utility/uregex"
 	"strings"
 )
 

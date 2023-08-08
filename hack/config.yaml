@@ -9,6 +9,6 @@ gfcli:
         noModelComment:  true
 
   build:
-    name: "oldme-api"
+    name: "github.com/oldme-git/oldme-api"
     arch: "amd64"
     system: "linux"

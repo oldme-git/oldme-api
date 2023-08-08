@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/service"
 )
 
 type sMiddleware struct {

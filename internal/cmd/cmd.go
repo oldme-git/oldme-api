@@ -5,9 +5,9 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-	"oldme-api/internal/controller/admin"
-	"oldme-api/internal/controller/app"
-	"oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/controller/admin"
+	"github.com/oldme-git/oldme-api/internal/controller/app"
+	"github.com/oldme-git/oldme-api/internal/service"
 )
 
 var (

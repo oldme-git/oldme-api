@@ -1,4 +1,4 @@
-module oldme-api
+module github.com/oldme-git/oldme-api
 
 go 1.19
 

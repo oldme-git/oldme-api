@@ -2,7 +2,7 @@ package model
 
 import (
 	"github.com/gogf/gf/v2/os/gtime"
-	"oldme-api/internal/model/entity"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
 )
 
 const (

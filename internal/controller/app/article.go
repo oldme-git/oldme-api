@@ -2,11 +2,11 @@ package app
 
 import (
 	"context"
-	"oldme-api/api/app/v1"
-	"oldme-api/internal/dao"
-	"oldme-api/internal/model"
-	"oldme-api/internal/model/entity"
-	"oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/api/app/v1"
+	"github.com/oldme-git/oldme-api/internal/dao"
+	"github.com/oldme-git/oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
+	"github.com/oldme-git/oldme-api/internal/service"
 )
 
 var Article = cArticle{}

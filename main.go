@@ -6,12 +6,10 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
-	"oldme-api/internal/cmd"
-	_ "oldme-api/internal/logic"
-	_ "oldme-api/internal/packed"
+	"github.com/oldme-git/oldme-api/internal/cmd"
+	_ "github.com/oldme-git/oldme-api/internal/logic"
+	_ "github.com/oldme-git/oldme-api/internal/packed"
 )
-
-const version = "1.2.0"
 
 func main() {
 	var err error

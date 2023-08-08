@@ -1,7 +1,7 @@
 package model
 
 import (
-	"oldme-api/internal/model/entity"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
 )
 
 type ArticleInput struct {

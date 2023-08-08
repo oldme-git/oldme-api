@@ -4,12 +4,12 @@ import (
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/golang-jwt/jwt/v4"
-	"oldme-api/internal/consts"
-	"oldme-api/internal/dao"
-	"oldme-api/internal/model"
-	"oldme-api/internal/model/entity"
-	"oldme-api/internal/packed"
-	"oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/consts"
+	"github.com/oldme-git/oldme-api/internal/dao"
+	"github.com/oldme-git/oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
+	"github.com/oldme-git/oldme-api/internal/packed"
+	"github.com/oldme-git/oldme-api/internal/service"
 	"time"
 )
 
