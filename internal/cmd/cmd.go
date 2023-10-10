@@ -5,8 +5,10 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-	"github.com/oldme-git/oldme-api/internal/controller/admin"
-	"github.com/oldme-git/oldme-api/internal/controller/app"
+	"github.com/oldme-git/oldme-api/internal/controller/account"
+	"github.com/oldme-git/oldme-api/internal/controller/article"
+	"github.com/oldme-git/oldme-api/internal/controller/article_grp"
+	"github.com/oldme-git/oldme-api/internal/controller/login"
 	"github.com/oldme-git/oldme-api/internal/service"
 )
 
@@ -25,19 +27,15 @@ var (
 				group.Middleware(service.Middleware().Response)
 				group.Group("/admin", func(group *ghttp.RouterGroup) {
 					group.Group("/", func(group *ghttp.RouterGroup) {
-						group.Bind(admin.Login)
+						group.Bind(login.NewV1())
 					})
 					group.Group("/", func(group *ghttp.RouterGroup) {
 						group.Middleware(service.Middleware().Auth)
 						group.Group("/v1", func(group *ghttp.RouterGroup) {
 							group.Bind(
-								admin.Account,
-								admin.File,
-								admin.ArticleGrp,
-								admin.Article,
-								admin.Saying,
-								admin.Link,
-								admin.Replay,
+								account.NewV1(),
+								article.NewV1(),
+								article_grp.NewV1(),
 							)
 						})
 					})
@@ -46,10 +44,7 @@ var (
 				// app路由
 				group.Group("/app", func(group *ghttp.RouterGroup) {
 					group.Bind(
-						app.Article,
-						app.ArticleGrp,
-						app.Reply,
-						app.Other,
+						article_grp.NewApp(),
 					)
 				})
 			})
