@@ -1,4 +1,4 @@
-package v1
+package app
 
 import (
 	"github.com/gogf/gf/v2/frame/g"

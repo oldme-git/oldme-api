@@ -6,45 +6,45 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 )
 
-type ArticleGrpCreReq struct {
+type CreReq struct {
 	g.Meta `path:"article/group/create" method:"post" sm:"新增" tags:"文章分类"`
 	*model.ArticleGrpInput
 }
 
-type ArticleGrpCreRes struct {
+type CreRes struct {
 }
 
-type ArticleGrpUpdReq struct {
+type UpdReq struct {
 	g.Meta `path:"article/group/update/{id}" method:"post" sm:"修改" tags:"文章分类"`
 	*model.IdInput
 	*model.ArticleGrpInput
 }
 
-type ArticleGrpUpdRes struct {
+type UpdRes struct {
 }
 
-type ArticleGrpDelReq struct {
+type DelReq struct {
 	g.Meta `path:"article/group/delete/{id}" method:"post" sm:"删除" tags:"文章分类"`
 	*model.IdInput
 }
 
-type ArticleGrpDelRes struct {
+type DelRes struct {
 }
 
-type ArticleGrpListReq struct {
+type ListReq struct {
 	g.Meta `path:"article/group/list" method:"get" sm:"查询列表" tags:"文章分类"`
 }
 
-type ArticleGrpListRes struct {
+type ListRes struct {
 	List  []entity.ArticleGrp `json:"list"`
 	Total uint                `json:"total"`
 }
 
-type ArticleGrpShowReq struct {
+type ShowReq struct {
 	g.Meta `path:"article/group/show/{id}" method:"get" sm:"查询详情" tags:"文章分类"`
 	*model.IdInput
 }
 
-type ArticleGrpShowRes struct {
+type ShowRes struct {
 	*entity.ArticleGrp
 }
