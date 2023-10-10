@@ -23,11 +23,10 @@ database:
     level: "all"
     stdout: true
   default:
-    link:   "mysql:root:123456@tcp(192.168.10.47:3306)/oldme?loc=Local"
+    link:   "mysql:root:12345678@tcp(127.0.0.1:3306)/oldme?loc=Local"
     debug:  true
 
 redis:
   default:
-    address: 192.168.10.47:6379
+    address: 127.0.0.1:6379
     db: 1
-    pass: "secret"

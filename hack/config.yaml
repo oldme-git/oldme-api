@@ -4,7 +4,7 @@
 gfcli:
   gen:
     dao:
-      - link:            "mysql:root:123456@tcp(192.168.10.47:3306)/oldme"
+      - link:            "mysql:root:12345678@tcp(127.0.0.1:3306)/oldme"
         descriptionTag:  true
         noModelComment:  true
 
