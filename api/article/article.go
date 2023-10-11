@@ -1,12 +1,12 @@
 // =================================================================================
-// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT. 
+// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
 // =================================================================================
 
 package article
 
 import (
 	"context"
-	
+
 	"github.com/oldme-git/oldme-api/api/article/app"
 	"github.com/oldme-git/oldme-api/api/article/v1"
 )
@@ -28,5 +28,3 @@ type IArticleV1 interface {
 	Show(ctx context.Context, req *v1.ShowReq) (res *v1.ShowRes, err error)
 	ReCre(ctx context.Context, req *v1.ReCreReq) (res *v1.ReCreRes, err error)
 }
-
-

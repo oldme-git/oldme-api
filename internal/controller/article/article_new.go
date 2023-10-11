@@ -2,14 +2,20 @@
 // Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
 // =================================================================================
 
-package file
+package article
 
 import (
-	"context"
-
-	"github.com/oldme-git/oldme-api/api/file/v1"
+	"github.com/oldme-git/oldme-api/api/article"
 )
 
-type IFileV1 interface {
-	Upload(ctx context.Context, req *v1.UploadReq) (res *v1.UploadRes, err error)
+type ControllerApp struct{}
+
+func NewApp() article.IArticleApp {
+	return &ControllerApp{}
+}
+
+type ControllerV1 struct{}
+
+func NewV1() article.IArticleV1 {
+	return &ControllerV1{}
 }

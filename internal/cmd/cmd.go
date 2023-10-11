@@ -8,7 +8,12 @@ import (
 	"github.com/oldme-git/oldme-api/internal/controller/account"
 	"github.com/oldme-git/oldme-api/internal/controller/article"
 	"github.com/oldme-git/oldme-api/internal/controller/article_grp"
+	"github.com/oldme-git/oldme-api/internal/controller/file"
+	"github.com/oldme-git/oldme-api/internal/controller/link"
 	"github.com/oldme-git/oldme-api/internal/controller/login"
+	"github.com/oldme-git/oldme-api/internal/controller/other"
+	"github.com/oldme-git/oldme-api/internal/controller/reply"
+	"github.com/oldme-git/oldme-api/internal/controller/saying"
 	"github.com/oldme-git/oldme-api/internal/service"
 )
 
@@ -36,6 +41,10 @@ var (
 								account.NewV1(),
 								article.NewV1(),
 								article_grp.NewV1(),
+								file.NewV1(),
+								saying.NewV1(),
+								link.NewV1(),
+								reply.NewV1(),
 							)
 						})
 					})
@@ -44,7 +53,10 @@ var (
 				// app路由
 				group.Group("/app", func(group *ghttp.RouterGroup) {
 					group.Bind(
+						article.NewApp(),
 						article_grp.NewApp(),
+						reply.NewApp(),
+						other.NewApp(),
 					)
 				})
 			})

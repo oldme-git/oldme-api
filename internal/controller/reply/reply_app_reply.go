@@ -1,19 +1,15 @@
-package app
+package reply
 
 import (
 	"context"
-	v1 "github.com/oldme-git/oldme-api/api/app/v1"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 	"github.com/oldme-git/oldme-api/internal/service"
+
+	"github.com/oldme-git/oldme-api/api/reply/app"
 )
 
-var Reply = &cReply{}
-
-type cReply struct {
-}
-
-func (c *cReply) Reply(ctx context.Context, req *v1.ReplyReq) (res *v1.ReplyRes, err error) {
+func (c *ControllerApp) Reply(ctx context.Context, req *app.ReplyReq) (res *app.ReplyRes, err error) {
 	_, err = service.Reply().Cre(ctx, &entity.Reply{
 		Aid:     int(req.Aid),
 		Pid:     int(req.Pid),

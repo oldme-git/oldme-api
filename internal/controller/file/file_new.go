@@ -5,11 +5,11 @@
 package file
 
 import (
-	"context"
-
-	"github.com/oldme-git/oldme-api/api/file/v1"
+	"github.com/oldme-git/oldme-api/api/file"
 )
 
-type IFileV1 interface {
-	Upload(ctx context.Context, req *v1.UploadReq) (res *v1.UploadRes, err error)
+type ControllerV1 struct{}
+
+func NewV1() file.IFileV1 {
+	return &ControllerV1{}
 }

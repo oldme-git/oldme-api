@@ -171,6 +171,7 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list []
 
 // Show 读取文章详情
 func (s *sArticle) Show(ctx context.Context, id model.Id) (info *entity.Article, err error) {
+	info = &entity.Article{}
 	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
 		err = packed.Err.Skip(10100)
