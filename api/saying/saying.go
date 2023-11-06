@@ -1,12 +1,12 @@
 // =================================================================================
-// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
+// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT. 
 // =================================================================================
 
 package saying
 
 import (
 	"context"
-
+	
 	"github.com/oldme-git/oldme-api/api/saying/v1"
 )
 
@@ -16,3 +16,5 @@ type ISayingV1 interface {
 	SayingDel(ctx context.Context, req *v1.SayingDelReq) (res *v1.SayingDelRes, err error)
 	SayingList(ctx context.Context, req *v1.SayingListReq) (res *v1.SayingListRes, err error)
 }
+
+
