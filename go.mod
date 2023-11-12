@@ -1,6 +1,6 @@
 module github.com/oldme-git/oldme-api
 
-go 1.19
+go 1.20
 
 require (
 	github.com/dlclark/regexp2 v1.10.0

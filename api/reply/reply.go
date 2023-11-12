@@ -1,12 +1,12 @@
 // =================================================================================
-// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT.
+// Code generated and maintained by GoFrame CLI tool. DO NOT EDIT. 
 // =================================================================================
 
 package reply
 
 import (
 	"context"
-
+	
 	"github.com/oldme-git/oldme-api/api/reply/app"
 	"github.com/oldme-git/oldme-api/api/reply/v1"
 )
@@ -23,3 +23,5 @@ type IReplyV1 interface {
 	ReplyShow(ctx context.Context, req *v1.ReplyShowReq) (res *v1.ReplyShowRes, err error)
 	ReplyCheck(ctx context.Context, req *v1.ReplyCheckReq) (res *v1.ReplyCheckRes, err error)
 }
+
+
