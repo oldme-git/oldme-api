@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
@@ -11,8 +12,14 @@ import (
 	_ "github.com/oldme-git/oldme-api/internal/packed"
 )
 
+const (
+	VERSION = "v1.3.3"
+)
+
 func main() {
 	var err error
+
+	fmt.Println(VERSION)
 
 	// 全局设置i18n
 	g.I18n().SetLanguage("zh-CN")
