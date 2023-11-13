@@ -40,7 +40,7 @@ type ArticleList struct {
 type ArticleListSafe struct {
 	entity.Article
 	ArticleSafe
-	DeletedAt Out `json:"deletedAt,omitempty"`
+	Content Out `json:"content,omitempty"`
 }
 
 type ArticleSafe struct {
