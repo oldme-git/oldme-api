@@ -4,9 +4,9 @@ go 1.20
 
 require (
 	github.com/dlclark/regexp2 v1.10.0
-	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.6.1
-	github.com/gogf/gf/contrib/nosql/redis/v2 v2.6.1
-	github.com/gogf/gf/v2 v2.6.1
+	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.6.2
+	github.com/gogf/gf/contrib/nosql/redis/v2 v2.6.2
+	github.com/gogf/gf/v2 v2.6.2
 	github.com/golang-jwt/jwt/v4 v4.5.0
 )
 
