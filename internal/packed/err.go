@@ -42,7 +42,7 @@ func (c *pErr) Skip(code int, msg ...string) (err error) {
 		msg = append([]string{c.GetMsg(code)}, msg...)
 		msgStr = strings.Join(msg, ", ")
 	}
-	return gerror.NewOption(gerror.Option{
+	return gerror.NewWithOption(gerror.Option{
 		Stack: false,
 		Text:  msgStr,
 		Code:  gcode.New(code, "", nil),
