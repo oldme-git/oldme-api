@@ -2,8 +2,9 @@ package packed
 
 import (
 	"errors"
-	"path"
 	"strings"
+
+	"github.com/gogf/gf/v2/os/gfile"
 )
 
 type pExt struct {
@@ -13,9 +14,9 @@ var Ext pExt
 
 // Img 限制图片类文件类型
 func (e pExt) Img(imgPath string) error {
-	ext := ".png, .jpg, .jpeg, .gif"
+	ext := "png, jpg, jpeg, gif"
 	var (
-		pathExt  = path.Ext(imgPath)
+		pathExt  = gfile.ExtName(imgPath)
 		sliceExt = strings.Split(ext, ",")
 	)
 
