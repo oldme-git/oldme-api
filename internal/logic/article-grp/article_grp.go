@@ -2,6 +2,7 @@ package article_grp
 
 import (
 	"context"
+
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
@@ -27,7 +28,7 @@ func (s *sArticleGrp) Cre(ctx context.Context, in *model.ArticleGrpInput) (err e
 		Order:       in.Order,
 	}).Insert()
 	if err != nil {
-		return packed.Err.SysDb("insert", "article_grp")
+		return packed.Err.Sys(err)
 	}
 	return
 }
@@ -42,7 +43,7 @@ func (s *sArticleGrp) Upd(ctx context.Context, id model.Id, in *model.ArticleGrp
 		Order:       in.Order,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.SysDb("update", "article_grp")
+		return packed.Err.Sys(err)
 	}
 	return
 }
@@ -74,7 +75,7 @@ func (s *sArticleGrp) ListArticleCount(ctx context.Context) (map[uint]uint, erro
 		Where("onshow", 1).
 		Group("grp_id").All()
 	if err != nil {
-		return nil, packed.Err.SysDb("select", "article")
+		return nil, packed.Err.Sys(err)
 	}
 	idCountMap := make(map[uint]uint, len(listCount))
 	for _, v := range listCount {

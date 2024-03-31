@@ -3,11 +3,12 @@
 package middleware
 
 import (
+	"net/http"
+
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/oldme-git/oldme-api/internal/packed"
-	"net/http"
 )
 
 type Response struct {
@@ -31,14 +32,20 @@ func (s *sMiddleware) Response(r *ghttp.Request) {
 	}
 
 	var (
-		res  = r.GetHandlerResponse()
-		err  = r.GetError()
-		code = gerror.Code(err)
-		msg  string
+		res     = r.GetHandlerResponse()
+		err     = r.GetError()
+		code    = gerror.Code(err)
+		codeInt = code.Code()
+		msg     string
 	)
 
 	if err != nil {
-		msg = err.Error()
+		// 如果是系统错误，不要把错误信息抛出到客户端，防止泄露系统信息
+		if codeInt == packed.CodeErrSys {
+			msg = packed.Err.GetSysMsg()
+		} else {
+			msg = err.Error()
+		}
 	} else {
 		code = gcode.CodeOK
 		msg = packed.Err.GetMsg(code.Code())

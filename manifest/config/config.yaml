@@ -3,15 +3,14 @@ server:
   clientMaxBodySize: "2MB"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
+  logger:
+    path: "./log"   # 日志文件路径。默认为空，表示关闭，仅输出到终端
+    file: "{Y-m-d}.log"
+    level: "all"
+    stdout: true
 
 # 生成登录token的key，请尽量写的越复杂
 jwtKey: "oldme-jwt"
-
-logger:
-  path: "./log"   # 日志文件路径。默认为空，表示关闭，仅输出到终端
-  file: "{Y-m-d}.log"
-  level: "all"
-  stdout: true
 
 upload:
   url: "http://127.0.0.1:8001/static" # url访问路径，会在http接口中拼接返回

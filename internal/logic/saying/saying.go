@@ -2,13 +2,14 @@ package article_grp
 
 import (
 	"context"
+	"math/rand"
+
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
-	"math/rand"
 )
 
 type sSaying struct {
@@ -24,7 +25,7 @@ func (s *sSaying) Cre(ctx context.Context, saying string) (err error) {
 		Saying: saying,
 	}).Insert()
 	if err != nil {
-		err = packed.Err.SysDb("insert", "saying")
+		err = packed.Err.Sys(err)
 	}
 	return
 }
@@ -35,7 +36,7 @@ func (s *sSaying) Upd(ctx context.Context, id model.Id, saying string) (err erro
 		Saying: saying,
 	}).Where("id", id).Update()
 	if err != nil {
-		err = packed.Err.SysDb("update", "saying")
+		err = packed.Err.Sys(err)
 	}
 	return
 }
@@ -44,7 +45,7 @@ func (s *sSaying) Upd(ctx context.Context, id model.Id, saying string) (err erro
 func (s *sSaying) Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Saying.Ctx(ctx).Where("id", id).Delete()
 	if err != nil {
-		err = packed.Err.SysDb("delete", "saying")
+		err = packed.Err.Sys(err)
 	}
 	return
 }
@@ -53,7 +54,7 @@ func (s *sSaying) Del(ctx context.Context, id model.Id) (err error) {
 func (s *sSaying) List(ctx context.Context) (list []entity.Saying, err error) {
 	res, err := dao.Saying.Ctx(ctx).All()
 	if err != nil {
-		return nil, packed.Err.SysDb("select", "saying")
+		return nil, packed.Err.Sys(err)
 	}
 	_ = res.Structs(&list)
 	return
@@ -68,7 +69,7 @@ func (s *sSaying) Show(ctx context.Context) (saying string, err error) {
 	}
 	v, err := dao.Saying.Ctx(ctx).Fields("saying").Limit(rand.Intn(int(count))-1, 1).Value()
 	if err != nil {
-		err = packed.Err.SysDb("select", "saying")
+		err = packed.Err.Sys(err)
 		return
 	}
 	saying = v.String()

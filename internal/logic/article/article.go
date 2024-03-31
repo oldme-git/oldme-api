@@ -2,6 +2,7 @@ package article
 
 import (
 	"context"
+
 	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
@@ -57,7 +58,7 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId mode
 		LastedAt:    gtime.Now(),
 	}).Insert()
 	if err != nil {
-		return 0, packed.Err.SysDb("create", "article")
+		return 0, packed.Err.Sys(err)
 	}
 	id, _ := res.LastInsertId()
 	return model.Id(id), err
@@ -113,7 +114,7 @@ func (s *sArticle) Upd(ctx context.Context, id model.Id, in *model.ArticleInput)
 		Post:        in.Post,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.SysDb("update", "article")
+		return packed.Err.Sys(err)
 	}
 
 	return

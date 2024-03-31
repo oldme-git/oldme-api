@@ -2,14 +2,15 @@ package reply
 
 import (
 	"context"
+	"strings"
+	"sync"
+
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
-	"strings"
-	"sync"
 )
 
 type sReply struct {
@@ -56,7 +57,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 
 	res, err := dao.Reply.Ctx(ctx).Data(in).Insert()
 	if err != nil {
-		return 0, packed.Err.SysDb("insert", "reply")
+		return 0, packed.Err.Sys(err)
 	}
 	resId, _ := res.LastInsertId()
 	return model.Id(resId), nil
@@ -76,7 +77,7 @@ func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err
 		Content: in.Content,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.SysDb("update", "reply")
+		return packed.Err.Sys(err)
 	}
 	return
 }
@@ -117,7 +118,7 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 
 	data, err := db.All()
 	if err != nil {
-		err = packed.Err.SysDb("select", "relay")
+		err = packed.Err.Sys(err)
 		return
 	}
 	list = &[]entity.Reply{}
@@ -125,7 +126,7 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 	// 查询总数据条数
 	totalInt, err := db.Count()
 	if err != nil {
-		err = packed.Err.SysDb("select", "relay")
+		err = packed.Err.Sys(err)
 		return
 	}
 	total = uint(totalInt)
@@ -184,7 +185,7 @@ func (s *sReply) Check(ctx context.Context, id model.Id, result bool, reasonSlic
 		Reason: reason,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.SysDb("update", "reply")
+		return packed.Err.Sys(err)
 	}
 	return err
 }
@@ -226,7 +227,7 @@ func (s *sReply) GetAid(ctx context.Context, pid model.Id) (model.Id, error) {
 func (s *sReply) ListForAid(ctx context.Context, aid model.Id) (uint, []model.ReplyFloorApp, error) {
 	data, err := dao.Reply.Ctx(ctx).Where("aid", aid).Where("status", model.SuccessStatus).All()
 	if err != nil {
-		return 0, nil, packed.Err.SysDb("select", "reply")
+		return 0, nil, packed.Err.Sys(err)
 	}
 	var (
 		list      []entity.Reply

@@ -2,6 +2,7 @@ package article_grp
 
 import (
 	"context"
+
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
@@ -25,7 +26,7 @@ func (s *sLink) Cre(ctx context.Context, in *model.LinkInput) (err error) {
 		Link:        in.Link,
 	}).Insert()
 	if err != nil {
-		err = packed.Err.SysDb("insert", "link")
+		err = packed.Err.Sys(err)
 	}
 	return
 }
@@ -38,7 +39,7 @@ func (s *sLink) Upd(ctx context.Context, id model.Id, in *model.LinkInput) (err 
 		Link:        in.Link,
 	}).Where("id", id).Update()
 	if err != nil {
-		err = packed.Err.SysDb("update", "link")
+		err = packed.Err.Sys(err)
 	}
 	return
 }
@@ -47,7 +48,7 @@ func (s *sLink) Upd(ctx context.Context, id model.Id, in *model.LinkInput) (err 
 func (s *sLink) Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Link.Ctx(ctx).Where("id", id).Delete()
 	if err != nil {
-		err = packed.Err.SysDb("delete", "link")
+		err = packed.Err.Sys(err)
 	}
 	return
 }
@@ -56,7 +57,7 @@ func (s *sLink) Del(ctx context.Context, id model.Id) (err error) {
 func (s *sLink) List(ctx context.Context) (list []entity.Link, err error) {
 	res, err := dao.Link.Ctx(ctx).All()
 	if err != nil {
-		return nil, packed.Err.SysDb("select", "link")
+		return nil, packed.Err.Sys(err)
 	}
 	_ = res.Structs(&list)
 	return

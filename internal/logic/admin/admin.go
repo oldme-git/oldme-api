@@ -2,6 +2,7 @@ package admin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/grand"
@@ -36,7 +37,7 @@ func (s *sAdmin) Create(ctx context.Context, in *model.AdminInput) (err error) {
 		Register:  gtime.Now(),
 	}).Insert()
 	if err != nil {
-		err = packed.Err.SysDb("insert", "admin")
+		err = packed.Err.Sys(err)
 	}
 	return
 }
