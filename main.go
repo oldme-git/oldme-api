@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
@@ -13,7 +14,7 @@ import (
 )
 
 const (
-	VERSION = "v1.3.4"
+	VERSION = "v1.3.5"
 )
 
 func main() {
