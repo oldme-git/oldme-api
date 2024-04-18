@@ -2,15 +2,16 @@ package account
 
 import (
 	"context"
+	"time"
+
 	"github.com/gogf/gf/v2/frame/g"
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/oldme-git/oldme-api/internal/consts"
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
-	"time"
 )
 
 type sAccount struct {
