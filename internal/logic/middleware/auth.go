@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/golang-jwt/jwt/v4"
-	"github.com/oldme-git/oldme-api/internal/consts"
 	"net/http"
+
+	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/oldme-git/oldme-api/internal/consts"
 )
 
 func (s *sMiddleware) Auth(r *ghttp.Request) {
