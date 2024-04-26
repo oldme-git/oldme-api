@@ -10,8 +10,8 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type sAdmin struct {
@@ -37,7 +37,7 @@ func (s *sAdmin) Create(ctx context.Context, in *model.AdminInput) (err error) {
 		Register:  gtime.Now(),
 	}).Insert()
 	if err != nil {
-		err = packed.Err.Sys(err)
+		err = utility.Err.Sys(err)
 	}
 	return
 }

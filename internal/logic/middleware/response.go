@@ -8,7 +8,7 @@ import (
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/oldme-git/oldme-api/internal/packed"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type Response struct {
@@ -41,14 +41,14 @@ func (s *sMiddleware) Response(r *ghttp.Request) {
 
 	if err != nil {
 		// 如果是系统错误，不要把错误信息抛出到客户端，防止泄露系统信息
-		if codeInt == packed.CodeErrSys {
-			msg = packed.Err.GetSysMsg()
+		if codeInt == utility.CodeErrSys {
+			msg = utility.Err.GetSysMsg()
 		} else {
 			msg = err.Error()
 		}
 	} else {
 		code = gcode.CodeOK
-		msg = packed.Err.GetMsg(code.Code())
+		msg = utility.Err.GetMsg(code.Code())
 	}
 
 	r.Response.WriteJson(Response{

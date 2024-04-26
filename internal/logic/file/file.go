@@ -3,6 +3,10 @@ package file
 import (
 	"context"
 	"errors"
+	"path"
+	"strings"
+	"time"
+
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcfg"
 	"github.com/gogf/gf/v2/os/gfile"
@@ -11,11 +15,8 @@ import (
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/oldme-git/oldme-api/internal/model"
-	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
-	"path"
-	"strings"
-	"time"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type sFile struct {
@@ -65,15 +66,15 @@ func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.F
 		return &model.FileInfo{
 			Name: path.Base(src),
 			Url:  src,
-		}, packed.Err.Skip(10503, err.Error())
+		}, utility.Err.Skip(10503, err.Error())
 	}
 	return
 }
 
 // SaveImg 保存图片文件到img库
 func (s *sFile) SaveImg(ctx context.Context, src string) (info *model.FileInfo, err error) {
-	if err = packed.Ext.Img(src); err != nil {
-		err = packed.Err.Skip(10501, err.Error())
+	if err = utility.Ext.Img(src); err != nil {
+		err = utility.Err.Skip(10501, err.Error())
 		return
 	}
 	return service.File().Save(ctx, src, "img")
@@ -85,7 +86,7 @@ func (s *sFile) Del(ctx context.Context, src string) (err error) {
 	// url换成dir形式
 	src = strings.Replace(src, conf["url"], conf["dir"], 1)
 	if !gfile.IsFile(src) {
-		err = packed.Err.Skip(10503)
+		err = utility.Err.Skip(10503)
 		return
 	}
 	err = gfile.Remove(src)

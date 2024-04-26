@@ -11,8 +11,8 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type sArticle struct {
@@ -26,7 +26,7 @@ func init() {
 func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId model.Id, err error) {
 	// 判断该分类是否存在
 	if ok := service.ArticleGrp().IsExist(ctx, in.GrpId); !ok {
-		err = packed.Err.Skip(10101)
+		err = utility.Err.Skip(10101)
 		return
 	}
 	// 保存thumb到正式目录
@@ -58,7 +58,7 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId mode
 		LastedAt:    gtime.Now(),
 	}).Insert()
 	if err != nil {
-		return 0, packed.Err.Sys(err)
+		return 0, utility.Err.Sys(err)
 	}
 	id, _ := res.LastInsertId()
 	return model.Id(id), err
@@ -68,7 +68,7 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId mode
 func (s *sArticle) Upd(ctx context.Context, id model.Id, in *model.ArticleInput) (err error) {
 	// 判断该分类是否存在
 	if ok := service.ArticleGrp().IsExist(ctx, in.GrpId); !ok {
-		err = packed.Err.Skip(10101)
+		err = utility.Err.Skip(10101)
 		return
 	}
 
@@ -114,7 +114,7 @@ func (s *sArticle) Upd(ctx context.Context, id model.Id, in *model.ArticleInput)
 		Post:        in.Post,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.Sys(err)
+		return utility.Err.Sys(err)
 	}
 
 	return
@@ -175,7 +175,7 @@ func (s *sArticle) Show(ctx context.Context, id model.Id) (info *entity.Article,
 	info = &entity.Article{}
 	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = packed.Err.Skip(10100)
+		err = utility.Err.Skip(10100)
 	}
 	return
 }

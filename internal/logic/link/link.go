@@ -7,8 +7,8 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type sLink struct {
@@ -26,7 +26,7 @@ func (s *sLink) Cre(ctx context.Context, in *model.LinkInput) (err error) {
 		Link:        in.Link,
 	}).Insert()
 	if err != nil {
-		err = packed.Err.Sys(err)
+		err = utility.Err.Sys(err)
 	}
 	return
 }
@@ -39,7 +39,7 @@ func (s *sLink) Upd(ctx context.Context, id model.Id, in *model.LinkInput) (err 
 		Link:        in.Link,
 	}).Where("id", id).Update()
 	if err != nil {
-		err = packed.Err.Sys(err)
+		err = utility.Err.Sys(err)
 	}
 	return
 }
@@ -48,7 +48,7 @@ func (s *sLink) Upd(ctx context.Context, id model.Id, in *model.LinkInput) (err 
 func (s *sLink) Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Link.Ctx(ctx).Where("id", id).Delete()
 	if err != nil {
-		err = packed.Err.Sys(err)
+		err = utility.Err.Sys(err)
 	}
 	return
 }
@@ -57,7 +57,7 @@ func (s *sLink) Del(ctx context.Context, id model.Id) (err error) {
 func (s *sLink) List(ctx context.Context) (list []entity.Link, err error) {
 	res, err := dao.Link.Ctx(ctx).All()
 	if err != nil {
-		return nil, packed.Err.Sys(err)
+		return nil, utility.Err.Sys(err)
 	}
 	_ = res.Structs(&list)
 	return

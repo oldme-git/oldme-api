@@ -10,7 +10,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/oldme-git/oldme-api/internal/cmd"
 	_ "github.com/oldme-git/oldme-api/internal/logic"
-	_ "github.com/oldme-git/oldme-api/internal/packed"
+	_ "github.com/oldme-git/oldme-api/internal/utility"
 )
 
 const (

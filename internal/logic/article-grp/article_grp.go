@@ -7,8 +7,8 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type sArticleGrp struct {
@@ -28,7 +28,7 @@ func (s *sArticleGrp) Cre(ctx context.Context, in *model.ArticleGrpInput) (err e
 		Order:       in.Order,
 	}).Insert()
 	if err != nil {
-		return packed.Err.Sys(err)
+		return utility.Err.Sys(err)
 	}
 	return
 }
@@ -43,7 +43,7 @@ func (s *sArticleGrp) Upd(ctx context.Context, id model.Id, in *model.ArticleGrp
 		Order:       in.Order,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.Sys(err)
+		return utility.Err.Sys(err)
 	}
 	return
 }
@@ -75,7 +75,7 @@ func (s *sArticleGrp) ListArticleCount(ctx context.Context) (map[uint]uint, erro
 		Where("onshow", 1).
 		Group("grp_id").All()
 	if err != nil {
-		return nil, packed.Err.Sys(err)
+		return nil, utility.Err.Sys(err)
 	}
 	idCountMap := make(map[uint]uint, len(listCount))
 	for _, v := range listCount {
@@ -89,7 +89,7 @@ func (s *sArticleGrp) ListArticleCount(ctx context.Context) (map[uint]uint, erro
 func (s *sArticleGrp) Show(ctx context.Context, id model.Id) (info *entity.ArticleGrp, err error) {
 	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = packed.Err.Skip(10100)
+		err = utility.Err.Skip(10100)
 	}
 	return
 }

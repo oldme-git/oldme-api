@@ -9,8 +9,8 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type sReply struct {
@@ -24,7 +24,7 @@ func init() {
 func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, err error) {
 	if in.Site != "" {
 		if !strings.HasPrefix(in.Site, "http") {
-			return 0, packed.Err.Skip(10301)
+			return 0, utility.Err.Skip(10301)
 		}
 	}
 
@@ -39,7 +39,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 
 	// 判断该文章是否存在
 	if ok := service.Article().IsExist(ctx, model.Id(in.Aid)); !ok {
-		return 0, packed.Err.Skip(10201)
+		return 0, utility.Err.Skip(10201)
 	}
 
 	// 植入pName
@@ -57,7 +57,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 
 	res, err := dao.Reply.Ctx(ctx).Data(in).Insert()
 	if err != nil {
-		return 0, packed.Err.Sys(err)
+		return 0, utility.Err.Sys(err)
 	}
 	resId, _ := res.LastInsertId()
 	return model.Id(resId), nil
@@ -67,7 +67,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err error) {
 	if in.Site != "" {
 		if !strings.HasPrefix(in.Site, "http") {
-			return packed.Err.Skip(10301)
+			return utility.Err.Skip(10301)
 		}
 	}
 	_, err = dao.Reply.Ctx(ctx).Data(do.Reply{
@@ -77,7 +77,7 @@ func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err
 		Content: in.Content,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.Sys(err)
+		return utility.Err.Sys(err)
 	}
 	return
 }
@@ -118,7 +118,7 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 
 	data, err := db.All()
 	if err != nil {
-		err = packed.Err.Sys(err)
+		err = utility.Err.Sys(err)
 		return
 	}
 	list = &[]entity.Reply{}
@@ -126,7 +126,7 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 	// 查询总数据条数
 	totalInt, err := db.Count()
 	if err != nil {
-		err = packed.Err.Sys(err)
+		err = utility.Err.Sys(err)
 		return
 	}
 	total = uint(totalInt)
@@ -138,7 +138,7 @@ func (s *sReply) Show(ctx context.Context, id model.Id) (info *model.ReplyShow, 
 	info = &model.ReplyShow{}
 	err = dao.Reply.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = packed.Err.Skip(10100)
+		err = utility.Err.Skip(10100)
 	}
 
 	// 读取所属文章名称
@@ -159,7 +159,7 @@ func (s *sReply) Details(ctx context.Context, id model.Id) (info *entity.Reply, 
 	info = &entity.Reply{}
 	err = dao.Reply.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = packed.Err.Skip(10100)
+		err = utility.Err.Skip(10100)
 	}
 	return
 }
@@ -185,7 +185,7 @@ func (s *sReply) Check(ctx context.Context, id model.Id, result bool, reasonSlic
 		Reason: reason,
 	}).Where("id", id).Update()
 	if err != nil {
-		return packed.Err.Sys(err)
+		return utility.Err.Sys(err)
 	}
 	return err
 }
@@ -216,7 +216,7 @@ func (s *sReply) GetAid(ctx context.Context, pid model.Id) (model.Id, error) {
 		parent := &entity.Reply{}
 		err := dao.Reply.Ctx(ctx).Where("id", pid).Where("status", model.SuccessStatus).Scan(parent)
 		if err != nil {
-			return 0, packed.Err.Skip(10303)
+			return 0, utility.Err.Skip(10303)
 		}
 		aid = model.Id(parent.Aid)
 	}
@@ -227,7 +227,7 @@ func (s *sReply) GetAid(ctx context.Context, pid model.Id) (model.Id, error) {
 func (s *sReply) ListForAid(ctx context.Context, aid model.Id) (uint, []model.ReplyFloorApp, error) {
 	data, err := dao.Reply.Ctx(ctx).Where("aid", aid).Where("status", model.SuccessStatus).All()
 	if err != nil {
-		return 0, nil, packed.Err.Sys(err)
+		return 0, nil, utility.Err.Sys(err)
 	}
 	var (
 		list      []entity.Reply

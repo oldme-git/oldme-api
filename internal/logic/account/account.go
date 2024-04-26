@@ -5,13 +5,13 @@ import (
 	"time"
 
 	"github.com/gogf/gf/v2/frame/g"
-	"github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/oldme-git/oldme-api/internal/consts"
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/packed"
 	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
 type sAccount struct {
@@ -45,7 +45,7 @@ func (s *sAccount) Login(ctx context.Context, in *model.Login) (tokenString stri
 		tokenString, _ = token.SignedString(jwtKey)
 		err = nil
 	} else {
-		err = packed.Err.Skip(20100)
+		err = utility.Err.Skip(20100)
 	}
 	return
 }
@@ -66,7 +66,7 @@ func (s *sAccount) Info(ctx context.Context) (admin *entity.Admin, err error) {
 	if claims, ok := tokenClaims.Claims.(*AdminClaims); ok && tokenClaims.Valid {
 		admin = dao.Admin.GetAdmin(claims.Username)
 	} else {
-		err = packed.Err.Skip(10100)
+		err = utility.Err.Skip(10100)
 	}
 	return
 }
