@@ -37,8 +37,8 @@ type ReplyListReq struct {
 }
 
 type ReplyListRes struct {
-	List  *[]entity.Reply `json:"list"`
-	Total uint            `json:"total"`
+	List  []entity.Reply `json:"list"`
+	Total uint           `json:"total"`
 }
 
 type ReplyShowReq struct {

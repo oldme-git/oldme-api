@@ -89,7 +89,7 @@ func (s *sReply) Del(ctx context.Context, id model.Id) (err error) {
 }
 
 // List 读取文章回复列表
-func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]entity.Reply, total uint, err error) {
+func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list []entity.Reply, total uint, err error) {
 	if query == nil {
 		query = &model.ReplyQuery{}
 	}
@@ -116,20 +116,16 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list *[]ent
 	}
 	db = db.Order("created_at desc, id desc").Page(query.Page, query.Size)
 
-	data, err := db.All()
+	data, totalInt, err := db.AllAndCount(true)
 	if err != nil {
 		err = utility.Err.Sys(err)
 		return
 	}
-	list = &[]entity.Reply{}
-	_ = data.Structs(list)
-	// 查询总数据条数
-	totalInt, err := db.Count()
-	if err != nil {
-		err = utility.Err.Sys(err)
-		return
-	}
+	list = []entity.Reply{}
+	_ = data.Structs(&list)
+
 	total = uint(totalInt)
+
 	return
 }
 

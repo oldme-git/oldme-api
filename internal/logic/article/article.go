@@ -154,18 +154,14 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list []
 	}
 	db = db.Order("created_at desc, id desc").Page(query.Page, query.Size)
 
-	data, err := db.All()
+	data, totalInt, err := db.AllAndCount(true)
 	if err != nil {
+		err = utility.Err.Sys(err)
 		return
 	}
 	list = []entity.Article{}
 	_ = data.Structs(&list)
 
-	// 查询总数据条数
-	totalInt, err := db.Count()
-	if err != nil {
-		return
-	}
 	total = uint(totalInt)
 	return
 }
