@@ -1,15 +1,16 @@
 package middleware
 
 import (
+	"net/http"
+
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/oldme-git/oldme-api/internal/consts"
-	"net/http"
+	"github.com/oldme-git/oldme-api/utility/ujwt"
 )
 
 func (s *sMiddleware) Auth(r *ghttp.Request) {
 	var (
-		jwtKey      = consts.JwtKey
+		jwtKey      = ujwt.JwtKey
 		tokenString = r.Header.Get("Authorization")
 	)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

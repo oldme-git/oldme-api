@@ -6,12 +6,12 @@ import (
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/oldme-git/oldme-api/internal/consts"
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 	"github.com/oldme-git/oldme-api/internal/service"
 	"github.com/oldme-git/oldme-api/internal/utility"
+	"github.com/oldme-git/oldme-api/utility/ujwt"
 )
 
 type sAccount struct {
@@ -21,7 +21,7 @@ func init() {
 	service.RegisterAccount(&sAccount{})
 }
 
-var jwtKey = consts.JwtKey
+var jwtKey = ujwt.JwtKey
 
 type AdminClaims struct {
 	Id       uint
