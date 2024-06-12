@@ -34,3 +34,6 @@
 - 修改 manifest/config下config.yaml配置文件
 - 安装 go.mod 依赖
 - 运行 go run main.go
+
+# 特别注意
+- Logic 和 Api 之前在本项目中透传了，实际项目中，必须重新定义！！！
