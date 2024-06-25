@@ -5,4 +5,4 @@ ADD ./main $WORKDIR/main
 RUN chmod +x $WORKDIR/main
 
 WORKDIR $WORKDIR
-CMD ./main
+CMD /app/main
