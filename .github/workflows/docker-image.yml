@@ -28,9 +28,7 @@ jobs:
         run: go mod download
 
       - name: Build the Docker image
-        run: |
-          cd app/user
-          
+        run: |          
           GOOS=linux GOARCH=amd64 go build -o main main.go
           
           docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
