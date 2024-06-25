@@ -11,13 +11,13 @@ import (
 	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
-type Response struct {
+type ResponseData struct {
 	Code    int         `json:"code"    dc:"业务码"`
 	Message string      `json:"message" dc:"业务码说明"`
 	Data    interface{} `json:"data"    dc:"返回的数据"`
 }
 
-func (s *sMiddleware) Response(r *ghttp.Request) {
+func Response(r *ghttp.Request) {
 	r.Middleware.Next()
 
 	if r.Response.BufferLength() > 0 {
@@ -51,7 +51,7 @@ func (s *sMiddleware) Response(r *ghttp.Request) {
 		msg = utility.Err.GetMsg(code.Code())
 	}
 
-	r.Response.WriteJson(Response{
+	r.Response.WriteJson(ResponseData{
 		Code:    code.Code(),
 		Message: msg,
 		Data:    res,

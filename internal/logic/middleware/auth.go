@@ -8,7 +8,7 @@ import (
 	"github.com/oldme-git/oldme-api/utility/ujwt"
 )
 
-func (s *sMiddleware) Auth(r *ghttp.Request) {
+func Auth(r *ghttp.Request) {
 	var (
 		jwtKey      = ujwt.JwtKey
 		tokenString = r.Header.Get("Authorization")

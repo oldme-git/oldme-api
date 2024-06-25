@@ -2,10 +2,10 @@ package article
 
 import (
 	"context"
-	"github.com/oldme-git/oldme-api/internal/model"
-	"github.com/oldme-git/oldme-api/internal/service"
 
 	"github.com/oldme-git/oldme-api/api/article/app"
+	"github.com/oldme-git/oldme-api/internal/logic/article"
+	"github.com/oldme-git/oldme-api/internal/model"
 )
 
 func (c *ControllerApp) List(ctx context.Context, req *app.ListReq) (res *app.ListRes, err error) {
@@ -14,7 +14,7 @@ func (c *ControllerApp) List(ctx context.Context, req *app.ListReq) (res *app.Li
 		Onshow:           true,
 		IsDel:            false,
 	}
-	list, total, err := service.Article().List(ctx, query)
+	list, total, err := article.List(ctx, query)
 	if err == nil {
 		var listOut []model.ArticleListSafe
 		for _, v := range list {

@@ -1,4 +1,4 @@
-package article_grp
+package saying
 
 import (
 	"context"
@@ -8,19 +8,11 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/service"
 	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
-type sSaying struct {
-}
-
-func init() {
-	service.RegisterSaying(&sSaying{})
-}
-
 // Cre 创建句子
-func (s *sSaying) Cre(ctx context.Context, saying string) (err error) {
+func Cre(ctx context.Context, saying string) (err error) {
 	_, err = dao.Saying.Ctx(ctx).Data(do.Saying{
 		Saying: saying,
 	}).Insert()
@@ -31,7 +23,7 @@ func (s *sSaying) Cre(ctx context.Context, saying string) (err error) {
 }
 
 // Upd 更新句子
-func (s *sSaying) Upd(ctx context.Context, id model.Id, saying string) (err error) {
+func Upd(ctx context.Context, id model.Id, saying string) (err error) {
 	_, err = dao.Saying.Ctx(ctx).Data(do.Saying{
 		Saying: saying,
 	}).Where("id", id).Update()
@@ -42,7 +34,7 @@ func (s *sSaying) Upd(ctx context.Context, id model.Id, saying string) (err erro
 }
 
 // Del 删除句子
-func (s *sSaying) Del(ctx context.Context, id model.Id) (err error) {
+func Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Saying.Ctx(ctx).Where("id", id).Delete()
 	if err != nil {
 		err = utility.Err.Sys(err)
@@ -51,7 +43,7 @@ func (s *sSaying) Del(ctx context.Context, id model.Id) (err error) {
 }
 
 // List 读取句子列表
-func (s *sSaying) List(ctx context.Context) (list []entity.Saying, err error) {
+func List(ctx context.Context) (list []entity.Saying, err error) {
 	res, err := dao.Saying.Ctx(ctx).All()
 	if err != nil {
 		return nil, utility.Err.Sys(err)
@@ -61,7 +53,7 @@ func (s *sSaying) List(ctx context.Context) (list []entity.Saying, err error) {
 }
 
 // Show 随机读取一条句子
-func (s *sSaying) Show(ctx context.Context) (saying string, err error) {
+func Show(ctx context.Context) (saying string, err error) {
 	// 不直接使用一条sql查询，先聚合查询在通过go取随机数读取随机数据
 	count, _ := dao.Saying.Ctx(ctx).Count()
 	if count == 0 {

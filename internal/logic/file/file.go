@@ -15,19 +15,11 @@ import (
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/oldme-git/oldme-api/internal/model"
-	"github.com/oldme-git/oldme-api/internal/service"
 	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
-type sFile struct {
-}
-
-func init() {
-	service.RegisterFile(&sFile{})
-}
-
 // Upload 上传文件到临时库
-func (s *sFile) Upload(ctx context.Context, file *ghttp.UploadFile) (info *model.FileInfo, err error) {
+func Upload(ctx context.Context, file *ghttp.UploadFile) (info *model.FileInfo, err error) {
 	var (
 		name    string
 		lib     = "tmp"
@@ -45,13 +37,13 @@ func (s *sFile) Upload(ctx context.Context, file *ghttp.UploadFile) (info *model
 	}
 	// 启动定时器，让临时图片只能存在30分钟
 	gtimer.AddOnce(ctx, 30*time.Minute, func(ctx context.Context) {
-		_ = service.File().Del(ctx, urlPath)
+		_ = Del(ctx, urlPath)
 	})
 	return
 }
 
 // Save 保存文件到正式库，如果src不是tmp库中的文件，则不做操作，原路返回
-func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.FileInfo, err error) {
+func Save(ctx context.Context, src string, lib string) (info *model.FileInfo, err error) {
 	// 先从src获取文件名称
 	name, err := getTmpName(ctx, src)
 	if err != nil {
@@ -72,16 +64,16 @@ func (s *sFile) Save(ctx context.Context, src string, lib string) (info *model.F
 }
 
 // SaveImg 保存图片文件到img库
-func (s *sFile) SaveImg(ctx context.Context, src string) (info *model.FileInfo, err error) {
+func SaveImg(ctx context.Context, src string) (info *model.FileInfo, err error) {
 	if err = utility.Ext.Img(src); err != nil {
 		err = utility.Err.Skip(10501, err.Error())
 		return
 	}
-	return service.File().Save(ctx, src, "img")
+	return Save(ctx, src, "img")
 }
 
 // Del 删除
-func (s *sFile) Del(ctx context.Context, src string) (err error) {
+func Del(ctx context.Context, src string) (err error) {
 	conf, _ := getConf(ctx)
 	// url换成dir形式
 	src = strings.Replace(src, conf["url"], conf["dir"], 1)

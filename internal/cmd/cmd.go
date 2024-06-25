@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
@@ -14,7 +15,7 @@ import (
 	"github.com/oldme-git/oldme-api/internal/controller/other"
 	"github.com/oldme-git/oldme-api/internal/controller/reply"
 	"github.com/oldme-git/oldme-api/internal/controller/saying"
-	"github.com/oldme-git/oldme-api/internal/service"
+	"github.com/oldme-git/oldme-api/internal/logic/middleware"
 )
 
 var (
@@ -29,13 +30,13 @@ var (
 				// group.Middleware(ghttp.MiddlewareCORS)
 				// admin路由
 				// group.Middleware(ghttp.MiddlewareHandlerResponse)
-				group.Middleware(service.Middleware().Response)
+				group.Middleware(middleware.Response)
 				group.Group("/admin", func(group *ghttp.RouterGroup) {
 					group.Group("/", func(group *ghttp.RouterGroup) {
 						group.Bind(login.NewV1())
 					})
 					group.Group("/", func(group *ghttp.RouterGroup) {
-						group.Middleware(service.Middleware().Auth)
+						group.Middleware(middleware.Auth)
 						group.Group("/v1", func(group *ghttp.RouterGroup) {
 							group.Bind(
 								account.NewV1(),

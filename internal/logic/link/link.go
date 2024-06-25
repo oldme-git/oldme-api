@@ -1,4 +1,4 @@
-package article_grp
+package link
 
 import (
 	"context"
@@ -7,19 +7,11 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/service"
 	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
-type sLink struct {
-}
-
-func init() {
-	service.RegisterLink(&sLink{})
-}
-
 // Cre 创建友链
-func (s *sLink) Cre(ctx context.Context, in *model.LinkInput) (err error) {
+func Cre(ctx context.Context, in *model.LinkInput) (err error) {
 	_, err = dao.Link.Ctx(ctx).Data(do.Link{
 		Name:        in.Name,
 		Description: in.Description,
@@ -32,7 +24,7 @@ func (s *sLink) Cre(ctx context.Context, in *model.LinkInput) (err error) {
 }
 
 // Upd 更新友链
-func (s *sLink) Upd(ctx context.Context, id model.Id, in *model.LinkInput) (err error) {
+func Upd(ctx context.Context, id model.Id, in *model.LinkInput) (err error) {
 	_, err = dao.Link.Ctx(ctx).Data(do.Link{
 		Name:        in.Name,
 		Description: in.Description,
@@ -45,7 +37,7 @@ func (s *sLink) Upd(ctx context.Context, id model.Id, in *model.LinkInput) (err 
 }
 
 // Del 删除友链
-func (s *sLink) Del(ctx context.Context, id model.Id) (err error) {
+func Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Link.Ctx(ctx).Where("id", id).Delete()
 	if err != nil {
 		err = utility.Err.Sys(err)
@@ -54,7 +46,7 @@ func (s *sLink) Del(ctx context.Context, id model.Id) (err error) {
 }
 
 // List 读取友链列表
-func (s *sLink) List(ctx context.Context) (list []entity.Link, err error) {
+func List(ctx context.Context) (list []entity.Link, err error) {
 	res, err := dao.Link.Ctx(ctx).All()
 	if err != nil {
 		return nil, utility.Err.Sys(err)

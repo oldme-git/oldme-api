@@ -8,30 +8,19 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/oldme-git/oldme-api/internal/dao"
+	"github.com/oldme-git/oldme-api/internal/logic/file"
+	"github.com/oldme-git/oldme-api/internal/logic/rich"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/service"
 	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
-type sArticle struct {
-}
-
-func init() {
-	service.RegisterArticle(&sArticle{})
-}
-
 // Cre 创建文章
-func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId model.Id, err error) {
-	// 判断该分类是否存在
-	if ok := service.ArticleGrp().IsExist(ctx, in.GrpId); !ok {
-		err = utility.Err.Skip(10101)
-		return
-	}
+func Cre(ctx context.Context, in *model.ArticleInput) (lastId model.Id, err error) {
 	// 保存thumb到正式目录
 	if in.Thumb != "" {
-		info, err := service.File().SaveImg(ctx, in.Thumb)
+		info, err := file.SaveImg(ctx, in.Thumb)
 		if err != nil {
 			return 0, err
 		} else {
@@ -40,7 +29,7 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId mode
 	}
 	// 保存富文本
 	if in.Content != "" {
-		service.Rich().Save(ctx, &in.Content)
+		rich.Save(ctx, &in.Content)
 	}
 	res, err := dao.Article.Ctx(ctx).Data(do.Article{
 		GrpId:       in.GrpId,
@@ -65,14 +54,8 @@ func (s *sArticle) Cre(ctx context.Context, in *model.ArticleInput) (lastId mode
 }
 
 // Upd 更新文章
-func (s *sArticle) Upd(ctx context.Context, id model.Id, in *model.ArticleInput) (err error) {
-	// 判断该分类是否存在
-	if ok := service.ArticleGrp().IsExist(ctx, in.GrpId); !ok {
-		err = utility.Err.Skip(10101)
-		return
-	}
-
-	info, err := service.Article().Show(ctx, id)
+func Upd(ctx context.Context, id model.Id, in *model.ArticleInput) (err error) {
+	info, err := Show(ctx, id)
 	if err != nil {
 		return
 	}
@@ -80,24 +63,24 @@ func (s *sArticle) Upd(ctx context.Context, id model.Id, in *model.ArticleInput)
 	// 保存thumb到正式目录
 	if in.Thumb == "" {
 		// 删除原图片
-		_ = service.File().Del(ctx, info.Thumb)
+		_ = file.Del(ctx, info.Thumb)
 	} else {
 		if in.Thumb != info.Thumb {
 			// 重新保存新图片
-			imgInfo, err := service.File().SaveImg(ctx, in.Thumb)
+			imgInfo, err := file.SaveImg(ctx, in.Thumb)
 			if err != nil {
 				return err
 			} else {
 				in.Thumb = imgInfo.Url
 				// 删除原图片
-				_ = service.File().Del(ctx, info.Thumb)
+				_ = file.Del(ctx, info.Thumb)
 			}
 		}
 	}
 
 	// 保存富文本
 	if len(in.Content) != 0 {
-		service.Rich().Edit(ctx, &info.Content, &in.Content)
+		rich.Edit(ctx, &info.Content, &in.Content)
 	}
 	_, err = dao.Article.Ctx(ctx).Data(do.Article{
 		GrpId:       in.GrpId,
@@ -121,7 +104,7 @@ func (s *sArticle) Upd(ctx context.Context, id model.Id, in *model.ArticleInput)
 }
 
 // List 读取文章列表
-func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list []entity.Article, total uint, err error) {
+func List(ctx context.Context, query *model.ArticleQuery) (list []entity.Article, total uint, err error) {
 	if query == nil {
 		query = &model.ArticleQuery{}
 	}
@@ -167,7 +150,7 @@ func (s *sArticle) List(ctx context.Context, query *model.ArticleQuery) (list []
 }
 
 // Show 读取文章详情
-func (s *sArticle) Show(ctx context.Context, id model.Id) (info *entity.Article, err error) {
+func Show(ctx context.Context, id model.Id) (info *entity.Article, err error) {
 	info = &entity.Article{}
 	err = dao.Article.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
@@ -177,19 +160,19 @@ func (s *sArticle) Show(ctx context.Context, id model.Id) (info *entity.Article,
 }
 
 // Del 删除文章
-func (s *sArticle) Del(ctx context.Context, id model.Id, isReal bool) (err error) {
+func Del(ctx context.Context, id model.Id, isReal bool) (err error) {
 	if isReal {
-		info, err := service.Article().Show(ctx, id)
+		info, err := Show(ctx, id)
 		if err != nil {
 			return err
 		}
 		if info != nil {
 			// 删除文件资源
 			if len(info.Thumb) > 0 {
-				_ = service.File().Del(ctx, info.Thumb)
+				_ = file.Del(ctx, info.Thumb)
 			}
 			if len(info.Content) > 0 {
-				_ = service.Rich().Del(ctx, &info.Content)
+				_ = rich.Del(ctx, &info.Content)
 			}
 			_, err = dao.Article.Ctx(ctx).Where("id", id).Unscoped().Delete()
 		}
@@ -200,13 +183,13 @@ func (s *sArticle) Del(ctx context.Context, id model.Id, isReal bool) (err error
 }
 
 // ReCre 重新创建已经删除的文章
-func (s *sArticle) ReCre(ctx context.Context, id model.Id) (err error) {
+func ReCre(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Article.Ctx(ctx).Where("id", id).Unscoped().Update("deleted_at=null")
 	return
 }
 
 // Hist 为文章增加一个点击数
-func (s *sArticle) Hist(ctx context.Context, id model.Id) (err error) {
+func Hist(ctx context.Context, id model.Id) (err error) {
 	var (
 		redis = g.Redis()
 		ip    = g.RequestFromCtx(ctx).GetClientIp()
@@ -224,7 +207,7 @@ func (s *sArticle) Hist(ctx context.Context, id model.Id) (err error) {
 }
 
 // UpdLastedAt 更新最后阅读时间
-func (s *sArticle) UpdLastedAt(ctx context.Context, id model.Id) (err error) {
+func UpdLastedAt(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Article.Ctx(ctx).Where("id", id).Data(do.Article{
 		LastedAt: gtime.Now(),
 	}).Update()
@@ -232,7 +215,7 @@ func (s *sArticle) UpdLastedAt(ctx context.Context, id model.Id) (err error) {
 }
 
 // IsExist 根据id判断一个文章是否存在
-func (s *sArticle) IsExist(ctx context.Context, id model.Id) bool {
+func IsExist(ctx context.Context, id model.Id) bool {
 	num, _ := dao.Article.Ctx(ctx).Where("id", id).Count()
 	return num == 1
 }

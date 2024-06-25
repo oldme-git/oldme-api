@@ -6,22 +6,15 @@ import (
 	"sync"
 
 	"github.com/oldme-git/oldme-api/internal/dao"
+	"github.com/oldme-git/oldme-api/internal/logic/article"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
-	"github.com/oldme-git/oldme-api/internal/service"
 	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
-type sReply struct {
-}
-
-func init() {
-	service.RegisterReply(&sReply{})
-}
-
 // Cre 新增回复
-func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, err error) {
+func Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, err error) {
 	if in.Site != "" {
 		if !strings.HasPrefix(in.Site, "http") {
 			return 0, utility.Err.Skip(10301)
@@ -29,7 +22,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 	}
 
 	// 植入aid
-	aid, err := s.GetAid(ctx, model.Id(in.Pid))
+	aid, err := GetAid(ctx, model.Id(in.Pid))
 	if err != nil {
 		return
 	}
@@ -38,7 +31,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 	}
 
 	// 判断该文章是否存在
-	if ok := service.Article().IsExist(ctx, model.Id(in.Aid)); !ok {
+	if ok := article.IsExist(ctx, model.Id(in.Aid)); !ok {
 		return 0, utility.Err.Skip(10201)
 	}
 
@@ -49,7 +42,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 	}
 
 	// 植入根id
-	rid, err := s.GetRid(ctx, model.Id(in.Pid))
+	rid, err := GetRid(ctx, model.Id(in.Pid))
 	if err != nil {
 		return
 	}
@@ -64,7 +57,7 @@ func (s *sReply) Cre(ctx context.Context, in *entity.Reply) (lastId model.Id, er
 }
 
 // Upd 更新文章回复
-func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err error) {
+func Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err error) {
 	if in.Site != "" {
 		if !strings.HasPrefix(in.Site, "http") {
 			return utility.Err.Skip(10301)
@@ -83,13 +76,13 @@ func (s *sReply) Upd(ctx context.Context, id model.Id, in *model.ReplyBody) (err
 }
 
 // Del 删除文章回复
-func (s *sReply) Del(ctx context.Context, id model.Id) (err error) {
+func Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Reply.Ctx(ctx).Where("id", id).Delete()
 	return
 }
 
 // List 读取文章回复列表
-func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list []entity.Reply, total uint, err error) {
+func List(ctx context.Context, query *model.ReplyQuery) (list []entity.Reply, total uint, err error) {
 	if query == nil {
 		query = &model.ReplyQuery{}
 	}
@@ -130,7 +123,7 @@ func (s *sReply) List(ctx context.Context, query *model.ReplyQuery) (list []enti
 }
 
 // Show 读取文章回复详情，携带父级信息
-func (s *sReply) Show(ctx context.Context, id model.Id) (info *model.ReplyShow, err error) {
+func Show(ctx context.Context, id model.Id) (info *model.ReplyShow, err error) {
 	info = &model.ReplyShow{}
 	err = dao.Reply.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
@@ -151,7 +144,7 @@ func (s *sReply) Show(ctx context.Context, id model.Id) (info *model.ReplyShow, 
 }
 
 // Details 读取文章回复详情
-func (s *sReply) Details(ctx context.Context, id model.Id) (info *entity.Reply, err error) {
+func Details(ctx context.Context, id model.Id) (info *entity.Reply, err error) {
 	info = &entity.Reply{}
 	err = dao.Reply.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
@@ -161,7 +154,7 @@ func (s *sReply) Details(ctx context.Context, id model.Id) (info *entity.Reply, 
 }
 
 // Check 审核
-func (s *sReply) Check(ctx context.Context, id model.Id, result bool, reasonSlice ...string) error {
+func Check(ctx context.Context, id model.Id, result bool, reasonSlice ...string) error {
 	var (
 		status model.ReplyStatus
 		reason string
@@ -187,12 +180,12 @@ func (s *sReply) Check(ctx context.Context, id model.Id, result bool, reasonSlic
 }
 
 // GetRid 根据父id获取根id，如果父回复已经是根回复了，则rid=0，否则rid=pid
-func (s *sReply) GetRid(ctx context.Context, pid model.Id) (model.Id, error) {
+func GetRid(ctx context.Context, pid model.Id) (model.Id, error) {
 	var rid model.Id
 	if pid == 0 {
 		rid = 0
 	} else {
-		details, err := s.Details(ctx, pid)
+		details, err := Details(ctx, pid)
 		if err != nil {
 			return 0, err
 		}
@@ -206,7 +199,7 @@ func (s *sReply) GetRid(ctx context.Context, pid model.Id) (model.Id, error) {
 }
 
 // GetAid 根据父id获取aid，如果父回复已经是根回复了，则aid返回0
-func (s *sReply) GetAid(ctx context.Context, pid model.Id) (model.Id, error) {
+func GetAid(ctx context.Context, pid model.Id) (model.Id, error) {
 	var aid model.Id
 	if pid != 0 {
 		parent := &entity.Reply{}
@@ -220,7 +213,7 @@ func (s *sReply) GetAid(ctx context.Context, pid model.Id) (model.Id, error) {
 }
 
 // ListForAid 根据Aid读取回复列表
-func (s *sReply) ListForAid(ctx context.Context, aid model.Id) (uint, []model.ReplyFloorApp, error) {
+func ListForAid(ctx context.Context, aid model.Id) (uint, []model.ReplyFloorApp, error) {
 	data, err := dao.Reply.Ctx(ctx).Where("aid", aid).Where("status", model.SuccessStatus).All()
 	if err != nil {
 		return 0, nil, utility.Err.Sys(err)
@@ -234,14 +227,14 @@ func (s *sReply) ListForAid(ctx context.Context, aid model.Id) (uint, []model.Re
 	)
 	_ = data.Structs(&list)
 
-	listFloor = s.GetReplyFloor(list, 0)
+	listFloor = GetReplyFloor(list, 0)
 	listLen := len(listFloor)
 	total += listLen
 	wg.Add(listLen)
 
 	for k, v := range listFloor {
 		go func(k int, v model.ReplyFloorApp) {
-			listFloor[k].List = s.GetReplyFloor(list, v.Id)
+			listFloor[k].List = GetReplyFloor(list, v.Id)
 			lock.Lock()
 			total += len(listFloor[k].List)
 			lock.Unlock()
@@ -254,7 +247,7 @@ func (s *sReply) ListForAid(ctx context.Context, aid model.Id) (uint, []model.Re
 }
 
 // GetReplyFloor 根据rid读取本层楼的所有回复信息，id
-func (s *sReply) GetReplyFloor(list []entity.Reply, rid model.Id) (reply []model.ReplyFloorApp) {
+func GetReplyFloor(list []entity.Reply, rid model.Id) (reply []model.ReplyFloorApp) {
 	for _, v := range list {
 		if v.Rid == int(rid) {
 			reply = append(reply, model.ReplyFloorApp{

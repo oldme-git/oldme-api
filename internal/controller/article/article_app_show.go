@@ -2,14 +2,14 @@ package article
 
 import (
 	"context"
-	"github.com/oldme-git/oldme-api/internal/model"
-	"github.com/oldme-git/oldme-api/internal/service"
 
 	"github.com/oldme-git/oldme-api/api/article/app"
+	"github.com/oldme-git/oldme-api/internal/logic/article"
+	"github.com/oldme-git/oldme-api/internal/model"
 )
 
 func (c *ControllerApp) Show(ctx context.Context, req *app.ShowReq) (res *app.ShowRes, err error) {
-	info, err := service.Article().Show(ctx, req.Id)
+	info, err := article.Show(ctx, req.Id)
 	if err == nil {
 		if info == nil || info.Onshow == 0 {
 			res = &app.ShowRes{
@@ -21,7 +21,7 @@ func (c *ControllerApp) Show(ctx context.Context, req *app.ShowReq) (res *app.Sh
 					Article: info,
 				},
 			}
-			_ = service.Article().UpdLastedAt(ctx, model.Id(info.Id))
+			_ = article.UpdLastedAt(ctx, model.Id(info.Id))
 		}
 	}
 	return
