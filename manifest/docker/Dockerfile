@@ -1,16 +1,8 @@
-FROM loads/alpine:3.8
+FROM frolvlad/alpine-glibc:alpine-3
 
-###############################################################################
-#                                INSTALLATION
-###############################################################################
-
-ENV WORKDIR                 /app
-ADD resource                $WORKDIR/
-ADD ./temp/linux_amd64/main $WORKDIR/main
+ENV WORKDIR /app
+ADD ./main $WORKDIR/main
 RUN chmod +x $WORKDIR/main
 
-###############################################################################
-#                                   START
-###############################################################################
 WORKDIR $WORKDIR
 CMD ./main
