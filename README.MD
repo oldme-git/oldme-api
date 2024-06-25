@@ -6,7 +6,7 @@
 
 # 版本信息
 - Go v1.19+  
-- GoFrame v2.6.4
+- GoFrame v2.7.1
 
 # 功能模块
 - 文章分类管理
@@ -36,4 +36,5 @@
 - 运行 go run main.go
 
 # 特别注意
-- Logic 和 Api 之间在本项目中透传了，实际项目中，必须重新定义！！！
+- Logic 和 Api 之间在应该单独定义
+- Logic 弃用 `gf gen service`
