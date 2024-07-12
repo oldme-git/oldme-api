@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	imgTmpPattern = `(?i)(https?)://(((?!http).)*)tmp(((?!http).)*)?(.png|.jpg|.jpeg)`
-	imgPattern    = `(?i)(https?)://((?!http).)*?(.png|.jpg|.jpeg)`
+	imgTmpPattern = `(?i)(https?)://(((?!http).)*)tmp(((?!http).)*)?(.png|.jpg|.jpeg|.gif)`
+	imgPattern    = `(?i)(https?)://((?!http).)*?(.png|.jpg|.jpeg|.gif)`
 )
 
 // Save 提取富文本中的 tmpimg，移入到正式库
