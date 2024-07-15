@@ -39,7 +39,7 @@ type (
 		Id         uint   `json:"id"`
 		Name       string `json:"name" sm:"书名"`
 		Author     string `json:"author" sm:"作者"`
-		Status     uint   `json:"status" sm:"状态 1-完结 2-在读 3-弃读"`
+		Status     uint   `json:"status" sm:"状态 1弃读 2完结 9在读"`
 		FinishedAt string `json:"finished_at" sm:"完结时间"`
 	}
 )
