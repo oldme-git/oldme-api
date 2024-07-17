@@ -1,18 +1,18 @@
 package test
 
 import (
+	"testing"
+
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
-	_ "github.com/oldme-git/oldme-api/internal/logic"
+	"github.com/oldme-git/oldme-api/internal/logic/admin"
 
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/oldme-git/oldme-api/internal/model"
-	"github.com/oldme-git/oldme-api/internal/service"
-	"testing"
 )
 
 // 生成admin用户
 func TestGenAdmin(t *testing.T) {
-	err := service.Admin().Create(gctx.New(), &model.AdminInput{
+	err := admin.Create(gctx.New(), &model.AdminInput{
 		Username: "admin",
 		Password: "tyty1022",
 		Nickname: "half",
