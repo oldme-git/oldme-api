@@ -17,7 +17,8 @@ func (c *ControllerApp) Reply(ctx context.Context, req *app.ReplyReq) (res *app.
 		Site:    req.Site,
 		Name:    req.Name,
 		Content: req.Content,
-		Status:  model.CheckStatus,
+		// 直接审核通过
+		Status: model.SuccessStatus,
 	})
 	return
 }
