@@ -15,6 +15,8 @@ import (
 	"github.com/oldme-git/oldme-api/internal/controller/other"
 	"github.com/oldme-git/oldme-api/internal/controller/reply"
 	"github.com/oldme-git/oldme-api/internal/controller/saying"
+	"github.com/oldme-git/oldme-api/internal/controller/tag"
+	"github.com/oldme-git/oldme-api/internal/controller/tag_grp"
 	"github.com/oldme-git/oldme-api/internal/logic/middleware"
 )
 
@@ -46,6 +48,9 @@ var (
 								saying.NewV1(),
 								link.NewV1(),
 								reply.NewV1(),
+
+								tag_grp.NewV1(),
+								tag.NewV1(),
 							)
 						})
 					})

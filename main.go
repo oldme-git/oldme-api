@@ -1,6 +1,8 @@
 package main
 
 import (
+	_ "github.com/oldme-git/oldme-api/internal/logic"
+
 	"errors"
 	"fmt"
 

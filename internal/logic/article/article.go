@@ -119,7 +119,7 @@ func List(ctx context.Context, query *model.ArticleQuery) (list []entity.Article
 	db := dao.Article.Ctx(ctx)
 	// 是否查询指定的grpId
 	if query.GrpId != 0 {
-		db = db.Where("grp_id", query.GrpId)
+		db = db.Where("grp_id", query.GrpId).Where("id")
 	}
 	// 是否查询只发布的文章
 	if query.Onshow {

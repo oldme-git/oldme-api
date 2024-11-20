@@ -16,4 +16,6 @@ import (
 	_ "github.com/oldme-git/oldme-api/internal/logic/reply"
 	_ "github.com/oldme-git/oldme-api/internal/logic/rich"
 	_ "github.com/oldme-git/oldme-api/internal/logic/saying"
+	_ "github.com/oldme-git/oldme-api/internal/logic/tag"
+	_ "github.com/oldme-git/oldme-api/internal/logic/tag_grp"
 )
