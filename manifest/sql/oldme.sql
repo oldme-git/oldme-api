@@ -1,3 +1,6 @@
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
 -- ----------------------------
 -- Table structure for admin
 -- ----------------------------
@@ -131,6 +134,7 @@ DROP TABLE IF EXISTS `sentence_tag`;
 CREATE TABLE `sentence_tag`  (
   `s_id` int(11) UNSIGNED NOT NULL COMMENT '句子id',
   `t_id` int(11) UNSIGNED NOT NULL COMMENT 'tag id',
+  UNIQUE INDEX `s_id`(`s_id`, `t_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -141,7 +145,8 @@ CREATE TABLE `tag`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `grp_id` int(11) UNSIGNED NOT NULL COMMENT '分组id',
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签名称',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `name`(`name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -151,7 +156,8 @@ DROP TABLE IF EXISTS `tag_grp`;
 CREATE TABLE `tag_grp`  (
   `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标签分组名称',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `name`(`name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
