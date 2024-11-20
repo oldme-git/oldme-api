@@ -125,12 +125,12 @@ CREATE TABLE `sentence`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for sentence_tags
+-- Table structure for sentence_tag
 -- ----------------------------
-DROP TABLE IF EXISTS `sentence_tags`;
-CREATE TABLE `sentence_tags`  (
-  `s_id` int(11) UNSIGNED NOT NULL,
-  `t_id` int(11) UNSIGNED NOT NULL
+DROP TABLE IF EXISTS `sentence_tag`;
+CREATE TABLE `sentence_tag`  (
+  `s_id` int(11) UNSIGNED NOT NULL COMMENT '句子id',
+  `t_id` int(11) UNSIGNED NOT NULL COMMENT 'tag id',
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
