@@ -7,7 +7,7 @@ import (
 
 type CreReq struct {
 	g.Meta `path:"tag/group/create" method:"post" sm:"新增" tags:"标签分类"`
-	Name   string `v:"required|length:1, 30"`
+	Name   string `json:"name" v:"required|length:1, 30"`
 }
 
 type CreRes struct {
@@ -16,7 +16,7 @@ type CreRes struct {
 type UpdReq struct {
 	g.Meta `path:"tag/group/update/{id}" method:"post" sm:"修改" tags:"标签分类"`
 	*model.IdInput
-	Name string `v:"required|length:1, 30"`
+	Name string `json:"name" v:"required|length:1, 30"`
 }
 
 type UpdRes struct {
