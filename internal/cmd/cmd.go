@@ -15,6 +15,7 @@ import (
 	"github.com/oldme-git/oldme-api/internal/controller/other"
 	"github.com/oldme-git/oldme-api/internal/controller/reply"
 	"github.com/oldme-git/oldme-api/internal/controller/saying"
+	"github.com/oldme-git/oldme-api/internal/controller/sentence"
 	"github.com/oldme-git/oldme-api/internal/controller/tag"
 	"github.com/oldme-git/oldme-api/internal/controller/tag_grp"
 	"github.com/oldme-git/oldme-api/internal/logic/middleware"
@@ -51,6 +52,7 @@ var (
 
 								tag_grp.NewV1(),
 								tag.NewV1(),
+								sentence.NewV1(),
 							)
 						})
 					})

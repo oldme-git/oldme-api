@@ -3,7 +3,6 @@ package tag
 import (
 	"context"
 
-	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
