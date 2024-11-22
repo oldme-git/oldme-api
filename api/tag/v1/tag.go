@@ -3,6 +3,7 @@ package v1
 import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/oldme-git/oldme-api/internal/model"
+	"github.com/oldme-git/oldme-api/internal/model/entity"
 )
 
 type CreReq struct {
@@ -39,4 +40,13 @@ type ListReq struct {
 
 type ListRes struct {
 	List []List `json:"list"`
+}
+
+type ShowReq struct {
+	g.Meta `path:"tag/show/{id}" method:"get" sm:"查询详情" tags:"标签"`
+	*model.IdInput
+}
+
+type ShowRes struct {
+	*entity.Tag
 }

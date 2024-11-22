@@ -47,3 +47,12 @@ func Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.Tag.Ctx(ctx).Where("id", id).Delete()
 	return
 }
+
+// Show 读取详情
+func Show(ctx context.Context, id model.Id) (info *entity.Tag, err error) {
+	err = dao.Tag.Ctx(ctx).Where("id", id).Scan(&info)
+	if err != nil {
+		err = utility.Err.Skip(10504)
+	}
+	return
+}

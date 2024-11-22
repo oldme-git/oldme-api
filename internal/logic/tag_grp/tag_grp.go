@@ -45,8 +45,11 @@ func List(ctx context.Context) (list []entity.TagGrp, err error) {
 	return
 }
 
-// IsExist 根据id判断一个标签分类是否存在
-func IsExist(ctx context.Context, id model.Id) bool {
-	num, _ := dao.TagGrp.Ctx(ctx).Where("id", id).Count()
-	return num == 1
+// Show 读取详情
+func Show(ctx context.Context, id model.Id) (info *entity.TagGrp, err error) {
+	err = dao.TagGrp.Ctx(ctx).Where("id", id).Scan(&info)
+	if err != nil {
+		err = utility.Err.Skip(10504)
+	}
+	return
 }
