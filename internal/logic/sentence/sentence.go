@@ -30,6 +30,9 @@ func Cre(ctx context.Context, in *model.SentenceInput) (err error) {
 		// 插入标签关联表数据
 		var sentenceTags []do.SentenceTag
 		for _, tagId := range in.TagIds {
+			if tagId == 0 {
+				continue
+			}
 			sentenceTags = append(sentenceTags, do.SentenceTag{
 				SId: lastId,
 				TId: tagId,
