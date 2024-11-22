@@ -13,6 +13,7 @@ import (
 	"github.com/oldme-git/oldme-api/internal/controller/link"
 	"github.com/oldme-git/oldme-api/internal/controller/login"
 	"github.com/oldme-git/oldme-api/internal/controller/other"
+	"github.com/oldme-git/oldme-api/internal/controller/reading"
 	"github.com/oldme-git/oldme-api/internal/controller/reply"
 	"github.com/oldme-git/oldme-api/internal/controller/saying"
 	"github.com/oldme-git/oldme-api/internal/controller/sentence"
@@ -49,6 +50,7 @@ var (
 								saying.NewV1(),
 								link.NewV1(),
 								reply.NewV1(),
+								reading.NewV1(),
 
 								tag_grp.NewV1(),
 								tag.NewV1(),
