@@ -4,9 +4,9 @@ go 1.22.2
 
 require (
 	github.com/dlclark/regexp2 v1.10.0
-	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.7.4
-	github.com/gogf/gf/contrib/nosql/redis/v2 v2.7.4
-	github.com/gogf/gf/v2 v2.7.4
+	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.8.0
+	github.com/gogf/gf/contrib/nosql/redis/v2 v2.8.0
+	github.com/gogf/gf/v2 v2.8.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 )
 
@@ -35,8 +35,8 @@ require (
 	go.opentelemetry.io/otel/metric v1.27.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.27.0 // indirect
 	go.opentelemetry.io/otel/trace v1.27.0 // indirect
-	golang.org/x/net v0.26.0 // indirect
-	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/net v0.27.0 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
