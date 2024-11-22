@@ -56,12 +56,42 @@ func Cre(ctx context.Context, in *model.SentenceInput) (err error) {
 	return err
 }
 
-// Upd 更新句子，只更新句子内容，不更新标签
+// Upd 更新句子
 func Upd(ctx context.Context, in *model.SentenceInput) (err error) {
-	_, err = dao.Sentence.Ctx(ctx).Data(do.Sentence{
-		BookId:   in.BookId,
-		Sentence: in.Sentence,
-	}).Where("id", in.Id).Update()
+	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		_, err = dao.Sentence.Ctx(ctx).Data(do.Sentence{
+			BookId:   in.BookId,
+			Sentence: in.Sentence,
+		}).Where("id", in.Id).Update()
+
+		// 删除标签关联表数据
+		_, err = dao.SentenceTag.Ctx(ctx).Where("s_id", in.Id).Delete()
+		if err != nil {
+			return nil
+		}
+
+		// 插入标签关联表数据
+		var sentenceTags []do.SentenceTag
+		for _, tagId := range in.TagIds {
+			if tagId == 0 {
+				continue
+			}
+			sentenceTags = append(sentenceTags, do.SentenceTag{
+				SId: in.Id,
+				TId: tagId,
+			})
+		}
+
+		if len(sentenceTags) == 0 {
+			return nil
+		}
+
+		_, err = dao.SentenceTag.Ctx(ctx).Data(sentenceTags).Insert()
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 	if err != nil {
 		return utility.Err.Sys(err)
 	}

@@ -14,6 +14,7 @@ func (c *ControllerV1) Upd(ctx context.Context, req *v1.UpdReq) (res *v1.UpdRes,
 		Id:       req.Id,
 		BookId:   req.BookId,
 		Sentence: req.Sentence,
+		TagIds:   req.TagIds,
 	})
 	return
 }

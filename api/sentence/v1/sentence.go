@@ -19,8 +19,9 @@ type CreRes struct {
 type UpdReq struct {
 	g.Meta `path:"sentence/update/{id}" method:"post" sm:"修改" tags:"句子"`
 	*model.IdInput
-	BookId   model.Id `json:"book_id" v:"required"`
-	Sentence string   `json:"sentence" v:"required"`
+	BookId   model.Id   `json:"book_id" v:"required"`
+	TagIds   []model.Id `json:"tag_ids"`
+	Sentence string     `json:"sentence" v:"required"`
 }
 
 type UpdRes struct {
