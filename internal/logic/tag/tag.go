@@ -12,6 +12,9 @@ import (
 
 // Cre 创建标签
 func Cre(ctx context.Context, grpId model.Id, name string) (err error) {
+	if err := check(ctx, 0, name); err != nil {
+		return err
+	}
 	_, err = dao.Tag.Ctx(ctx).Data(do.Tag{
 		GrpId: grpId,
 		Name:  name,
@@ -24,6 +27,10 @@ func Cre(ctx context.Context, grpId model.Id, name string) (err error) {
 
 // Upd 更新标签
 func Upd(ctx context.Context, id, grpId model.Id, name string) (err error) {
+	if err := check(ctx, id, name); err != nil {
+		return err
+	}
+
 	_, err = dao.Tag.Ctx(ctx).Data(do.Tag{
 		GrpId: grpId,
 		Name:  name,
@@ -55,4 +62,20 @@ func Show(ctx context.Context, id model.Id) (info *entity.Tag, err error) {
 		err = utility.Err.Skip(10504)
 	}
 	return
+}
+
+// check 检查标签是否存在
+func check(ctx context.Context, id model.Id, name string) error {
+	db := dao.Tag.Ctx(ctx).Where("name", name)
+	if id > 0 {
+		db = db.WhereNot("id", id)
+	}
+	count, err := db.Count()
+	if err != nil {
+		return utility.Err.Sys(err)
+	}
+	if count > 0 {
+		return utility.Err.Skip(10601)
+	}
+	return nil
 }
