@@ -15,7 +15,6 @@ import (
 	"github.com/oldme-git/oldme-api/internal/controller/other"
 	"github.com/oldme-git/oldme-api/internal/controller/reading"
 	"github.com/oldme-git/oldme-api/internal/controller/reply"
-	"github.com/oldme-git/oldme-api/internal/controller/saying"
 	"github.com/oldme-git/oldme-api/internal/controller/sentence"
 	"github.com/oldme-git/oldme-api/internal/controller/tag"
 	"github.com/oldme-git/oldme-api/internal/controller/tag_grp"
@@ -47,7 +46,6 @@ var (
 								article.NewV1(),
 								article_grp.NewV1(),
 								file.NewV1(),
-								saying.NewV1(),
 								link.NewV1(),
 								reply.NewV1(),
 								reading.NewV1(),
