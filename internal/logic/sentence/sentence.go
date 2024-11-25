@@ -10,6 +10,7 @@ import (
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 	"github.com/oldme-git/oldme-api/internal/utility"
+	"github.com/oldme-git/oldme-api/utility/uinit"
 )
 
 // Cre 创建句子
@@ -206,6 +207,25 @@ func GetIdsByTagIds(ctx context.Context, tagIds []model.Id, p model.Paging) (ids
 	for _, v := range data {
 		ids = append(ids, model.Id(v["s_id"].Int()))
 	}
+
+	return
+}
+
+// Saying 随机读取一句话，用于首页展示
+func Saying(ctx context.Context) (info *entity.Sentence, err error) {
+	db := dao.SentenceTag.Ctx(ctx).
+		Fields("s_id").
+		OrderRandom()
+	if uinit.SayingTagId > 0 {
+		db = db.Where("t_id", uinit.SayingTagId)
+	}
+
+	idData, err := db.Limit(1).One()
+	if err != nil {
+		err = utility.Err.Sys(err)
+	}
+	id := model.Id(idData["s_id"].Int())
+	info, err = Show(ctx, id)
 
 	return
 }

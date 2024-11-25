@@ -12,6 +12,7 @@ import (
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	_ "github.com/oldme-git/oldme-api/internal/logic"
 	_ "github.com/oldme-git/oldme-api/internal/utility"
+	_ "github.com/oldme-git/oldme-api/utility/uinit"
 )
 
 const (
