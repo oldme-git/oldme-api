@@ -187,19 +187,25 @@ func Del(ctx context.Context, id model.Id) (err error) {
 
 // GetIdsByTagIds 根据标签id列表获取句子id列表
 // num 获取的数量
-func GetIdsByTagIds(ctx context.Context, tagIds []model.Id, num uint) (ids []model.Id, err error) {
+func GetIdsByTagIds(ctx context.Context, tagIds []model.Id, p model.Paging) (ids []model.Id, total uint, err error) {
+	// 默认赋值0，查询不到数据
 	ids = []model.Id{0}
-	res, err := dao.SentenceTag.Ctx(ctx).
+	data, totalInt, err := dao.SentenceTag.Ctx(ctx).
 		Fields("s_id").
 		WhereIn("t_id", tagIds).
 		Having("count(DISTINCT t_id) = ?", len(tagIds)).
 		Group("s_id").
-		Limit(int(num)).Array()
+		Page(p.Page, p.Size).AllAndCount(true)
+
 	if err != nil {
+		err = utility.Err.Sys(err)
 		return
 	}
-	for _, v := range res {
-		ids = append(ids, model.Id(v.Int()))
+
+	total = uint(totalInt)
+	for _, v := range data {
+		ids = append(ids, model.Id(v["s_id"].Int()))
 	}
+
 	return
 }
