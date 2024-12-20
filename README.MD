@@ -5,8 +5,8 @@
 - 前端基于 `Vue3` + `Nuxt3` 开发
 
 # 版本信息
-- Go v1.19+  
-- GoFrame v2.7.2+
+- Go v1.22+  
+- GoFrame v2.8.3+
 版本信息以`go.mod`为准
 
 # 功能模块
@@ -26,7 +26,3 @@
 - 修改 manifest/config下config.yaml配置文件
 - 安装 go.mod 依赖
 - 运行 go run main.go
-
-# 特别注意
-- Logic 和 Api 之间在应该单独定义
-- Logic 弃用 `gf gen service`
