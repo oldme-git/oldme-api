@@ -9,11 +9,11 @@ import (
 
 func (c *ControllerApp) Reply(ctx context.Context, req *app.ReplyReq) (res *app.ReplyRes, err error) {
 	total, list, err := reply.ListForAid(ctx, req.Id)
-	if err == nil {
-		res = &app.ReplyRes{
-			List:  list,
-			Total: total,
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+	return &app.ReplyRes{
+		List:  list,
+		Total: total,
+	}, nil
 }

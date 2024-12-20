@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/oldme-git/oldme-api/internal/dao"
-	"github.com/oldme-git/oldme-api/internal/logic/article"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
@@ -44,13 +43,16 @@ func Upd(ctx context.Context, id model.Id, in *model.ArticleGrpInput) (err error
 // Del 删除文章分类
 func Del(ctx context.Context, id model.Id) (err error) {
 	_, err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Delete()
+	// TODO 逻辑重新处理
 	// 软删除掉该分类下的文章
-	var list []model.ArticleList
-	res, err := dao.Article.Ctx(ctx).Where("grp_id", id).All()
-	_ = res.Structs(&list)
-	for _, v := range list {
-		_ = article.Del(ctx, model.Id(v.Id), false)
-	}
+	// var list []model.ArticleList
+	// res, err := dao.Article.Ctx(ctx).Where("grp_id", id).All()
+	// _ = res.Structs(&list)
+	//
+	//
+	// for _, v := range list {
+	// 	_ = article.Del(ctx, model.Id(v.Id), false)
+	// }
 	return
 }
 

@@ -2,8 +2,8 @@ package article
 
 import (
 	"context"
+
 	"github.com/oldme-git/oldme-api/internal/dao"
-	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/entity"
 
 	"github.com/oldme-git/oldme-api/api/article/app"
@@ -21,18 +21,29 @@ func (c *ControllerApp) Rank(ctx context.Context, req *app.RankReq) (res *app.Ra
 	if err != nil {
 		return
 	}
+
 	var (
 		list    []entity.Article
-		listOut []model.ArticleListSafe
+		listOut []app.List
 	)
 	_ = data.Structs(&list)
 	for _, v := range list {
-		listOut = append(listOut, model.ArticleListSafe{Article: v})
+		listOut = append(listOut, app.List{
+			Id:          v.Id,
+			GrpId:       v.GrpId,
+			Title:       v.Title,
+			Author:      v.Author,
+			Thumb:       v.Thumb,
+			Tags:        v.Tags,
+			Description: v.Description,
+			Hist:        v.Hist,
+			Post:        v.Post,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+			LastedAt:    v.LastedAt,
+		})
 	}
-	if err == nil {
-		res = &app.RankRes{
-			List: listOut,
-		}
-	}
-	return
+	return &app.RankRes{
+		List: listOut,
+	}, nil
 }

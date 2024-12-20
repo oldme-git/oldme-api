@@ -9,7 +9,7 @@ import (
 )
 
 func (c *ControllerV1) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, err error) {
-	token, err := account.Login(ctx, &model.Login{
+	token, err := account.Login(ctx, &model.LoginInput{
 		Username: req.Username,
 		Password: req.Password,
 	})

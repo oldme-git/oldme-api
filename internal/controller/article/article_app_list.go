@@ -10,20 +10,33 @@ import (
 
 func (c *ControllerApp) List(ctx context.Context, req *app.ListReq) (res *app.ListRes, err error) {
 	query := &model.ArticleQuery{
-		ArticleQuerySafe: *req.ArticleQuerySafe,
-		Onshow:           true,
-		IsDel:            false,
+		Onshow: true,
+		IsDel:  false,
 	}
 	list, total, err := article.List(ctx, query)
-	if err == nil {
-		var listOut []model.ArticleListSafe
-		for _, v := range list {
-			listOut = append(listOut, model.ArticleListSafe{Article: v})
-		}
-		res = &app.ListRes{
-			List:  listOut,
-			Total: total,
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+
+	var listOut []app.List
+	for _, v := range list {
+		listOut = append(listOut, app.List{
+			Id:          v.Id,
+			GrpId:       v.GrpId,
+			Title:       v.Title,
+			Author:      v.Author,
+			Thumb:       v.Thumb,
+			Tags:        v.Tags,
+			Description: v.Description,
+			Hist:        v.Hist,
+			Post:        v.Post,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+			LastedAt:    v.LastedAt,
+		})
+	}
+	return &app.ListRes{
+		List:  listOut,
+		Total: total,
+	}, nil
 }

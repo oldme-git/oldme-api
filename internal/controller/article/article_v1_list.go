@@ -9,17 +9,43 @@ import (
 )
 
 func (c *ControllerV1) List(ctx context.Context, req *v1.ListReq) (res *v1.ListRes, err error) {
-	list, total, err := article.List(ctx, req.ArticleQuery)
-	if err == nil {
-		var listOut []model.ArticleList
-		for _, v := range list {
-			listOut = append(listOut, model.ArticleList{Article: v})
-		}
-		// 查询数据表里总共的数据条数
-		res = &v1.ListRes{
-			List:  listOut,
-			Total: total,
-		}
+	list, total, err := article.List(ctx, &model.ArticleQuery{
+		Paging: model.Paging{
+			Page: req.Page,
+			Size: req.Size,
+		},
+		GrpId:  req.GrpId,
+		Search: req.Search,
+		Onshow: req.Onshow,
+		IsDel:  req.IsDel,
+	})
+
+	if err != nil {
+		return nil, err
 	}
-	return
+	var listOut []v1.List
+	for _, v := range list {
+		listOut = append(listOut, v1.List{
+			Id:          v.Id,
+			GrpId:       v.GrpId,
+			Title:       v.Title,
+			Author:      v.Author,
+			Thumb:       v.Thumb,
+			Tags:        v.Tags,
+			Description: v.Description,
+			Order:       v.Order,
+			Ontop:       v.Ontop,
+			Onshow:      v.Onshow,
+			Hist:        v.Hist,
+			Post:        v.Post,
+			CreatedAt:   v.CreatedAt,
+			UpdatedAt:   v.UpdatedAt,
+			LastedAt:    v.LastedAt,
+		})
+	}
+	// 查询数据表里总共的数据条数
+	return &v1.ListRes{
+		List:  listOut,
+		Total: total,
+	}, nil
 }

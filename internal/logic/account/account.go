@@ -23,7 +23,7 @@ type AdminClaims struct {
 }
 
 // Login 登录
-func Login(ctx context.Context, in *model.Login) (tokenString string, err error) {
+func Login(ctx context.Context, in *model.LoginInput) (tokenString string, err error) {
 	adminOne := dao.Admin.GetAdmin(in.Username)
 	// 校验账号和密码
 	if adminOne.Id != 0 && admin.ValidPass(in.Password, adminOne) {

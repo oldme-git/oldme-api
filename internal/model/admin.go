@@ -7,7 +7,7 @@ type AdminInput struct {
 	Avatar   string
 }
 
-type Login struct {
+type LoginInput struct {
 	Username string
 	Password string
 }

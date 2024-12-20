@@ -7,8 +7,12 @@ import (
 )
 
 type CreReq struct {
-	g.Meta `path:"article/group/create" method:"post" sm:"新增" tags:"文章分类"`
-	*model.ArticleGrpInput
+	g.Meta      `path:"article/group/create" method:"post" sm:"新增" tags:"文章分类"`
+	Name        string `v:"required|length:2, 30"`
+	Tags        string `v:"length:1, 200"`
+	Description string `v:"length:2, 200"`
+	Onshow      bool   `v:"required"`
+	Order       int    `json:"order" v:"integer|between:-9999,9999"`
 }
 
 type CreRes struct {
@@ -17,7 +21,11 @@ type CreRes struct {
 type UpdReq struct {
 	g.Meta `path:"article/group/update/{id}" method:"post" sm:"修改" tags:"文章分类"`
 	*model.IdInput
-	*model.ArticleGrpInput
+	Name        string `v:"required|length:2, 30"`
+	Tags        string `v:"length:1, 200"`
+	Description string `v:"length:2, 200"`
+	Onshow      bool   `v:"required"`
+	Order       int    `json:"order" v:"integer|between:-9999,9999"`
 }
 
 type UpdRes struct {

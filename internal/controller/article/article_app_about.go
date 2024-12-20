@@ -5,7 +5,6 @@ import (
 
 	"github.com/oldme-git/oldme-api/api/article/app"
 	"github.com/oldme-git/oldme-api/internal/logic/article"
-	"github.com/oldme-git/oldme-api/internal/model"
 )
 
 func (c *ControllerApp) About(ctx context.Context, req *app.AboutReq) (res *app.AboutRes, err error) {
@@ -13,8 +12,20 @@ func (c *ControllerApp) About(ctx context.Context, req *app.AboutReq) (res *app.
 
 	if err == nil {
 		res = &app.AboutRes{
-			ArticleSafe: &model.ArticleSafe{
-				Article: info,
+			One: &app.One{
+				Id:          info.Id,
+				GrpId:       info.GrpId,
+				Title:       info.Title,
+				Author:      info.Author,
+				Thumb:       info.Thumb,
+				Tags:        info.Tags,
+				Description: info.Description,
+				Content:     info.Content,
+				Hist:        info.Hist,
+				Post:        info.Post,
+				CreatedAt:   info.CreatedAt,
+				UpdatedAt:   info.UpdatedAt,
+				LastedAt:    info.LastedAt,
 			},
 		}
 	}
