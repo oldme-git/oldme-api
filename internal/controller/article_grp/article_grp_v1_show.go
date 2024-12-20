@@ -7,12 +7,12 @@ import (
 	"github.com/oldme-git/oldme-api/internal/logic/article_grp"
 )
 
-func (c *ControllerV1) Show(ctx context.Context, req *v1.ShowReq) (res *v1.ShowRes, err error) {
+func (c *ControllerV1) Show(ctx context.Context, req *v1.ShowReq) (*v1.ShowRes, error) {
 	info, err := article_grp.Show(ctx, req.Id)
-	if err == nil {
-		res = &v1.ShowRes{
-			ArticleGrp: info,
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+	return &v1.ShowRes{
+		ArticleGrp: info,
+	}, nil
 }

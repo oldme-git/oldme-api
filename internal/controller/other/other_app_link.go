@@ -7,13 +7,13 @@ import (
 	"github.com/oldme-git/oldme-api/internal/logic/link"
 )
 
-func (c *ControllerApp) Link(ctx context.Context, req *app.LinkReq) (res *app.LinkRes, err error) {
+func (c *ControllerApp) Link(ctx context.Context, req *app.LinkReq) (*app.LinkRes, error) {
 	list, err := link.List(ctx)
-	if err == nil {
-		res = &app.LinkRes{
-			List:  list,
-			Total: uint(len(list)),
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+	return &app.LinkRes{
+		List:  list,
+		Total: uint(len(list)),
+	}, nil
 }

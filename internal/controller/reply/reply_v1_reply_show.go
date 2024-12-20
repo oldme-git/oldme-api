@@ -7,12 +7,12 @@ import (
 	"github.com/oldme-git/oldme-api/internal/logic/reply"
 )
 
-func (c *ControllerV1) ReplyShow(ctx context.Context, req *v1.ReplyShowReq) (res *v1.ReplyShowRes, err error) {
+func (c *ControllerV1) ReplyShow(ctx context.Context, req *v1.ReplyShowReq) (*v1.ReplyShowRes, error) {
 	info, err := reply.Show(ctx, req.Id)
-	if err == nil {
-		res = &v1.ReplyShowRes{
-			ReplyShow: info,
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+	return &v1.ReplyShowRes{
+		ReplyShow: info,
+	}, nil
 }

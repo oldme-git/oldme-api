@@ -9,11 +9,11 @@ import (
 
 func (c *ControllerV1) LinkList(ctx context.Context, req *v1.LinkListReq) (res *v1.LinkListRes, err error) {
 	list, err := link.List(ctx)
-	if err == nil {
-		res = &v1.LinkListRes{
-			List:  list,
-			Total: uint(len(list)),
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+	return &v1.LinkListRes{
+		List:  list,
+		Total: uint(len(list)),
+	}, nil
 }

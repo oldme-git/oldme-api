@@ -7,14 +7,14 @@ import (
 	"github.com/oldme-git/oldme-api/internal/logic/reply"
 )
 
-func (c *ControllerV1) ReplyList(ctx context.Context, req *v1.ReplyListReq) (res *v1.ReplyListRes, err error) {
+func (c *ControllerV1) ReplyList(ctx context.Context, req *v1.ReplyListReq) (*v1.ReplyListRes, error) {
 	list, total, err := reply.List(ctx, req.ReplyQuery)
-	if err == nil {
-		// 查询数据表里总共的数据条数
-		res = &v1.ReplyListRes{
-			List:  list,
-			Total: total,
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+	// 查询数据表里总共的数据条数
+	return &v1.ReplyListRes{
+		List:  list,
+		Total: total,
+	}, nil
 }

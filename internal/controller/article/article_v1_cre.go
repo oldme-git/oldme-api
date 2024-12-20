@@ -10,12 +10,12 @@ import (
 	"github.com/oldme-git/oldme-api/internal/utility"
 )
 
-func (c *ControllerV1) Cre(ctx context.Context, req *v1.CreReq) (res *v1.CreRes, err error) {
+func (c *ControllerV1) Cre(ctx context.Context, req *v1.CreReq) (*v1.CreRes, error) {
 	// 判断该分类是否存在
 	if ok := article_grp.IsExist(ctx, req.GrpId); !ok {
-		err = utility.Err.Skip(10101)
-		return
+		return nil, utility.Err.Skip(10101)
 	}
+
 	LastId, err := article.Cre(ctx, &model.ArticleInput{
 		GrpId:       req.GrpId,
 		Title:       req.Title,
@@ -30,8 +30,9 @@ func (c *ControllerV1) Cre(ctx context.Context, req *v1.CreReq) (res *v1.CreRes,
 		Hist:        req.Hist,
 		Post:        req.Post,
 	})
-	if err == nil {
-		res = &v1.CreRes{LastId: LastId}
+	if err != nil {
+		return nil, err
 	}
-	return
+
+	return &v1.CreRes{LastId: LastId}, nil
 }

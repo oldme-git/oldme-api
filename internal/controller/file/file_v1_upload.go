@@ -5,16 +5,14 @@ import (
 
 	"github.com/oldme-git/oldme-api/api/file/v1"
 	"github.com/oldme-git/oldme-api/internal/logic/file"
-	"github.com/oldme-git/oldme-api/internal/model"
 )
 
-func (c *ControllerV1) Upload(ctx context.Context, req *v1.UploadReq) (res *v1.UploadRes, err error) {
-	var info *model.FileInfo
-	info, err = file.Upload(ctx, req.File)
-	if err == nil {
-		res = &v1.UploadRes{
-			FileInfo: *info,
-		}
+func (c *ControllerV1) Upload(ctx context.Context, req *v1.UploadReq) (*v1.UploadRes, error) {
+	info, err := file.Upload(ctx, req.File)
+	if err != nil {
+		return nil, err
 	}
-	return
+	return &v1.UploadRes{
+		FileInfo: *info,
+	}, nil
 }

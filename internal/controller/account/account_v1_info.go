@@ -7,16 +7,16 @@ import (
 	"github.com/oldme-git/oldme-api/internal/logic/account"
 )
 
-func (c *ControllerV1) Info(ctx context.Context, req *v1.InfoReq) (res *v1.InfoRes, err error) {
+func (c *ControllerV1) Info(ctx context.Context, req *v1.InfoReq) (*v1.InfoRes, error) {
 	admin, err := account.Info(ctx)
-	if err == nil {
-		res = &v1.InfoRes{
-			Username:  admin.Username,
-			Nickname:  admin.Nickname,
-			Avatar:    admin.Avatar,
-			Register:  admin.Register,
-			LastLogin: admin.LastLogin,
-		}
+	if err != nil {
+		return nil, err
 	}
-	return
+	return &v1.InfoRes{
+		Username:  admin.Username,
+		Nickname:  admin.Nickname,
+		Avatar:    admin.Avatar,
+		Register:  admin.Register,
+		LastLogin: admin.LastLogin,
+	}, nil
 }
