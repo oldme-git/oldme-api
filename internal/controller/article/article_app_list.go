@@ -10,6 +10,12 @@ import (
 
 func (c *ControllerApp) List(ctx context.Context, req *app.ListReq) (res *app.ListRes, err error) {
 	query := &model.ArticleQuery{
+		Paging: model.Paging{
+			Page: req.Page,
+			Size: req.Size,
+		},
+		GrpId:  req.GrpId,
+		Search: req.Search,
 		Onshow: true,
 		IsDel:  false,
 	}
