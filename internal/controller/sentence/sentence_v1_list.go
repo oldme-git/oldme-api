@@ -24,8 +24,10 @@ func (c *ControllerV1) List(ctx context.Context, req *v1.ListReq) (res *v1.ListR
 	)
 	if len(req.TagIds) > 0 {
 		data, total, err = c.listByTagIds(ctx, req)
-	} else {
+	} else if req.BookId > 0 {
 		data, total, err = c.listByBookId(ctx, req)
+	} else {
+		data, total, err = c.listBySearch(ctx, req)
 	}
 
 	if err != nil {
