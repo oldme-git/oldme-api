@@ -48,8 +48,9 @@ type DelRes struct {
 type ListReq struct {
 	g.Meta `path:"sentence/list" method:"get" sm:"查询列表" tags:"句子"`
 	*model.Paging
-	BookId model.Id   `json:"book_id" dc:"和tag_ids二选一"`
-	TagIds []model.Id `json:"tag_ids" dc:"和book_id二选一"`
+	BookId model.Id   `json:"book_id" dc:"书籍id"`
+	TagIds []model.Id `json:"tag_ids" dc:"标签id"`
+	Search string     `json:"search"  dc:"搜索文本"`
 }
 
 type ListRes struct {

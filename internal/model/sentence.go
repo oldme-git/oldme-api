@@ -4,7 +4,8 @@ type SentenceQuery struct {
 	Paging
 	BookId Id
 	// 根据指定id查询
-	Ids []Id
+	Ids    []Id
+	Search string
 }
 
 type SentenceInput struct {

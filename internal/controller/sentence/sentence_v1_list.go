@@ -23,9 +23,9 @@ func (c *ControllerV1) List(ctx context.Context, req *v1.ListReq) (res *v1.ListR
 		total uint
 	)
 	if len(req.TagIds) > 0 {
-		data, total, err = listByTagIds(ctx, req)
+		data, total, err = c.listByTagIds(ctx, req)
 	} else {
-		data, total, err = listByBookId(ctx, req)
+		data, total, err = c.listByBookId(ctx, req)
 	}
 
 	if err != nil {
@@ -46,7 +46,7 @@ func (c *ControllerV1) List(ctx context.Context, req *v1.ListReq) (res *v1.ListR
 	}, nil
 }
 
-func listByTagIds(ctx context.Context, req *v1.ListReq) (data []entity.Sentence, total uint, err error) {
+func (c *ControllerV1) listByTagIds(ctx context.Context, req *v1.ListReq) (data []entity.Sentence, total uint, err error) {
 	var ids []model.Id
 	ids, total, err = sentence.GetIdsByTagIds(ctx, req.TagIds, *req.Paging)
 	if err != nil {
@@ -65,10 +65,20 @@ func listByTagIds(ctx context.Context, req *v1.ListReq) (data []entity.Sentence,
 	return
 }
 
-func listByBookId(ctx context.Context, req *v1.ListReq) (data []entity.Sentence, total uint, err error) {
+func (c *ControllerV1) listByBookId(ctx context.Context, req *v1.ListReq) (data []entity.Sentence, total uint, err error) {
 	query := &model.SentenceQuery{
 		Paging: *req.Paging,
 		BookId: req.BookId,
+	}
+
+	data, total, err = sentence.List(ctx, query)
+	return
+}
+
+func (c *ControllerV1) listBySearch(ctx context.Context, req *v1.ListReq) (data []entity.Sentence, total uint, err error) {
+	query := &model.SentenceQuery{
+		Paging: *req.Paging,
+		Search: req.Search,
 	}
 
 	data, total, err = sentence.List(ctx, query)
