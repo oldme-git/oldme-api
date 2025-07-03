@@ -1,6 +1,7 @@
 package utility
 
 import (
+	"database/sql"
 	"strings"
 
 	"github.com/gogf/gf/v2/errors/gcode"
@@ -53,6 +54,17 @@ func (c *pErr) Skip(code int, msg ...string) (err error) {
 		Text:  msgStr,
 		Code:  gcode.New(code, "", nil),
 	})
+}
+
+// TableNotData 检测 scan 后 err
+// 如果 err 等于 sql.ErrNoRows 代表表中确实未查询到数据，不会打印错误堆栈信息
+// 否则，会抛出系统级别的错误
+func (c *pErr) TableNotData(err error) error {
+	if gerror.Is(err, sql.ErrNoRows) {
+		return c.Skip(10100)
+	} else {
+		return c.Sys(err)
+	}
 }
 
 // Sys 抛出一个系统级别的错误，使用特殊的code码：99999

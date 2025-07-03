@@ -127,7 +127,7 @@ func Show(ctx context.Context, id model.Id) (info *model.ReplyShow, err error) {
 	info = &model.ReplyShow{}
 	err = dao.Reply.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = utility.Err.Skip(10100)
+		err = utility.Err.TableNotData(err)
 	}
 
 	// 读取所属文章名称
@@ -148,7 +148,7 @@ func Details(ctx context.Context, id model.Id) (info *entity.Reply, err error) {
 	info = &entity.Reply{}
 	err = dao.Reply.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = utility.Err.Skip(10100)
+		err = utility.Err.TableNotData(err)
 	}
 	return
 }

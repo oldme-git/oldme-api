@@ -141,7 +141,7 @@ func Show(ctx context.Context, id model.Id) (info *entity.Sentence, err error) {
 	info = &entity.Sentence{}
 	err = dao.Sentence.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = utility.Err.Skip(10100)
+		err = utility.Err.TableNotData(err)
 	}
 	return
 }

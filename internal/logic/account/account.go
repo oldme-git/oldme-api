@@ -59,7 +59,7 @@ func Info(ctx context.Context) (admin *entity.Admin, err error) {
 	if claims, ok := tokenClaims.Claims.(*AdminClaims); ok && tokenClaims.Valid {
 		admin = dao.Admin.GetAdmin(claims.Username)
 	} else {
-		err = utility.Err.Skip(10100)
+		err = utility.Err.TableNotData(err)
 	}
 	return
 }

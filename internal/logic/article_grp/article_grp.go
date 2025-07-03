@@ -84,7 +84,7 @@ func ListArticleCount(ctx context.Context) (map[uint]uint, error) {
 func Show(ctx context.Context, id model.Id) (info *entity.ArticleGrp, err error) {
 	err = dao.ArticleGrp.Ctx(ctx).Where("id", id).Scan(&info)
 	if err != nil {
-		err = utility.Err.Skip(10100)
+		err = utility.Err.TableNotData(err)
 	}
 	return
 }
