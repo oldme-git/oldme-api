@@ -12,6 +12,7 @@ var PoemTagId uint32
 
 func init() {
 	sayingTagId()
+	poemTagId()
 }
 
 // sayingTagId 获取短句标签id，用于首页展示
