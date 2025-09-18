@@ -7,12 +7,16 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 )
 
-var SayingTagId uint32
-var PoemTagId uint32
+var (
+	SayingTagId uint32
+	PoemTagId   uint32
+	SlangTagId  uint32
+)
 
 func init() {
 	sayingTagId()
 	poemTagId()
+	slangTagId()
 }
 
 // sayingTagId 获取短句标签id，用于首页展示
@@ -36,5 +40,17 @@ func poemTagId() {
 		PoemTagId = 0
 	} else {
 		PoemTagId = idRaw.Uint32()
+	}
+}
+
+// slangTagId 获取俚语标签id
+// 从配置文件中获取
+func slangTagId() {
+	cfg, _ := gcfg.New()
+	idRaw, err := cfg.Get(gctx.New(), "slangTagId")
+	if err != nil {
+		SlangTagId = 0
+	} else {
+		SlangTagId = idRaw.Uint32()
 	}
 }

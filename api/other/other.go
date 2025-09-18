@@ -15,4 +15,5 @@ type IOtherApp interface {
 	Link(ctx context.Context, req *app.LinkReq) (res *app.LinkRes, err error)
 	Reading(ctx context.Context, req *app.ReadingReq) (res *app.ReadingRes, err error)
 	Poem(ctx context.Context, req *app.PoemReq) (res *app.PoemRes, err error)
+	Slang(ctx context.Context, req *app.SlangReq) (res *app.SlangRes, err error)
 }
