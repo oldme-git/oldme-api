@@ -43,3 +43,13 @@ type (
 		FinishedAt string `json:"finished_at" sm:"完结时间"`
 	}
 )
+
+type (
+	PoemReq struct {
+		g.Meta `path:"poem" method:"get" sm:"随即查询诗词" tags:"app"`
+	}
+
+	PoemRes struct {
+		Text string `json:"text"`
+	}
+)

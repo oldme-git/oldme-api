@@ -232,3 +232,22 @@ func Saying(ctx context.Context) (info *entity.Sentence, err error) {
 
 	return
 }
+
+// Poem 随机读取诗词
+func Poem(ctx context.Context) (info *entity.Sentence, err error) {
+	db := dao.SentenceTag.Ctx(ctx).
+		Fields("s_id").
+		OrderRandom()
+	if uinit.PoemTagId > 0 {
+		db = db.Where("t_id", uinit.PoemTagId)
+	}
+
+	idData, err := db.Limit(1).One()
+	if err != nil {
+		err = utility.Err.Sys(err)
+	}
+	id := model.Id(idData["s_id"].Int())
+	info, err = Show(ctx, id)
+
+	return
+}

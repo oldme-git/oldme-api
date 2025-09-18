@@ -8,6 +8,7 @@ import (
 )
 
 var SayingTagId uint32
+var PoemTagId uint32
 
 func init() {
 	sayingTagId()
@@ -22,5 +23,17 @@ func sayingTagId() {
 		SayingTagId = 0
 	} else {
 		SayingTagId = idRaw.Uint32()
+	}
+}
+
+// poemTagId 获取诗词标签id
+// 从配置文件中获取
+func poemTagId() {
+	cfg, _ := gcfg.New()
+	idRaw, err := cfg.Get(gctx.New(), "poemTagId")
+	if err != nil {
+		PoemTagId = 0
+	} else {
+		PoemTagId = idRaw.Uint32()
 	}
 }
