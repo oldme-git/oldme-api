@@ -46,7 +46,7 @@ type (
 
 type (
 	SentenceReq struct {
-		g.Meta `path:"poem" method:"get" sm:"随机查询句子组" tags:"app"`
+		g.Meta `path:"sentence" method:"get" sm:"随机查询句子组" tags:"app"`
 	}
 
 	SentenceRes struct {
