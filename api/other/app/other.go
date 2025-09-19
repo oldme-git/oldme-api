@@ -45,21 +45,12 @@ type (
 )
 
 type (
-	PoemReq struct {
-		g.Meta `path:"poem" method:"get" sm:"随机查询诗词" tags:"app"`
+	SentenceReq struct {
+		g.Meta `path:"poem" method:"get" sm:"随机查询句子组" tags:"app"`
 	}
 
-	PoemRes struct {
-		Poem string `json:"poem"`
-	}
-)
-
-type (
-	SlangReq struct {
-		g.Meta `path:"slang" method:"get" sm:"随机查询俚语" tags:"app"`
-	}
-
-	SlangRes struct {
+	SentenceRes struct {
+		Poem  string `json:"poem"`
 		Slang string `json:"slang"`
 	}
 )
