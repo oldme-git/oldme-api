@@ -23,7 +23,7 @@ type ReadingColumns struct {
 	Id         string //
 	Name       string // 书名
 	Author     string // 作者
-	Status     string // 状态: 1完结 2在读 3弃读
+	Status     string // 状态: 10-弃读 15-特殊书类 21-粗读完结 29-正常完结 95-在读
 	FinishedAt string // 读完时间
 }
 

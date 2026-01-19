@@ -3,9 +3,6 @@ package model
 // Id 主键类型
 type Id uint32
 
-// Out 标记剔除字段
-type Out bool
-
 // ReplyStatus 回复审核状态
 type ReplyStatus uint8
 

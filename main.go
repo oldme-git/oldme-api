@@ -7,16 +7,18 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"github.com/oldme-git/oldme-api/internal/cmd"
 
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
+
 	_ "github.com/oldme-git/oldme-api/internal/logic"
 	_ "github.com/oldme-git/oldme-api/internal/utility"
 	_ "github.com/oldme-git/oldme-api/utility/uinit"
 )
 
 const (
-	VERSION = "v1.6.0"
+	VERSION = "v1.7.0"
 )
 
 func main() {
