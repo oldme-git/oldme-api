@@ -13,7 +13,7 @@ type CreReq struct {
 	Name       string              `json:"name" v:"required"`
 	Author     string              `json:"author" v:"required"`
 	Status     model.ReadingStatus `json:"status" v:"required"`
-	FinishedAt *gtime.Time         `json:"finished_at" v:"required"`
+	FinishedAt *gtime.Time         `json:"finished_at"`
 }
 
 type CreRes struct {
@@ -25,7 +25,7 @@ type UpdReq struct {
 	Name       string              `json:"name" v:"required"`
 	Author     string              `json:"author" v:"required"`
 	Status     model.ReadingStatus `json:"status" v:"required"`
-	FinishedAt *gtime.Time         `json:"finished_at" v:"required"`
+	FinishedAt *gtime.Time         `json:"finished_at"`
 }
 
 type UpdRes struct {
@@ -50,7 +50,6 @@ type DelRes struct {
 
 type ListReq struct {
 	g.Meta `path:"reading/list" method:"get" sm:"查询阅读列表" tags:"reading"`
-	Search string `json:"search"  dc:"搜索文本"`
 }
 
 type ListRes struct {
