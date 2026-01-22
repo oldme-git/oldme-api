@@ -5,6 +5,8 @@ import (
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/grand"
+
 	"github.com/oldme-git/oldme-api/internal/dao"
 	"github.com/oldme-git/oldme-api/internal/model"
 	"github.com/oldme-git/oldme-api/internal/model/do"
@@ -215,10 +217,24 @@ func GetIdsByTagIds(ctx context.Context, tagIds []model.Id, p model.Paging) (ids
 
 // Text 根据 tagId 随机读取一个句子
 func Text(ctx context.Context, tagId uint32) (info *entity.Sentence, err error) {
+	// 读取s_id总数
+	sCount, err := dao.SentenceTag.Ctx(ctx).
+		Fields("s_id").
+		Where("t_id", tagId).
+		Count()
+	if err != nil {
+		err = utility.Err.Sys(err)
+		return
+	}
+	// 随机偏移量
+	offset := grand.Intn(int(sCount))
+
+	// 读取随机句子id
 	db := dao.SentenceTag.Ctx(ctx).
 		Fields("s_id").
 		Where("t_id", tagId).
-		OrderRandom()
+		Limit(1).
+		Offset(offset)
 
 	idData, err := db.Limit(1).One()
 	if err != nil {
