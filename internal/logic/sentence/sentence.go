@@ -124,7 +124,7 @@ func List(ctx context.Context, query *model.SentenceQuery) (list []entity.Senten
 	if query.Search != "" {
 		db = db.Where("sentence like ?", "%"+query.Search+"%")
 	}
-	data, totalInt, err := db.Page(query.Page, query.Size).AllAndCount(true)
+	data, totalInt, err := db.Page(query.Page, query.Size).OrderDesc("id").AllAndCount(true)
 
 	if err != nil {
 		err = utility.Err.Sys(err)
