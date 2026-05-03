@@ -14,13 +14,12 @@ func (c *ControllerApp) Show(ctx context.Context, req *app.ShowReq) (res *app.Sh
 		return nil, err
 	}
 
-	if info == nil {
+	if info == nil || info.Onshow == 0 {
 		return nil, err
 	}
 
-	if info.Onshow != 0 {
-		_ = article.UpdLastedAt(ctx, model.Id(info.Id))
-	}
+	// 更新最后阅读时间
+	_ = article.UpdLastedAt(ctx, model.Id(info.Id))
 
 	return &app.ShowRes{
 		One: &app.One{
